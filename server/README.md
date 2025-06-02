@@ -20,7 +20,11 @@ server/
 │   ├── constants.js    # App constants/configs
 │   └── index.js        # Entry point
 ├── .env                # Environment variables
+├── .gitignore
+├── .prettierrc
+├── .prettierignore
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
@@ -49,7 +53,7 @@ npm install
 Create a `.env` file in the root of `/server` and add:
 
 ```env
-PORT=5000
+PORT=8000
 MONGO_URI=your_mongodb_connection_string
 CORS_ORIGIN=*
 ACCESS_TOKEN_SECRET=your_jwt_access_token_secret
