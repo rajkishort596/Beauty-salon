@@ -22,7 +22,24 @@ const serviceSchema = new Schema(
       required: true,
     },
     image: {
-      type: String, // cloudinary url
+      url: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+        required: true,
+      },
+    },
+    category: {
+      type: String,
+      enum: [
+        "Make up",
+        "Hair styling",
+        "Nail care",
+        "consmetology",
+        "SPA procedures",
+      ],
       required: true,
     },
   },
