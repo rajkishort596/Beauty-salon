@@ -26,8 +26,8 @@ const bookAppointment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Service not found");
   }
   const booking = await Booking.create({
-    userId,
-    serviceId: fetchedService._id,
+    user: userId,
+    service: fetchedService._id,
     bookingDate,
     timeSlot,
   });
@@ -39,8 +39,8 @@ const bookAppointment = asyncHandler(async (req, res) => {
 
 const getAllBookings = asyncHandler(async (req, res) => {
   const bookings = await Booking.find()
-    .populate("userId", "fullName email phone")
-    .populate("serviceId", "name description price");
+    .populate("user", "fullName email phone")
+    .populate("service", "name description price");
   if (!bookings || bookings.length === 0) {
     throw new ApiError(404, "No bookings found");
   }
