@@ -1,28 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { Booking } from "../models/booking.model.js";
-import { Service } from "../models/service.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-
-const generateAccessAndRefereshTokens = async (userId) => {
-  try {
-    const user = await User.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-
-    return { accessToken, refreshToken };
-  } catch (error) {
-    throw new ApiError(
-      500,
-      "Something went wrong while generating referesh and access token"
-    );
-  }
-};
+import { generateAccessAndRefereshTokens } from "../utils/generateToken.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone } = req.body;
@@ -143,38 +124,4 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out"));
 });
 
-const bookAppointment = asyncHandler(async (req, res) => {
-  const userId = req.user?._id;
-
-  if (!userId) {
-    throw new ApiError(
-      401,
-      "Unauthorized. Please login to book an appointment."
-    );
-  }
-  const { service, bookingDate, timeSlot } = req.body;
-  if (!service || !bookingDate || !timeSlot) {
-    throw new ApiError(
-      400,
-      "Service, booking date, and time slot are required"
-    );
-  }
-  const fetchedService = await Service.findOne({ name: service });
-
-  if (!fetchedService) {
-    throw new ApiError(404, "Service not found");
-  }
-  const booking = await Booking.create({
-    userId,
-    serviceId: fetchedService._id,
-    bookingDate,
-    timeSlot,
-  });
-  booking.save();
-
-  return res
-    .status(201)
-    .json(new ApiResponse(201, booking, "Appointment booked successfully"));
-});
-
-export { registerUser, loginUser, logoutUser, bookAppointment };
+export { registerUser, loginUser, logoutUser };

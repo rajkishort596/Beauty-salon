@@ -1,26 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { Booking } from "../models/booking.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-
-const generateAccessAndRefereshTokens = async (userId) => {
-  try {
-    const user = await User.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-
-    return { accessToken, refreshToken };
-  } catch (error) {
-    throw new ApiError(
-      500,
-      "Something went wrong while generating referesh and access token"
-    );
-  }
-};
+import { generateAccessAndRefereshTokens } from "../utils/generateToken.js";
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -74,16 +56,4 @@ const loginAdmin = asyncHandler(async (req, res) => {
     );
 });
 
-const getAllBookings = asyncHandler(async (req, res) => {
-  const bookings = await Booking.find()
-    .populate("userId", "fullName email phone")
-    .populate("serviceId", "name description price");
-  if (!bookings || bookings.length === 0) {
-    throw new ApiError(404, "No bookings found");
-  }
-  res
-    .status(200)
-    .json(new ApiResponse(200, bookings, "Booking fetched Successfully"));
-});
-
-export { getAllBookings, loginAdmin };
+export { loginAdmin };

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { logoutUser } from "../controllers/user.controller.js";
 import { verifyJWT, isAdmin } from "../middlewares/auth.middleware.js";
-import { getAllBookings, loginAdmin } from "../controllers/admin.controller.js";
+import { loginAdmin } from "../controllers/admin.controller.js";
 import {
   createService,
   deleteService,
@@ -10,6 +10,7 @@ import {
   updateServiceImage,
 } from "../controllers/service.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { getAllBookings } from "../controllers/booking.controller.js";
 const router = Router();
 
 router.route("/login").post(loginAdmin);
