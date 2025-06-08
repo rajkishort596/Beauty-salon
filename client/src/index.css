@@ -1,1 +1,41 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Imperial+Script&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #6b0606;
+  --color-bg: #f3e2d5;
+  --color-text-muted: rgba(0, 0, 0, 0.5);
+
+  --font-imperial: "Imperial Script", cursive;
+  --font-abhaya: "Abhaya Libre", serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+h1,
+h2,
+h3 {
+  @apply font-[var(--font-imperial)];
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 cursor-pointer flex justify-center items-center py-2 rounded bg-[var(--color-primary)] text-white font-bold font-abhaya shadow-md;
+  }
+
+  .card {
+    @apply text-white p-6 rounded-lg shadow-md;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+body {
+  @apply text-[var(--color-text-muted)] font-[var(--font-inter)];
+}
