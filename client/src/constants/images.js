@@ -31,7 +31,7 @@ import Img9 from "../assets/images/Img-9.png";
 import InstaIcon from "../assets/images/Insta-Icon.svg";
 import LocationIcon from "../assets/images/Location-Icon.svg";
 import Logo from "../assets/images/Logo.svg";
-import LotusIcon from "../assets/images/Lotus-Icon.png";
+import LotusIcon from "../assets/images/Lotus-Icon.svg";
 import DownIcon from "../assets/images/Down-Icon.svg";
 import MailIcon from "../assets/images/Mail-Icon.svg";
 import MakeupImg from "../assets/images/Makeup-Img.png";
@@ -44,7 +44,7 @@ import QuoteIcon from "../assets/images/Quote-Icon.svg";
 import ServiceHeroImg from "../assets/images/Service-Hero-Img.png";
 import SpaImg from "../assets/images/Spa-Img.png";
 import TelIcon from "../assets/images/Tel-Icon.svg";
-import TreatmentImg from "../assets/images/Treatment-Img.png";
+import TreatmentImg from "../assets/images/Treatment-Img.jpg";
 import XIcon from "../assets/images/X-Icon.svg";
 
 const images = {

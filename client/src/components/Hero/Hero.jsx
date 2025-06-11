@@ -4,9 +4,7 @@ import images from "../../constants/images";
 const Hero = ({ HeadingText, HeroImg }) => {
   return (
     <div className="flex flex-col items-center text-center">
-      {/* Heading with lotus BG centered */}
       <div className="relative pt-[58px] pb-8">
-        {/* Lotus BG behind H1 */}
         <img
           src={images.logo}
           alt="Background Logo"
