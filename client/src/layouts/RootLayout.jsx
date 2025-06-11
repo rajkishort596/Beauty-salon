@@ -8,7 +8,7 @@ const RootLayout = () => {
   return (
     <Container>
       <Header />
-      <main className="min-h-screen">
+      <main className="min-h-screen overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />

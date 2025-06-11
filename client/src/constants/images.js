@@ -1,6 +1,7 @@
 import Hambergur from "../assets/images/Hambergur.svg";
 import CloseIcon from "../assets/images/Close-Icon.svg";
 import AboutHeroImg from "../assets/images/About-Hero-Img.png";
+import ContactHeroImg from "../assets/images/Contact-Hero-Img.png";
 import BeyondStore from "../assets/images/Beyond-Store.svg";
 import BloomingBeauty from "../assets/images/Blooming-Beauty.svg";
 import BrandIcon from "../assets/images/Brand-Icon.png";
@@ -51,6 +52,7 @@ const images = {
   closeIcon: CloseIcon,
   lotusBg: LotusBg,
   aboutHeroImg: AboutHeroImg,
+  contactHeroImg: ContactHeroImg,
   beyondStore: BeyondStore,
   bloomingBeauty: BloomingBeauty,
   brandIcon: BrandIcon,

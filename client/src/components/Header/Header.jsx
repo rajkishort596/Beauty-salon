@@ -4,6 +4,7 @@ import images from "../../constants/images";
 
 const Header = ({ isAuthenticated = false }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/service" },
@@ -12,8 +13,8 @@ const Header = ({ isAuthenticated = false }) => {
   ];
 
   return (
-    <header>
-      <nav className="max-w-7xl mx-auto flex items-center justify-between py-6 px-5 md:px-18 md:py-8">
+    <header className="overflow-x-hidden">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between py-6 px-5 md:px-18 md:py-8 ">
         {/* LOGO */}
         <div className="flex items-center cursor-pointer gap-4">
           <Link to="/">
@@ -87,51 +88,51 @@ const Header = ({ isAuthenticated = false }) => {
         </div>
       </nav>
       {/* MOBILE MENU */}
-      <div
-        className={`md:hidden px-4 py-8 w-3/4 bg-bg flex flex-col justify-between h-[100vh] absolute top-0 right-0 
-                      transition-transform duration-300 ease-in-out
-                      ${isOpen ? "translate-x-0" : "translate-x-full"}
+      {isOpen && (
+        <div
+          className={`md:hidden px-4 py-8 w-3/4 bg-bg flex flex-col justify-between h-[100vh] absolute top-0 right-0 
+                      transition-transform duration-300 ease-in-out z-40
                    `}
-      >
-        {" "}
-        <ul className="flex flex-col items-center gap-8 mt-20">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <Link
-                to={link.path}
-                className="block text-lg text-primary font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
+        >
+          <ul className="flex flex-col items-center gap-8 mt-20">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  className="block text-lg text-primary font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-col items-center mb-20 gap-4 mt-auto">
+            {isAuthenticated ? (
+              <Link to="/logout" className="text-primary font-semibold">
+                Logout
               </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col items-center mb-20 gap-4 mt-auto">
-          {isAuthenticated ? (
-            <Link to="/logout" className="text-primary font-semibold">
-              Logout
-            </Link>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="text-primary font-semibold"
-                onClick={() => setIsOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="text-primary font-semibold"
-                onClick={() => setIsOpen(false)}
-              >
-                Signup
-              </Link>
-            </>
-          )}
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-primary font-semibold"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-primary font-semibold"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Signup
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

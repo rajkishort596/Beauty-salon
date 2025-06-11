@@ -11,7 +11,11 @@
   --font-abhaya: "Abhaya Libre", serif;
   --font-inter: "Inter", sans-serif;
 }
-
+html,
+body,
+#root {
+  overflow-x: hidden;
+}
 html {
   scroll-behavior: smooth;
 }
