@@ -17,6 +17,7 @@ import Flora from "../assets/images/Flora.svg";
 import HairstyleImg from "../assets/images/Hairstyle-Img.png";
 import HerbalHouse from "../assets/images/Herbal-House.svg";
 import HeroImg from "../assets/images/Hero-Img.jpg";
+import FormImg from "../assets/images/Form-Img.png";
 import LotusBg from "../assets/images/Lotus-Bg.svg";
 import Img from "../assets/images/Img.png";
 import Img1 from "../assets/images/Img-1.png";
@@ -28,6 +29,11 @@ import Img6 from "../assets/images/Img-6.png";
 import Img7 from "../assets/images/Img-7.png";
 import Img8 from "../assets/images/Img-8.png";
 import Img9 from "../assets/images/Img-9.png";
+import MakeupServiceImg from "../assets/images/Makeup-ServiceImg.png";
+import NailcareServiceImg from "../assets/images/Nailcare-ServiceImg.png";
+import HairstyleServiceImg from "../assets/images/Hairstyle-ServiceImg.png";
+import CosmetologyServiceImg from "../assets/images/Cosmetology-ServiceImg.png";
+import SpaServiceImg from "../assets/images/Spa-ServiceImg.png";
 import InstaIcon from "../assets/images/Insta-Icon.svg";
 import LocationIcon from "../assets/images/Location-Icon.svg";
 import Logo from "../assets/images/Logo.svg";
@@ -64,11 +70,17 @@ const images = {
   customer1: Customer1,
   customer2: Customer2,
   customer3: Customer3,
+  makeupServiceImg: MakeupServiceImg,
+  nailcareServiceImg: NailcareServiceImg,
+  hairstyleServiceImg: HairstyleServiceImg,
+  cosmetologyServiceImg: CosmetologyServiceImg,
+  spaServiceImg: SpaServiceImg,
   fbIcon: FbIcon,
   flora: Flora,
   hairstyleImg: HairstyleImg,
   herbalHouse: HerbalHouse,
   heroImg: HeroImg,
+  fromImg: FormImg,
   img: Img,
   img1: Img1,
   img2: Img2,
