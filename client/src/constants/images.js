@@ -18,6 +18,7 @@ import HairstyleImg from "../assets/images/Hairstyle-Img.png";
 import HerbalHouse from "../assets/images/Herbal-House.svg";
 import HeroImg from "../assets/images/Hero-Img.jpg";
 import FormImg from "../assets/images/Form-Img.png";
+import StyleImg from "../assets/images/Style-Img.png";
 import LotusBg from "../assets/images/Lotus-Bg.svg";
 import Img from "../assets/images/Img.png";
 import Img1 from "../assets/images/Img-1.png";
@@ -29,6 +30,7 @@ import Img6 from "../assets/images/Img-6.png";
 import Img7 from "../assets/images/Img-7.png";
 import Img8 from "../assets/images/Img-8.png";
 import Img9 from "../assets/images/Img-9.png";
+import DiscountBanner from "../assets/images/Discount-Banner.png";
 import MakeupServiceImg from "../assets/images/Makeup-ServiceImg.png";
 import NailcareServiceImg from "../assets/images/Nailcare-ServiceImg.png";
 import HairstyleServiceImg from "../assets/images/Hairstyle-ServiceImg.png";
@@ -91,12 +93,14 @@ const images = {
   img7: Img7,
   img8: Img8,
   img9: Img9,
+  discountBanner: DiscountBanner,
   instaIcon: InstaIcon,
   locationIcon: LocationIcon,
   logo: Logo,
   lotusIcon: LotusIcon,
   mailIcon: MailIcon,
   makeupImg: MakeupImg,
+  styleImg: StyleImg,
   mirrorIcon: MirrorIcon,
   mistletoeCosmetic: MistletoeCosmetic,
   nailcareImg: NailcareImg,

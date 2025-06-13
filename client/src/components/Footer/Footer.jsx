@@ -1,20 +1,17 @@
 import React from "react";
 import images from "../../constants/images";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-bg py-20 px-4 text-center relative overflow-hidden">
-      {/* Background flower logo*/}
-      <div className="absolute inset-0 flex justify-center items-center opacity-3">
-        <img
-          src={images.lotusBg}
-          alt="Background Logo"
-          className="object-contain"
-        />
-      </div>
-
-      <div>
-        <img src={images.logo} alt="Logo" className="mx-auto h-12 mb-2" />
+      <div className="relative z-10">
+        <Link to="/">
+          <img
+            src={images.logo}
+            alt="Logo"
+            className="cursor-pointer mx-auto h-12 mb-2"
+          />
+        </Link>
         <h2 className=" text-[40px] md:text-[50px] font-imperial text-primary">
           Beauty Salon
         </h2>
@@ -42,6 +39,14 @@ const Footer = () => {
             <img src={images.telIcon} className="hover:text-black transition" />
           </a>
         </div>
+      </div>
+      {/* Background flower logo*/}
+      <div className="absolute inset-0 flex justify-center items-center opacity-3">
+        <img
+          src={images.lotusBg}
+          alt="Background Logo"
+          className="object-contain"
+        />
       </div>
     </footer>
   );

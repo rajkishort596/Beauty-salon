@@ -24,7 +24,7 @@ const Input = ({
         autoComplete="off"
         className={`p-2 border rounded-md outline-none ${
           error ? "border-red-500 focus:border-red-500 text-red-500" : ""
-        } focus:ring-1 border-2 ${
+        } focus:ring-1 border-1 ${
           error ? "focus:ring-red-300" : "focus:ring-primary"
         } ${className}`}
         {...props}

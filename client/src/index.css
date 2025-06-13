@@ -19,10 +19,8 @@ body,
 html {
   scroll-behavior: smooth;
 }
-h1,
-h2,
-h3 {
-  @apply font-[var(--font-imperial)];
+h1 {
+  @apply font-imperial;
 }
 
 @layer components {
