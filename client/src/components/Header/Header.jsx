@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import images from "../../constants/images";
+import { useDispatch } from "react-redux";
+import { logout } from "../../api/auth";
+import { logout as logoutAction } from "../../features/auth/authSlice";
 
-const Header = ({ isAuthenticated = false }) => {
+const Header = ({ isAuthenticated = false, userData }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -11,6 +16,14 @@ const Header = ({ isAuthenticated = false }) => {
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
   ];
+
+  const handleLogout = async () => {
+    const res = await logout();
+    console.log(res);
+    dispatch(logoutAction());
+    navigate("/login");
+    console.log("User logged out");
+  };
 
   return (
     <header className="overflow-x-hidden">
@@ -45,7 +58,7 @@ const Header = ({ isAuthenticated = false }) => {
           {isAuthenticated ? (
             <div className="relative group cursor-pointer flex items-center">
               <img
-                src={images.customer1}
+                src={userData?.avatar || images.customer1}
                 alt="Profile"
                 className="h-8 w-8 rounded-full object-cover"
               />
@@ -53,7 +66,12 @@ const Header = ({ isAuthenticated = false }) => {
 
               {/* Logout button */}
               <div className="absolute top-6 right-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md p-2 z-10">
-                <button className="text-sm cursor-pointer text-primary hover:underline">
+                <button
+                  onClick={() => {
+                    handleLogout();
+                  }}
+                  className="text-sm cursor-pointer text-primary hover:underline"
+                >
                   Logout
                 </button>
               </div>
@@ -109,9 +127,15 @@ const Header = ({ isAuthenticated = false }) => {
           </ul>
           <div className="flex flex-col items-center mb-20 gap-4 mt-auto">
             {isAuthenticated ? (
-              <Link to="/logout" className="text-primary font-semibold">
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsOpen(false);
+                }}
+                className="text-primary font-semibold"
+              >
                 Logout
-              </Link>
+              </button>
             ) : (
               <>
                 <Link

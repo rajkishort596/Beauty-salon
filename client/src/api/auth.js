@@ -1,0 +1,15 @@
+import axios from "../utils/axious.js";
+
+export const login = async (userData) => {
+  const res = await axios.post("/users/login", userData);
+  return res;
+};
+
+export const signup = async (userData) => {
+  const res = await axios.post("/users/register", userData);
+  return res;
+};
+export const logout = async () => {
+  const res = await axios.post("/users/logout");
+  return res;
+};
