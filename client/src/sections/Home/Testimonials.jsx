@@ -31,7 +31,7 @@ const Testimonials = () => {
 
   return (
     <section className="relative py-10 px-5 bg-bg text-center h-[300px] md:h-[372px]">
-      <h2 className="text-primary text-3xl md:text-4xl font-bold">
+      <h2 className="text-primary text-3xl md:text-4xl font-semibold">
         Testimonials
       </h2>
       <p className="text-gray-600 mt-2 mb-8 text-sm md:text-base max-w-xl mx-auto">

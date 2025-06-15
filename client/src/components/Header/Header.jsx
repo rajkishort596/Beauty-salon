@@ -27,7 +27,7 @@ const Header = ({ isAuthenticated = false, userData }) => {
 
   return (
     <header className="overflow-x-hidden">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between py-6 px-5 md:px-18 md:py-8 ">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between py-6 px-5 md:px-18 md:py-10 ">
         {/* LOGO */}
         <div className="flex items-center cursor-pointer gap-4">
           <Link to="/">
@@ -65,7 +65,7 @@ const Header = ({ isAuthenticated = false, userData }) => {
               <img src={images.downIcon} alt="Down" className="h-4 w-4" />
 
               {/* Logout button */}
-              <div className="absolute top-6 right-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md p-2 z-10">
+              <div className="absolute top-6 right-0 mt-2 hidden group-hover:block  bg-white font-semibold text-sm shadow-md p-2 px-4 rounded-md z-10">
                 <button
                   onClick={() => {
                     handleLogout();

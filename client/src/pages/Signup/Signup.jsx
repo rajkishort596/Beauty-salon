@@ -73,15 +73,7 @@ const Signup = () => {
         </div>
 
         <div className="md:w-1/2 p-8 flex flex-col justify-center">
-          {/* <div className="flex justify-center items-center p-4">
-            <img
-              src={images.logo}
-              alt="Logo"
-              className="opacity-25 h-12 w-12"
-            />
-          </div> */}
-
-          <h2 className="text-3xl text-center md:text-4xl font-abhaya text-primary mb-2">
+          <h2 className="text-3xl text-center md:text-4xl font-abhaya font-semibold text-primary mb-2">
             Create Your Account
           </h2>
           <p className="text-gray-600 text-center mb-6">

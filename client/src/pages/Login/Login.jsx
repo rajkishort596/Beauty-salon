@@ -75,7 +75,7 @@ const Login = () => {
               className="opacity-25 h-12 w-12"
             />
           </div>
-          <h2 className="text-3xl text-center md:text-4xl font-abhaya text-primary mb-2">
+          <h2 className="text-3xl text-center md:text-4xl font-abhaya font-semibold text-primary mb-2">
             Welcome Back
           </h2>
           <p className="text-gray-600 text-center mb-6">

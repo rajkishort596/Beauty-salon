@@ -26,7 +26,7 @@ const ServicesOverview = () => {
   ];
   return (
     <section className="px-4 py-12 md:px-18 md:py-15 text-center">
-      <h2 className="text-3xl md:text-5xl font-bold text-primary mb-4">
+      <h2 className="text-3xl md:text-5xl font-semibold text-primary mb-4">
         Elegance comes from being as <br /> beautiful inside as outside
       </h2>
       <p className="max-w-2xl mx-auto text-gray-600 mb-10">
