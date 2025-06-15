@@ -36,4 +36,7 @@ app.use("/api/v1/services", servicePublicRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/reviews", reviewRouter);
 
+import { errorHandler } from "./middlewares/errorHandler.middleware.js";
+app.use(errorHandler);
+
 export { app };

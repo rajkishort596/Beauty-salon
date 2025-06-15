@@ -4,35 +4,43 @@ import Input from "../../components/Form/Input/Input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../api/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
+import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
+import Spinner from "../../components/Spinner";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
+  const navigate = useNavigate();
+  {
+    /* Initialize form handling with react-hook-form */
+  }
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
-
+  {
+    /* Login Form Handler*/
+  }
   const onSubmit = async (data) => {
+    dispatch(startLoading());
     try {
       const res = await login(data);
       dispatch(setCredentials({ user: res.data.data.user }));
-      // toast.success("Login successful!");
+      toast.success(`Welcome back ${res.data.data.user.fullName || "user"}`);
+      reset();
       navigate("/");
     } catch (err) {
-      const message =
-        err.response?.data?.message ||
-        "Something went wrong. Please try again.";
-
-      // toast.error(message);
-      console.error("Login error:", message);
+      const errorMsg =
+        err?.response?.data?.message || "Login failed. Please try again.";
+      toast.error(errorMsg);
+    } finally {
+      dispatch(stopLoading());
     }
-
-    reset();
   };
 
   return (
@@ -95,12 +103,16 @@ const Login = () => {
               {...register("password", { required: "Password is required" })}
               error={errors.password?.message}
             />
-            <button
-              type="submit"
-              className="w-full btn-primary text-2xl rounded-md hover:shadow-md transition"
-            >
-              Login
-            </button>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <button
+                type="submit"
+                className="w-full btn-primary text-2xl rounded-md hover:shadow-md transition"
+              >
+                Login
+              </button>
+            )}
           </form>
 
           <p className="text-sm text-center text-gray-600 mt-4">

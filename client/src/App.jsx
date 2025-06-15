@@ -11,6 +11,8 @@ import Contact from "./pages/Contact/Contact";
 import RootLayout from "./layouts/RootLayout";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromChildren(
@@ -27,6 +29,18 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
