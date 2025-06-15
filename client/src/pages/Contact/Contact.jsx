@@ -1,14 +1,13 @@
 import React from "react";
-import Hero from "../../components/Hero/Hero";
-import images from "../../constants/images";
 import ContactSection from "../../sections/Contact Us/ContactSection";
 import BookingForm from "../../components/Form/BookingForm";
 import InstagramSection from "../../sections/Home/InstagramSection";
+import MapSection from "../../sections/Contact Us/MapSection";
 
 const Contact = () => {
   return (
     <div>
-      <Hero HeadingText="Contact Us" HeroImg={images.contactHeroImg} />
+      <MapSection />
       <ContactSection />
       <BookingForm />
       <InstagramSection />
