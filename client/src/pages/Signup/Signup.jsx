@@ -2,20 +2,52 @@ import React from "react";
 import images from "../../constants/images";
 import Input from "../../components/Form/Input/Input";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import ProfileUploader from "../../components/ProfileUploader";
+import { signup } from "../../api/auth";
+import { useDispatch, useSelector } from "react-redux";
+import Spinner from "../../components/Spinner";
+import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
+import { toast } from "react-toastify";
 const Signup = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    reset();
+  const onSubmit = async (data) => {
+    dispatch(startLoading());
+
+    const formData = new FormData();
+    console.log(data.avatar?.[0]);
+    formData.append("avatar", data.avatar?.[0]);
+
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("phone", data.phone);
+
+    try {
+      const res = await signup(formData);
+      toast.success("Registration successful");
+      reset();
+      navigate("/login");
+    } catch (err) {
+      const errorMsg =
+        err?.response?.data?.message ||
+        "Registration failed. Please try again.";
+      toast.error(errorMsg);
+    } finally {
+      dispatch(stopLoading());
+    }
   };
+
   return (
     <section className="min-h-screen relative flex items-center justify-center bg-bg px-4">
       <div className="absolute bottom-0 -left-[217px] z-0">
@@ -41,13 +73,13 @@ const Signup = () => {
         </div>
 
         <div className="md:w-1/2 p-8 flex flex-col justify-center">
-          <div className="flex justify-center items-center p-4">
+          {/* <div className="flex justify-center items-center p-4">
             <img
               src={images.logo}
               alt="Logo"
               className="opacity-25 h-12 w-12"
             />
-          </div>
+          </div> */}
 
           <h2 className="text-3xl text-center md:text-4xl font-abhaya text-primary mb-2">
             Create Your Account
@@ -57,11 +89,16 @@ const Signup = () => {
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <ProfileUploader
+              register={register}
+              errors={errors}
+              control={control}
+            />
             <Input
               type="text"
               label="Full Name"
               placeholder="Your Name"
-              {...register("name", {
+              {...register("fullName", {
                 required: "Name is required",
                 minLength: { value: 3, message: "Name is too short" },
               })}
@@ -91,21 +128,28 @@ const Signup = () => {
               error={errors.password?.message}
             />
             <Input
-              type="password"
-              label="Confirm Password"
-              placeholder="Re-enter Password"
-              {...register("confirmPassword", {
-                required: "Please confirm your password",
+              type="number"
+              label="Phone Number"
+              placeholder="Eenter Phone Number"
+              {...register("phone", {
+                required: "Phone number is required",
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: "Enter a valid 10-digit phone number",
+                },
               })}
-              error={errors.confirmPassword?.message}
+              error={errors.phone?.message}
             />
-
-            <button
-              type="submit"
-              className="w-full btn-primary text-2xl rounded-md hover:shadow-md transition"
-            >
-              Sign Up
-            </button>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <button
+                type="submit"
+                className="w-full btn-primary text-2xl rounded-md hover:shadow-md transition"
+              >
+                Sign Up
+              </button>
+            )}
           </form>
 
           <p className="text-sm text-center text-gray-600 mt-4">
