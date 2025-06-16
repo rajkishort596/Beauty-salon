@@ -5,6 +5,11 @@ import GearIcon from "../assets/images/Gear-Icon.svg";
 import StarIcon from "../assets/images/Star-Icon.svg";
 import CalenderIcon from "../assets/images/calendar-Icon.svg";
 import ScissorIcon from "../assets/images/Scissor-Icon.svg";
+import BlackHouseIcon from "../assets/images/BlackHouse-Icon.svg";
+import BlackGearIcon from "../assets/images/BlackGear-Icon.svg";
+import BlackStarIcon from "../assets/images/BlackStar-Icon.svg";
+import BlackCalenderIcon from "../assets/images/Blackcalendar-Icon.svg";
+import BlackScissorIcon from "../assets/images/BlackScissor-Icon.svg";
 import AboutHeroImg from "../assets/images/About-Hero-Img.png";
 import ContactHeroImg from "../assets/images/Contact-Hero-Img.png";
 import BeyondStore from "../assets/images/Beyond-Store.svg";
@@ -59,8 +64,10 @@ import SpaImg from "../assets/images/Spa-Img.png";
 import TelIcon from "../assets/images/Tel-Icon.svg";
 import TreatmentImg from "../assets/images/Treatment-Img.jpg";
 import XIcon from "../assets/images/X-Icon.svg";
+import ProfileImg from "../assets/images/Profile-Img.png";
 
 const images = {
+  ProfileImg: ProfileImg,
   hambergur: Hambergur,
   closeIcon: CloseIcon,
   houseIcon: HouseIcon,
@@ -68,6 +75,11 @@ const images = {
   starIcon: StarIcon,
   scissorIcon: ScissorIcon,
   calenderIcon: CalenderIcon,
+  blackHouseIcon: BlackHouseIcon,
+  blackGearIcon: BlackGearIcon,
+  blackStarIcon: BlackStarIcon,
+  blackScissorIcon: BlackScissorIcon,
+  blackCalenderIcon: BlackCalenderIcon,
   lotusBg: LotusBg,
   aboutHeroImg: AboutHeroImg,
   contactHeroImg: ContactHeroImg,

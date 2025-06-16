@@ -11,19 +11,37 @@ const AdminSidebar = () => {
 
       {/* Navigation */}
       <nav className="flex flex-col gap-4 text-base">
-        <NavItem to="/admin" label="Dashboard" icon={images.houseIcon} />
+        <NavItem
+          to="/admin"
+          label="Dashboard"
+          icon={{ active: images.houseIcon, inactive: images.blackHouseIcon }}
+        />
         <NavItem
           to="/admin/appointments"
           label="Appointments"
-          icon={images.calenderIcon}
+          icon={{
+            active: images.calenderIcon,
+            inactive: images.blackCalenderIcon,
+          }}
         />
         <NavItem
           to="/admin/services"
           label="Services"
-          icon={images.scissorIcon}
+          icon={{
+            active: images.scissorIcon,
+            inactive: images.blackScissorIcon,
+          }}
         />
-        <NavItem to="/admin/reviews" label="Reviews" icon={images.starIcon} />
-        <NavItem to="/admin/settings" label="Settings" icon={images.gearIcon} />
+        <NavItem
+          to="/admin/reviews"
+          label="Reviews"
+          icon={{ active: images.starIcon, inactive: images.blackStarIcon }}
+        />
+        <NavItem
+          to="/admin/settings"
+          label="Settings"
+          icon={{ active: images.gearIcon, inactive: images.blackGearIcon }}
+        />
       </nav>
     </aside>
   );
@@ -32,16 +50,23 @@ const AdminSidebar = () => {
 const NavItem = ({ to, label, icon }) => (
   <NavLink
     to={to}
+    end
     className={({ isActive }) =>
       `flex items-center gap-3 px-3 py-2 rounded-md font-medium transition-colors ${
         isActive ? "bg-primary text-white" : "hover:bg-primary/20"
       }`
     }
   >
-    <span className="text-lg">
-      <img src={icon} className="h-5 w-5 fill-black" />
-    </span>
-    {label}
+    {({ isActive }) => (
+      <>
+        <img
+          src={isActive ? icon.active : icon.inactive}
+          className="h-5 w-5"
+          alt={`${label} icon`}
+        />
+        <span>{label}</span>
+      </>
+    )}
   </NavLink>
 );
 

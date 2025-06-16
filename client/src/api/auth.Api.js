@@ -4,6 +4,10 @@ export const login = async (userData) => {
   const res = await axios.post("/users/login", userData);
   return res;
 };
+export const loginAdmin = async (userData) => {
+  const res = await axios.post("/admin/login", userData);
+  return res;
+};
 
 export const signup = async (userData) => {
   const res = await axios.post("/users/register", userData);
@@ -11,5 +15,9 @@ export const signup = async (userData) => {
 };
 export const logout = async () => {
   const res = await axios.post("/users/logout");
+  return res;
+};
+export const logoutAdmin = async () => {
+  const res = await axios.post("/admin/logout");
   return res;
 };
