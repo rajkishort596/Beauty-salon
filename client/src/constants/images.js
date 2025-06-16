@@ -1,5 +1,10 @@
 import Hambergur from "../assets/images/Hambergur.svg";
 import CloseIcon from "../assets/images/Close-Icon.svg";
+import HouseIcon from "../assets/images/House-Icon.svg";
+import GearIcon from "../assets/images/Gear-Icon.svg";
+import StarIcon from "../assets/images/Star-Icon.svg";
+import CalenderIcon from "../assets/images/calendar-Icon.svg";
+import ScissorIcon from "../assets/images/Scissor-Icon.svg";
 import AboutHeroImg from "../assets/images/About-Hero-Img.png";
 import ContactHeroImg from "../assets/images/Contact-Hero-Img.png";
 import BeyondStore from "../assets/images/Beyond-Store.svg";
@@ -58,6 +63,11 @@ import XIcon from "../assets/images/X-Icon.svg";
 const images = {
   hambergur: Hambergur,
   closeIcon: CloseIcon,
+  houseIcon: HouseIcon,
+  gearIcon: GearIcon,
+  starIcon: StarIcon,
+  scissorIcon: ScissorIcon,
+  calenderIcon: CalenderIcon,
   lotusBg: LotusBg,
   aboutHeroImg: AboutHeroImg,
   contactHeroImg: ContactHeroImg,
