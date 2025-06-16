@@ -4,7 +4,7 @@ import Input from "../../components/Form/Input/Input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileUploader from "../../components/ProfileUploader";
-import { signup } from "../../api/auth";
+import { signup } from "../../api/auth.Api.js";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
 import { startLoading, stopLoading } from "../../features/loading/loadingSlice";

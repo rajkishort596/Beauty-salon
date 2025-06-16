@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import images from "../../constants/images";
 import { useDispatch } from "react-redux";
-import { logout } from "../../api/auth";
+import { logout } from "../../api/auth.Api.js";
 import { logout as logoutAction } from "../../features/auth/authSlice";
 
 const Header = ({ isAuthenticated = false, userData }) => {

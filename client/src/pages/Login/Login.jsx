@@ -3,7 +3,7 @@ import images from "../../constants/images";
 import Input from "../../components/Form/Input/Input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../api/auth";
+import { login } from "../../api/auth.Api.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import { startLoading, stopLoading } from "../../features/loading/loadingSlice";

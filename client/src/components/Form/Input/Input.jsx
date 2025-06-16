@@ -5,6 +5,7 @@ const Input = ({
   placeholder = "",
   type,
   className = "",
+  readonly = false,
   error,
   ...props
 }) => {
@@ -22,6 +23,7 @@ const Input = ({
         id={id}
         placeholder={placeholder}
         autoComplete="off"
+        readOnly={readonly}
         className={`p-2 border rounded-md outline-none ${
           error ? "border-red-500 focus:border-red-500 text-red-500" : ""
         } focus:ring-1 border-1 ${
