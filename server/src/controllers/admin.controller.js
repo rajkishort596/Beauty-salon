@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { generateAccessAndRefereshTokens } from "../utils/generateToken.js";
+import { Booking } from "../models/booking.model.js";
+import { Service } from "../models/service.model.js";
+import { Review } from "../models/review.model.js";
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -55,5 +58,21 @@ const loginAdmin = asyncHandler(async (req, res) => {
       )
     );
 });
+const getAdminStats = asyncHandler(async (req, res) => {
+  const totalBookings = await Booking.countDocuments();
+  const totalServices = await Service.countDocuments();
+  const totalReviews = await Review.countDocuments();
+  const totalUsers = await User.countDocuments({ role: "user" });
+  const stats = {
+    totalBookings,
+    totalServices,
+    totalReviews,
+    totalUsers,
+  };
 
-export { loginAdmin };
+  return res
+    .status(200)
+    .json(new ApiResponse(200, stats, "Admin statistics fetched successfully"));
+});
+
+export { loginAdmin, getAdminStats };

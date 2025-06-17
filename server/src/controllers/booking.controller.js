@@ -38,9 +38,13 @@ const bookAppointment = asyncHandler(async (req, res) => {
 });
 
 const getAllBookings = asyncHandler(async (req, res) => {
+  const limit = parseInt(req.query.limit) || 0;
+
   const bookings = await Booking.find()
     .populate("user", "fullName email phone")
-    .populate("service", "name description price");
+    .populate("service", "name description price")
+    .sort({ createdAt: -1 }) // newest first
+    .limit(limit);
   if (!bookings || bookings.length === 0) {
     throw new ApiError(404, "No bookings found");
   }
