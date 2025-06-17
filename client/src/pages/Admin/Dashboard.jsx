@@ -29,14 +29,14 @@ const Dashboard = () => {
 
   if (!stats)
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-[90vh]">
         <Spinner />;
       </div>
     );
 
   return (
     <div className="p-6 space-y-8">
-      <h1 className="text-3xl font-semibold text-[#631212]">Dashboard</h1>
+      <h1 className="text-3xl font-semibold text-primary">Dashboard</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="Total Appointments" value={stats.totalBookings} />
@@ -50,7 +50,9 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold text-[#631212] mb-4">
           Recent Appointments
         </h2>
-        <AppointmentTable appointments={appointments} />
+        <div className="w-full xl:w-2/3">
+          <AppointmentTable appointments={appointments} />
+        </div>
       </div>
     </div>
   );

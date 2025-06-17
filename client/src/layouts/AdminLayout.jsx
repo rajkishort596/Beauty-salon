@@ -4,7 +4,7 @@ import Container from "../components/container/Container";
 import AdminSidebar from "../sections/Admin/Dashboard/AdminSidebar";
 import images from "../constants/images";
 import AdminHeader from "../components/Header/AdminHeader";
-
+import AdminHeroImg from "../assets/images/Admin-Hero.png";
 const AdminLayout = () => {
   const user = useSelector((state) => state.auth.user);
 
@@ -18,9 +18,12 @@ const AdminLayout = () => {
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] min-h-screen">
         <AdminSidebar />
-        <main className="relative p-4 bg-gray-100">
+        <main className="relative p-4 bg-[#f8eff1]">
           <AdminHeader user={user} image={images.ProfileImg} />
           {/* Render nested routes */}
+          <div className="absolute bottom-0 right-0 z-0 w-1/2 h-2/3 flex items-end justify-center">
+            <img src={AdminHeroImg} alt="" />
+          </div>
           <Outlet />
         </main>
       </div>
