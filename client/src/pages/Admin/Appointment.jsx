@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AppointmentTable from "../../components/Table/AppointmentTable";
-import { fetchAllAppointments } from "../../api/dashboard.api";
+import {
+  changeStatus,
+  deleteAppointment,
+  fetchAllAppointments,
+} from "../../api/dashboard.api";
 import Spinner from "../../components/Spinner";
 import StatCard from "../../components/Card/StatCard";
 import Input from "../../components/Form/Input/Input";
+import debounce from "lodash.debounce";
 
 const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
-  const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
   const [dateFilter, setDateFilter] = useState("");
-
   const [loading, setLoading] = useState(true);
 
+  // Fetch data on mount
   useEffect(() => {
     const loadData = async () => {
       try {
         const apptData = await fetchAllAppointments();
         setAppointments(apptData);
-        setFiltered(apptData);
       } catch (error) {
         console.error("Appointment loading error", error);
       } finally {
@@ -29,8 +32,43 @@ const Appointment = () => {
     loadData();
   }, []);
 
-  // Apply filters whenever input changes
-  useEffect(() => {
+  // Handle status change
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await changeStatus(id, newStatus);
+      // Update UI immediately
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt._id === id ? { ...appt, status: newStatus } : appt
+        )
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  // Handle deletion
+  const handleDelete = async (id) => {
+    try {
+      await deleteAppointment(id);
+      // Remove from UI
+      setAppointments((prev) => prev.filter((appt) => appt._id !== id));
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+    }
+  };
+
+  // Debounced search input
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value) => {
+        setSearch(value);
+      }, 300),
+    []
+  );
+
+  // Filtering logic (optimized)
+  const filtered = useMemo(() => {
     let filteredData = [...appointments];
 
     if (search) {
@@ -53,9 +91,10 @@ const Appointment = () => {
       );
     }
 
-    setFiltered(filteredData);
+    return filteredData;
   }, [search, status, dateFilter, appointments]);
 
+  // Show loading spinner
   if (loading)
     return (
       <div className="flex items-center justify-center h-[90vh]">
@@ -72,13 +111,11 @@ const Appointment = () => {
         <Input
           type="text"
           placeholder="Search by User or Service"
-          className=""
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => debouncedSearch(e.target.value)}
         />
 
         <select
-          className="py-2 px-4 border focus:outline-none focus:ring-primary focus:ring-1 rounded-sm w-full md:w-1/3 "
+          className="py-2 px-4 border focus:outline-none focus:ring-primary focus:ring-1 rounded-sm w-full md:w-1/3"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -91,14 +128,14 @@ const Appointment = () => {
 
         <Input
           type="date"
-          className=""
           value={dateFilter}
           onChange={(e) => setDateFilter(e.target.value)}
         />
       </div>
 
+      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total " value={appointments.length} />
+        <StatCard label="Total" value={appointments.length} />
         <StatCard
           label="Confirmed"
           value={appointments.filter((a) => a.status === "confirmed").length}
@@ -115,7 +152,12 @@ const Appointment = () => {
 
       {/* Table */}
       <div className="w-full xl:w-2/3 overflow-x-auto">
-        <AppointmentTable appointments={filtered} />
+        <AppointmentTable
+          appointments={filtered}
+          showActions={true}
+          onStatusChange={handleStatusChange}
+          onDelete={handleDelete}
+        />
       </div>
     </div>
   );

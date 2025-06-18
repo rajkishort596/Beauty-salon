@@ -45,9 +45,6 @@ const getAllBookings = asyncHandler(async (req, res) => {
     .populate("service", "name description price")
     .sort({ createdAt: -1 }) // newest first
     .limit(limit);
-  if (!bookings || bookings.length === 0) {
-    throw new ApiError(404, "No bookings found");
-  }
   res
     .status(200)
     .json(new ApiResponse(200, bookings, "Booking fetched Successfully"));

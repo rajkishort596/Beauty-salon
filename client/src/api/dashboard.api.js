@@ -29,3 +29,13 @@ export const fetchAllAppointments = async () => {
     throw error;
   }
 };
+
+export const changeStatus = async (id, status) => {
+  const response = await axios.patch(`admin/bookings/${id}/status`, { status });
+  return response.data;
+};
+
+export const deleteAppointment = async (id) => {
+  const response = await axios.delete(`admin/bookings/${id}`);
+  return response.data;
+};

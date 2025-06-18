@@ -8,31 +8,41 @@ import AppointmentTable from "../../components/Table/AppointmentTable";
 import Spinner from "../../components/Spinner.jsx";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const statsData = await fetchDashboardStats();
-        const apptData = await fetchRecentAppointments();
-        // console.log("Stats Data:", statsData);
-        // console.log("Appointments Data:", apptData);
+        const [statsData, apptData] = await Promise.all([
+          fetchDashboardStats(),
+          fetchRecentAppointments(),
+        ]);
         setStats(statsData);
         setAppointments(apptData);
       } catch (error) {
         console.error("Dashboard loading error", error);
+      } finally {
+        setLoading(false);
       }
     };
     loadData();
   }, []);
 
-  if (!stats)
+  if (loading)
     return (
       <div className="flex items-center justify-center h-[90vh]">
-        <Spinner />;
+        <Spinner />
       </div>
     );
+
+  // if (!stats)
+  //   return (
+  //     <div className="flex items-center justify-center h-[90vh]">
+  //       <p className="text-gray-500 text-lg">Failed to load dashboard data.</p>
+  //     </div>
+  //   );
 
   return (
     <div className="p-6 space-y-8">
@@ -50,11 +60,12 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold text-[#631212] mb-4">
           Recent Appointments
         </h2>
-        <div className="w-full xl:w-2/3">
+        <div className="w-full xl:w-2/3 overflow-x-auto">
           <AppointmentTable appointments={appointments} />
         </div>
       </div>
     </div>
   );
 };
+
 export default Dashboard;

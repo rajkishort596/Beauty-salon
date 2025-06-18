@@ -63,6 +63,7 @@ const getAdminStats = asyncHandler(async (req, res) => {
   const totalServices = await Service.countDocuments();
   const totalReviews = await Review.countDocuments();
   const totalUsers = await User.countDocuments({ role: "user" });
+
   const stats = {
     totalBookings,
     totalServices,
