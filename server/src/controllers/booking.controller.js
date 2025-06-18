@@ -53,4 +53,48 @@ const getAllBookings = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, bookings, "Booking fetched Successfully"));
 });
 
-export { bookAppointment, getAllBookings };
+const updateBookingStatus = asyncHandler(async (req, res) => {
+  const bookingId = req.params.id;
+  const { status } = req.body;
+
+  if (!status) {
+    throw new ApiError(400, "Status is required to update booking");
+  }
+
+  const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
+  if (!validStatuses.includes(status)) {
+    throw new ApiError(400, "Invalid status");
+  }
+
+  const updatedBooking = await Booking.findByIdAndUpdate(
+    bookingId,
+    { status },
+    { new: true }
+  )
+    .populate("user", "fullName email phone")
+    .populate("service", "name description price");
+
+  if (!updatedBooking) {
+    throw new ApiError(404, "Appointment not found");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, updatedBooking, "Appointment status updated"));
+});
+
+const deleteBooking = asyncHandler(async (req, res) => {
+  const bookingId = req.params.id;
+
+  const deletedBooking = await Booking.findByIdAndDelete(bookingId);
+
+  if (!deletedBooking) {
+    throw new ApiError(404, "Appointment not found");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, null, "Appointment deleted successfully"));
+});
+
+export { bookAppointment, getAllBookings, updateBookingStatus, deleteBooking };

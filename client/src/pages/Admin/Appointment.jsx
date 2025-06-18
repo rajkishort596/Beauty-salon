@@ -48,7 +48,7 @@ const Appointment = () => {
     if (dateFilter) {
       filteredData = filteredData.filter(
         (item) =>
-          new Date(item.date).toDateString() ===
+          new Date(item.bookingDate).toDateString() ===
           new Date(dateFilter).toDateString()
       );
     }
