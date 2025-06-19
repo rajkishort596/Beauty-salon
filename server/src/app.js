@@ -29,10 +29,12 @@ app.get(
 import userRouter from "./routes/user.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import servicePublicRouter from "./routes/service.public.routes.js";
+import specialistPublicRouter from "./routes/specialist.public.routes.js";
 import reviewRouter from "./routes/review.routes.js";
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/services", servicePublicRouter);
+app.use("/api/v1/specialists", specialistPublicRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/reviews", reviewRouter);
 
