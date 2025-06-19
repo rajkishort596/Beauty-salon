@@ -151,7 +151,7 @@ const Appointment = () => {
       </div>
 
       {/* Table */}
-      <div className="w-full xl:w-2/3 overflow-x-auto">
+      <div className="w-full  overflow-x-auto">
         <AppointmentTable
           appointments={filtered}
           showActions={true}

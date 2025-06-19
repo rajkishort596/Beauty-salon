@@ -14,6 +14,7 @@ const AppointmentTable = ({
           <th className="py-2 px-4">Name</th>
           <th className="py-2 px-4">Date</th>
           <th className="py-2 px-4">Service</th>
+          <th className="py-2 px-4">Server</th>
           <th className="py-2 px-4">Time</th>
           {showActions && <th className="py-2 px-4">Status</th>}
           {showActions && <th className="py-2 px-4">Actions</th>}
@@ -35,6 +36,7 @@ const AppointmentTable = ({
               <td className="py-2 px-4">{appt.user?.fullName || "-"}</td>
               <td className="py-2 px-4">{formatDate(appt.bookingDate)}</td>
               <td className="py-2 px-4">{appt.service?.name}</td>
+              <td className="py-2 px-4">{appt.specialist?.name}</td>
               <td className="py-2 px-4">{formatTime(appt.timeSlot)}</td>
 
               {showActions && (

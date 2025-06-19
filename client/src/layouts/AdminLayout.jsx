@@ -18,7 +18,7 @@ const AdminLayout = () => {
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] min-h-screen">
         <AdminSidebar />
-        <main className="relative p-4 bg-[#f8eff1]">
+        <main className="relative p-4 bg-[#f3efea]">
           <AdminHeader user={user} image={images.ProfileImg} />
           {/* Render nested routes */}
           <div className="absolute bottom-0 right-0 z-0 w-1/2 h-2/3 flex items-end justify-center">

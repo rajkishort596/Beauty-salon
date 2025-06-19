@@ -5,15 +5,16 @@ import Input from "./Input/Input";
 import { fetchServices } from "../../api/service.Api.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { createBooking } from "../../api/booking.Api.js";
+import { createBooking, fetchAvailableSlots } from "../../api/booking.Api.js";
 import { useDispatch, useSelector } from "react-redux";
 import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
+import { fetchSpecialists } from "../../api/specialist.Api.js";
+import Spinner from "../Spinner.jsx";
 
 const BookingForm = ({ isAuthenticated = false }) => {
   const userData = useSelector((state) => state.auth.user);
-  // console.log("User Data:", userData);
+  const loading = useSelector((state) => state.loading);
   const [firstName, lastName] = userData?.fullName?.split(" ") || ["", ""];
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,6 +23,8 @@ const BookingForm = ({ isAuthenticated = false }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
+    setValue,
   } = useForm({
     defaultValues: {
       firstName,
@@ -31,19 +34,89 @@ const BookingForm = ({ isAuthenticated = false }) => {
     },
   });
 
+  const [services, setServices] = useState([]);
+  const [specialists, setSpecialists] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
+
+  const selectedDate = watch("bookingDate");
+  const selectedSpecialist = watch("specialist");
+  const selectedService = watch("service");
+
+  // Load services and specialists
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const servicesRes = await fetchServices();
+        setServices(servicesRes.data.data || []);
+      } catch (error) {
+        toast.error("Failed to fetch services.");
+      }
+
+      try {
+        const specialistsRes = await fetchSpecialists();
+        setSpecialists(specialistsRes.data.data || []);
+      } catch (error) {
+        toast.error("Failed to fetch specialists.");
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Load available slots when date, specialist and service change
+  useEffect(() => {
+    const loadAvailableSlots = async () => {
+      if (!selectedDate || !selectedSpecialist) {
+        setAvailableSlots([]);
+        return;
+      }
+
+      const specialist = specialists.find((s) => s.name === selectedSpecialist);
+      const service = services.find((s) => s.name === selectedService);
+      // console.log("Selected Specialist:", specialist._id);
+      if (!specialist) {
+        setAvailableSlots([]);
+        return;
+      }
+
+      try {
+        const response = await fetchAvailableSlots(
+          specialist._id,
+          selectedDate,
+          service?.name
+        );
+        console.log("Available Slots Response:", response);
+        setAvailableSlots(response?.data?.data || []);
+        console.log(availableSlots);
+      } catch (err) {
+        const errorMsg =
+          err?.response?.data?.message || "Failed to fetch slots";
+        toast.error(errorMsg);
+        setAvailableSlots([]);
+      }
+    };
+    loadAvailableSlots();
+  }, [
+    selectedDate,
+    selectedSpecialist,
+    specialists,
+    services,
+    selectedService,
+  ]);
+
   const onSubmit = async (data) => {
     dispatch(startLoading());
-    console.log(isAuthenticated);
     if (!isAuthenticated) {
       navigate("/login");
       toast.error("Please login first");
+      dispatch(stopLoading());
       return;
     }
+
     try {
       const res = await createBooking(data);
-      console.log(res);
       toast.success("Appointment booked successfully");
       reset();
+      setAvailableSlots([]);
     } catch (err) {
       const errorMsg =
         err?.response?.data?.message || "Booking failed. Please try again.";
@@ -51,42 +124,22 @@ const BookingForm = ({ isAuthenticated = false }) => {
     } finally {
       dispatch(stopLoading());
     }
-    console.log("Form Data:", data);
   };
 
-  const [services, setServices] = useState([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetchServices();
-        // console.log(res.data.data);
-        setServices(res.data.data);
-        console.log(services);
-      } catch (error) {
-        toast.error("Error fetching services:", error);
-        // console.error("Error fetching services:", error);
-      }
-    })();
-  }, []);
-
   return (
-    <div className="bg-bg w-full px-4 py-15 md:px-18 ">
+    <div className="bg-bg w-full px-4 py-15 md:px-18">
       <div className="bg-white p-10 flex flex-col items-center lg:flex-row gap-2.5">
         <div className="w-full lg:w-1/3">
-          {/* Mobile Image */}
           <img
             src={images.makeupImg}
             alt="Mobile"
             className="block lg:hidden w-full h-auto object-cover rounded-md"
           />
-
-          {/* Desktop Image */}
           <img
             src={images.fromImg}
             alt="Desktop"
             className="hidden lg:block w-full h-full object-fill rounded-md"
           />
-          {/* <img className="w-full object-cover" src={images.fromImg} /> */}
         </div>
         <div className="w-full lg:w-2/3 items-center lg:items-start flex flex-col gap-4 p-5">
           <p className="text-primary capitalize">Beauty Salon</p>
@@ -97,6 +150,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             Consequatur, omnis.
           </span>
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5"
@@ -109,7 +163,6 @@ const BookingForm = ({ isAuthenticated = false }) => {
               {...register("firstName", { required: "First name is required" })}
               error={errors.firstName?.message}
             />
-
             <Input
               type="text"
               label="Last name"
@@ -118,7 +171,6 @@ const BookingForm = ({ isAuthenticated = false }) => {
               {...register("lastName", { required: "Last name is required" })}
               error={errors.lastName?.message}
             />
-
             <Input
               type="email"
               label="Email"
@@ -127,54 +179,65 @@ const BookingForm = ({ isAuthenticated = false }) => {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Enter a valid email",
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email address",
                 },
               })}
               error={errors.email?.message}
             />
-
             <Input
               type="number"
               label="Phone Number"
-              placeholder="Eenter Phone Number"
+              placeholder="Enter phone number"
               readonly={isAuthenticated}
               {...register("phone", {
                 required: "Phone number is required",
                 pattern: {
                   value: /^\d{10}$/,
-                  message: "Enter a valid 10-digit phone number",
+                  message: "Invalid phone number",
                 },
               })}
               error={errors.phone?.message}
             />
-
             <Input
               type="date"
               label="Date"
               {...register("bookingDate", { required: "Date is required" })}
-              error={errors.date?.message}
+              error={errors.bookingDate?.message}
             />
 
-            <Input
-              type="time"
-              label="Time"
-              {...register("timeSlot", { required: "Time is required" })}
-              error={errors.time?.message}
-            />
-            <div className="flex flex-col gap-1 lg:col-span-2">
-              <label
-                htmlFor="service"
-                className="font-abhaya text-black text-2xl"
-              >
-                Service
-              </label>
+            {/* Available Time Slot Dropdown */}
+            <div className="flex flex-col gap-1">
+              <label className="font-abhaya text-black text-2xl">Time</label>
               <select
-                {...register("service", {
-                  required: "Please select a service",
+                {...register("timeSlot", {
+                  required: "Please select a time slot",
                 })}
-                name="service"
-                id="service"
+                className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
+                  errors.timeSlot
+                    ? "border-red-500 focus:ring-red-300"
+                    : "focus:ring-primary border-text-muted"
+                }`}
+              >
+                <option value="">-- Select Time --</option>
+                {availableSlots.map((slot, index) => (
+                  <option key={index} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+              {errors.timeSlot && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.timeSlot.message}
+                </p>
+              )}
+            </div>
+
+            {/* Service Select */}
+            <div className="flex flex-col gap-1">
+              <label className="font-abhaya text-black text-2xl">Service</label>
+              <select
+                {...register("service", { required: "Select a service" })}
                 className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
                   errors.service
                     ? "border-red-500 focus:ring-red-300"
@@ -187,14 +250,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
                     {service.name}
                   </option>
                 ))}
-
-                {/* <option value="Make up">Make up</option>
-                <option value="Hair styling">Hair styling</option>
-                <option value="Nail care">Nail care</option>
-                <option value="Cosmetology">Cosmetology</option>
-                <option value="Spa procedures">Spa procedures</option> */}
               </select>
-
               {errors.service && (
                 <p className="text-red-600 text-sm mt-1">
                   {errors.service.message}
@@ -202,12 +258,45 @@ const BookingForm = ({ isAuthenticated = false }) => {
               )}
             </div>
 
-            <button
-              className="btn-primary lg:col-span-2 text-2xl"
-              type="submit"
-            >
-              Book appointment
-            </button>
+            {/* Specialist Select */}
+            <div className="flex flex-col gap-1">
+              <label className="font-abhaya text-black text-2xl">
+                Specialist
+              </label>
+              <select
+                {...register("specialist", { required: "Select a specialist" })}
+                className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
+                  errors.specialist
+                    ? "border-red-500 focus:ring-red-300"
+                    : "focus:ring-primary border-text-muted"
+                }`}
+              >
+                <option value="">specialist</option>
+                {specialists.map((sp) => (
+                  <option key={sp._id} value={sp.name}>
+                    {sp.name}
+                  </option>
+                ))}
+              </select>
+              {errors.specialist && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.specialist.message}
+                </p>
+              )}
+            </div>
+
+            {loading ? (
+              <div className="lg:col-span-2">
+                <Spinner />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="btn-primary w-full lg:col-span-2 text-2xl"
+              >
+                Book appointment
+              </button>
+            )}
           </form>
         </div>
       </div>

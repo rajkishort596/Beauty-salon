@@ -12,6 +12,11 @@ const bookingSchema = new Schema(
       ref: "Service",
       required: true,
     },
+    specialist: {
+      type: Schema.Types.ObjectId,
+      ref: "Specialist",
+      required: true,
+    },
     bookingDate: {
       type: Date,
       required: true,
