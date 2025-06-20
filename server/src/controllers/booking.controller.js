@@ -140,7 +140,14 @@ const getAvailaibleSlots = asyncHandler(async (req, res) => {
       "Specialist ID, booking date, and service are required"
     );
   }
-
+  if (bookingDate) {
+    const selectedDate = new Date(bookingDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (isNaN(selectedDate.getTime()) || selectedDate < today) {
+      throw new ApiError(400, "Please select a valid future date");
+    }
+  }
   const specialist = await Specialist.findById(specialistId);
   if (!specialist) {
     throw new ApiError(404, "Specialist not found");
