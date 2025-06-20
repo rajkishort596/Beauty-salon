@@ -12,7 +12,7 @@ import { fetchSpecialists } from "../../api/specialist.Api.js";
 import Spinner from "../Spinner.jsx";
 
 const BookingForm = ({ isAuthenticated = false }) => {
-  const userData = useSelector((state) => state.auth.user);
+  const userData = useSelector((state) => state.userAuth.user);
   const loading = useSelector((state) => state.loading);
   const [firstName, lastName] = userData?.fullName?.split(" ") || ["", ""];
   const navigate = useNavigate();
@@ -65,15 +65,22 @@ const BookingForm = ({ isAuthenticated = false }) => {
   // Load available slots when date, specialist and service change
   useEffect(() => {
     const loadAvailableSlots = async () => {
-      if (!selectedDate || !selectedSpecialist) {
+      // Only fetch if all required fields are selected and data is loaded
+      if (
+        !selectedDate ||
+        !selectedSpecialist ||
+        !selectedService ||
+        specialists.length === 0 ||
+        services.length === 0
+      ) {
         setAvailableSlots([]);
         return;
       }
 
       const specialist = specialists.find((s) => s.name === selectedSpecialist);
       const service = services.find((s) => s.name === selectedService);
-      // console.log("Selected Specialist:", specialist._id);
-      if (!specialist) {
+
+      if (!specialist || !service) {
         setAvailableSlots([]);
         return;
       }
@@ -82,25 +89,24 @@ const BookingForm = ({ isAuthenticated = false }) => {
         const response = await fetchAvailableSlots(
           specialist._id,
           selectedDate,
-          service?.name
+          service.name
         );
-        console.log("Available Slots Response:", response);
         setAvailableSlots(response?.data?.data || []);
-        console.log(availableSlots);
       } catch (err) {
-        const errorMsg =
-          err?.response?.data?.message || "Failed to fetch slots";
-        toast.error(errorMsg);
+        toast.error(
+          err?.response?.data?.message || "Failed to fetch available slots."
+        );
         setAvailableSlots([]);
       }
     };
+
     loadAvailableSlots();
   }, [
     selectedDate,
     selectedSpecialist,
+    selectedService,
     specialists,
     services,
-    selectedService,
   ]);
 
   const onSubmit = async (data) => {

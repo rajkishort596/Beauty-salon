@@ -21,3 +21,13 @@ export const logoutAdmin = async () => {
   const res = await axios.post("/admin/logout");
   return res;
 };
+
+export const fetchUserProfile = async () => {
+  const res = await axios.get("/users/me");
+  return res;
+};
+
+export const fetchAdminProfile = async () => {
+  const res = await axios.get("/admin/me");
+  return res;
+};

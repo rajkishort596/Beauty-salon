@@ -3,7 +3,7 @@ import images from "../../constants/images";
 import Input from "../../components/Form/Input/Input";
 import Spinner from "../../components/Spinner";
 import { loginAdmin } from "../../api/auth.Api.js";
-import { setCredentials } from "../../features/auth/authSlice.js";
+import { setCredentials } from "../../features/auth/adminAuthSlice.js";
 import { toast } from "react-toastify";
 import {
   startLoading,
@@ -34,7 +34,9 @@ const AdminLogin = () => {
     dispatch(startLoading());
     try {
       const res = await loginAdmin(data);
-      dispatch(setCredentials({ user: res.data.data.user }));
+      console.log("Login admin:", res.data.data.user);
+      dispatch(setCredentials({ admin: res.data.data.user }));
+      // console.log("Admin user:", res.data.data.user);
       toast.success(`Welcome back ${res.data.data.user.fullName || "user"}`);
       reset();
       navigate("/admin");

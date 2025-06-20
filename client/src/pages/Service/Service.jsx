@@ -5,7 +5,9 @@ import ServicesSection from "../../sections/Services/ServicesSection";
 import BookingForm from "../../components/Form/BookingForm";
 import { useSelector } from "react-redux";
 const Service = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state) => state.userAuth.isAuthenticated
+  );
   return (
     <div>
       <Hero HeadingText="Services" HeroImg={images.serviceHeroImg} />

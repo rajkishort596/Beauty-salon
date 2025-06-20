@@ -7,11 +7,11 @@ import {
   updateReview,
   deleteReview,
 } from "../controllers/review.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { verifyUserJWT } from "../middlewares/auth.middleware.js";
 
-router.route("/:serviceId").post(verifyJWT, createReview);
+router.route("/:serviceId").post(verifyUserJWT, createReview);
 router.route("/").get(getAllReviews);
-router.route("/:reviewId").put(verifyJWT, updateReview);
-router.route("/:reviewId").delete(verifyJWT, deleteReview);
+router.route("/:reviewId").put(verifyUserJWT, updateReview);
+router.route("/:reviewId").delete(verifyUserJWT, deleteReview);
 
 export default router;

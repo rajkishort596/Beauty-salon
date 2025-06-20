@@ -84,8 +84,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("userAccessToken", accessToken, options)
+    .cookie("userRefreshToken", refreshToken, options)
     .json(
       new ApiResponse(
         200,
@@ -119,9 +119,15 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
+    .clearCookie("userAccessToken", options)
+    .clearCookie("userRefreshToken", options)
     .json(new ApiResponse(200, {}, "User logged Out"));
 });
+const getMeUser = asyncHandler(async (req, res) => {
+  // req.user is attached by verifyUserJWT
+  return res
+    .status(200)
+    .json(new ApiResponse(200, req.user, "User details fetched successfully"));
+});
 
-export { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, logoutUser, getMeUser };

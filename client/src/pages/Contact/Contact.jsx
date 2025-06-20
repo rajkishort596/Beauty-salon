@@ -5,7 +5,9 @@ import InstagramSection from "../../sections/Home/InstagramSection";
 import MapSection from "../../sections/Contact Us/MapSection";
 import { useSelector } from "react-redux";
 const Contact = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state) => state.userAuth.isAuthenticated
+  );
   return (
     <div>
       <MapSection />

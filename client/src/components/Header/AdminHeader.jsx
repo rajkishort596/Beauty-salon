@@ -2,9 +2,9 @@ import React from "react";
 import { logoutAdmin } from "../../api/auth.Api";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout as logoutAction } from "../../features/auth/authSlice";
+import { logout as logoutAction } from "../../features/auth/adminAuthSlice.js";
 
-const AdminHeader = ({ user, image }) => {
+const AdminHeader = ({ isAuthenticated = false, user, image }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,10 +19,10 @@ const AdminHeader = ({ user, image }) => {
   return (
     <div className="relative group cursor-pointer w-[200px] px-8 flex  ml-auto items-center">
       <p className="mr-5 text-primary font-imperial font-semibold text-2xl">
-        {user.fullName}
+        {isAuthenticated ? user?.fullName : "Admin"}
       </p>
       <img
-        src={user?.avatar || image}
+        src={isAuthenticated ? user?.avatar : image}
         alt="Profile"
         className="h-10 w-10 rounded-full object-cover"
       />

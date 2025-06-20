@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../api/auth.Api.js";
 import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "../../features/auth/authSlice";
+import { setCredentials } from "../../features/auth/userAuthSlice.js";
 import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
 import Spinner from "../../components/Spinner";
 import { toast } from "react-toastify";
@@ -30,6 +30,7 @@ const Login = () => {
     dispatch(startLoading());
     try {
       const res = await login(data);
+      // console.log("Login User:", res.data.data);
       dispatch(setCredentials({ user: res.data.data.user }));
       toast.success(`Welcome back ${res.data.data.user.fullName || "user"}`);
       reset();

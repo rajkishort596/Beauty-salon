@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import images from "../../constants/images";
 import { useDispatch } from "react-redux";
 import { logout } from "../../api/auth.Api.js";
-import { logout as logoutAction } from "../../features/auth/authSlice";
+import { logout as logoutAction } from "../../features/auth/userAuthSlice.js";
 
 const Header = ({ isAuthenticated = false, userData }) => {
   const [isOpen, setIsOpen] = useState(false);

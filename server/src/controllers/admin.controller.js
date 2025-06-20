@@ -44,8 +44,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("adminAccessToken", accessToken, options)
+    .cookie("adminRefreshToken", refreshToken, options)
     .json(
       new ApiResponse(
         200,
@@ -58,6 +58,23 @@ const loginAdmin = asyncHandler(async (req, res) => {
       )
     );
 });
+
+const logoutAdmin = asyncHandler(async (req, res) => {
+  await User.findByIdAndUpdate(req.admin._id, {
+    $unset: { refreshToken: 1 },
+  });
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .clearCookie("adminAccessToken", options)
+    .clearCookie("adminRefreshToken", options)
+    .status(200)
+    .json(new ApiResponse(200, {}, "Admin logged out"));
+});
+
 const getAdminStats = asyncHandler(async (req, res) => {
   const totalBookings = await Booking.countDocuments();
   const totalServices = await Service.countDocuments();
@@ -75,5 +92,13 @@ const getAdminStats = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, stats, "Admin statistics fetched successfully"));
 });
+const getMeAdmin = asyncHandler(async (req, res) => {
+  // req.admin is attached by verifyAdminJWT
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, req.admin, "Admin details fetched successfully")
+    );
+});
 
-export { loginAdmin, getAdminStats };
+export { loginAdmin, logoutAdmin, getAdminStats, getMeAdmin };

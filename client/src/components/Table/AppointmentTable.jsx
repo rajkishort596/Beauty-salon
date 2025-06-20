@@ -48,6 +48,8 @@ const AppointmentTable = ({
                           ? "text-green-600"
                           : appt.status === "cancelled"
                           ? "text-red-600"
+                          : appt.status === "completed"
+                          ? "text-blue-600"
                           : "text-yellow-600"
                       }`}
                       value={appt.status}
@@ -56,6 +58,7 @@ const AppointmentTable = ({
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="cancelled">Cancelled</option>
+                      <option value="completed">completed</option>
                     </select>
                   </td>
                   <td className="py-2 px-4">
