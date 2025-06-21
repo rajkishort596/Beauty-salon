@@ -39,7 +39,7 @@ const Service = () => {
         console.error("Service loading error", error);
       } finally {
         setLoading(false);
-        console.log(loading);
+        // console.log(loading);
       }
     };
     loadData();
@@ -67,10 +67,13 @@ const Service = () => {
   // Handle delete
   const handleDelete = async (id) => {
     try {
+      setLoading(true);
       await deleteService(id);
       setServices((prev) => prev.filter((s) => s._id !== id));
     } catch (error) {
       console.error("Error deleting service:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

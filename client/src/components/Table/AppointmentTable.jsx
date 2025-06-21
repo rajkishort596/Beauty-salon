@@ -24,7 +24,7 @@ const AppointmentTable = ({
         {appointments.length === 0 ? (
           <tr>
             <td
-              colSpan={showActions ? 6 : 4}
+              colSpan={showActions ? 7 : 5}
               className="py-4 text-center text-gray-500"
             >
               No appointments found.

@@ -32,7 +32,7 @@ const ServiceTable = ({ services, onEdit, onDelete }) => (
               </td> */}
               <td className="py-2 px-4">{service.name}</td>
               <td className="py-2 px-4">{service.category}</td>
-              <td className="py-2 px-4">{service.price}</td>
+              <td className="py-2 px-4">${service.price}</td>
               <td className="py-2 px-4">{service.duration}</td>
               {/* <td className="py-2 px-4">{service.description}</td> */}
               <td className="py-2 px-4 flex gap-2">
