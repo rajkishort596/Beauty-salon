@@ -55,7 +55,7 @@ const ServiceForm = ({ initialData = {}, onSubmit, onCancel }) => {
 
   return (
     <form
-      className="space-y-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-5"
+      className="space-y-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-x-5"
       onSubmit={handleSubmit(submitHandler)}
     >
       <Input

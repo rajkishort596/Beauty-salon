@@ -6,23 +6,37 @@ import {
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
 import { Specialist } from "../models/specialist.model.js";
-
+import { Service } from "../models/service.model.js";
 const createSpecialist = asyncHandler(async (req, res) => {
-  const { name, email, expertise, availableDays, availableFrom, availableTo } =
-    req.body;
+  const {
+    name,
+    email,
+    expertise,
+    availableDays,
+    availableFrom,
+    availableTo,
+    phone,
+  } = req.body;
   if (
     !name ||
     !email ||
     !expertise ||
     !availableDays ||
     !availableFrom ||
-    !availableTo
+    !availableTo ||
+    !phone
   ) {
     throw new ApiError(400, "All fields are required");
   }
   const existingSpecialist = await Specialist.findOne({ email });
   if (existingSpecialist) {
     throw new ApiError(400, "Specialist already exists with this email");
+  }
+
+  // Find the service by id (expertise should be service id)
+  const existedService = await Service.findOne({ name: expertise });
+  if (!existedService) {
+    throw new ApiError(400, "Selected Speciality not found");
   }
   const imageLocalPath = req.file?.path;
   if (!imageLocalPath) {
@@ -39,10 +53,11 @@ const createSpecialist = asyncHandler(async (req, res) => {
       url: image.url,
       publicId: image.public_id,
     },
-    expertise,
+    expertise: existedService._id, // Set service id in expertise
     availableDays,
     availableFrom,
     availableTo,
+    phone,
   });
   return res
     .status(201)
@@ -63,8 +78,15 @@ const getAllSpecialists = asyncHandler(async (req, res) => {
 
 const updateSpecialist = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { name, email, expertise, availableDays, availableFrom, availableTo } =
-    req.body;
+  const {
+    name,
+    email,
+    expertise,
+    availableDays,
+    availableFrom,
+    availableTo,
+    phone,
+  } = req.body;
 
   // Validate input fields
   if (
@@ -73,7 +95,8 @@ const updateSpecialist = asyncHandler(async (req, res) => {
     !expertise ||
     !availableDays ||
     !availableFrom ||
-    !availableTo
+    !availableTo ||
+    !phone
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -116,6 +139,7 @@ const updateSpecialist = asyncHandler(async (req, res) => {
         availableDays,
         availableFrom,
         availableTo,
+        phone,
         image: ImageToBeUpdated,
       },
     },
