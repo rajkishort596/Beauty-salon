@@ -33,6 +33,14 @@ const AdminSidebar = () => {
           }}
         />
         <NavItem
+          to="/admin/specialists"
+          label="Specialists"
+          icon={{
+            active: images.staffIcon,
+            inactive: images.blackStaffIcon,
+          }}
+        />
+        <NavItem
           to="/admin/reviews"
           label="Reviews"
           icon={{ active: images.starIcon, inactive: images.blackStarIcon }}

@@ -8,6 +8,7 @@ import {
 } from "../utils/cloudinary.js";
 
 const createService = asyncHandler(async (req, res) => {
+  // console.log("Creating service with data:", req.body);
   const { name, description, price, duration, category } = req.body;
 
   if (!name || !description || !price || !duration || !category) {
@@ -57,78 +58,46 @@ const getAllServices = asyncHandler(async (req, res) => {
 const updateService = asyncHandler(async (req, res) => {
   const { serviceId } = req.params;
   const { name, description, price, duration, category } = req.body;
+  const serviceImageLocalPath = req.file?.path;
 
   if (!name || !description || !price || !duration || !category) {
     throw new ApiError(400, "All fields are required");
   }
 
-  const service = await Service.findByIdAndUpdate(
-    serviceId,
-    {
-      $set: {
-        name,
-        description,
-        price,
-        duration,
-        category,
-      },
-    },
-    { new: true }
-  );
-
+  // Find the existing service
+  const service = await Service.findById(serviceId);
   if (!service) {
     throw new ApiError(404, "Service not found");
   }
 
+  // Update image if a new file is provided
+  if (serviceImageLocalPath) {
+    const image = await uploadOnCloudinary(serviceImageLocalPath);
+    if (!image) {
+      throw new ApiError(400, "Image upload failed");
+    }
+    // Delete old image from Cloudinary
+    if (service.image?.publicId) {
+      await deleteImageFromCloudinary(service.image.publicId);
+    }
+    service.image = {
+      url: image.url,
+      publicId: image.public_id,
+    };
+  }
+
+  // Update other fields
+  service.name = name;
+  service.description = description;
+  service.price = price;
+  service.duration = duration;
+  service.category = category;
+
+  await service.save();
+
   return res
     .status(200)
     .json(new ApiResponse(200, service, "Service updated successfully"));
-});
-
-const updateServiceImage = asyncHandler(async (req, res) => {
-  const { serviceId } = req.params;
-  const serviceImageLocalPath = req.file?.path;
-
-  if (!serviceImageLocalPath) {
-    throw new ApiError(400, "Image file is required");
-  }
-
-  //  Get the existing service (to access old image's publicId)
-  const existingService = await Service.findById(serviceId);
-
-  if (!existingService) {
-    throw new ApiError(404, "Service not found");
-  }
-
-  //  Upload new image to Cloudinary
-  const image = await uploadOnCloudinary(serviceImageLocalPath);
-
-  if (!image) {
-    throw new ApiError(400, "Image upload failed");
-  }
-
-  //  Delete old image from Cloudinary using public_id
-  if (existingService.image?.publicId) {
-    await deleteImageFromCloudinary(existingService.image.publicId);
-  }
-
-  // Update DB with new image info
-  existingService.image = {
-    url: image.url,
-    publicId: image.public_id,
-  };
-
-  await existingService.save();
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        existingService,
-        "Service image updated successfully"
-      )
-    );
 });
 
 const deleteService = asyncHandler(async (req, res) => {
@@ -146,10 +115,4 @@ const deleteService = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, {}, "Service deleted successfully"));
 });
-export {
-  createService,
-  getAllServices,
-  updateService,
-  updateServiceImage,
-  deleteService,
-};
+export { createService, getAllServices, updateService, deleteService };

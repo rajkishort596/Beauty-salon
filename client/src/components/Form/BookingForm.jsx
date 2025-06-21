@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import images from "../../constants/images";
 import { useForm } from "react-hook-form";
 import Input from "./Input/Input";
-import { fetchServices } from "../../api/service.Api.js";
+import { fetchAllServices } from "../../api/service.Api.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { createBooking, fetchAvailableSlots } from "../../api/booking.Api.js";
@@ -46,7 +46,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const servicesRes = await fetchServices();
+        const servicesRes = await fetchAllServices();
         setServices(servicesRes.data.data || []);
       } catch (error) {
         toast.error("Failed to fetch services.");

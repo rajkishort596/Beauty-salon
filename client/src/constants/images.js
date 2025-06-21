@@ -3,6 +3,8 @@ import CloseIcon from "../assets/images/Close-Icon.svg";
 import HouseIcon from "../assets/images/House-Icon.svg";
 import GearIcon from "../assets/images/Gear-Icon.svg";
 import StarIcon from "../assets/images/Star-Icon.svg";
+import StaffIcon from "../assets/images/Staff-Icon.svg";
+import BlackStaffIcon from "../assets/images/BlackStaff-Icon.svg";
 import CalenderIcon from "../assets/images/calendar-Icon.svg";
 import ScissorIcon from "../assets/images/Scissor-Icon.svg";
 import BlackHouseIcon from "../assets/images/BlackHouse-Icon.svg";
@@ -75,6 +77,8 @@ const images = {
   starIcon: StarIcon,
   scissorIcon: ScissorIcon,
   calenderIcon: CalenderIcon,
+  staffIcon: StaffIcon,
+  blackStaffIcon: BlackStaffIcon,
   blackHouseIcon: BlackHouseIcon,
   blackGearIcon: BlackGearIcon,
   blackStarIcon: BlackStarIcon,
