@@ -56,7 +56,10 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
     formData.append("expertise", data.expertise);
     formData.append("phone", data.phone);
     formData.append("email", data.email);
-    formData.append("availableDays", data.availableDays);
+    // Append each day as a separate entry
+    data.availableDays.forEach((day) => {
+      formData.append("availableDays[]", day);
+    });
     formData.append("availableTo", data.availableTo);
     formData.append("availableFrom", data.availableFrom);
     onSubmit(formData);

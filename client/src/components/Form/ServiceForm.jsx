@@ -93,7 +93,7 @@ const ServiceForm = ({ initialData = {}, onSubmit, onCancel }) => {
           <option value="Make up">Make up</option>
           <option value="Hair styling">Hair styling</option>
           <option value="Nail care">Nail care</option>
-          <option value="consmetology">consmetology</option>
+          <option value="cosmetology">cosmetology</option>
           <option value="SPA procedures">SPA procedures</option>
         </select>
         {errors.category && (

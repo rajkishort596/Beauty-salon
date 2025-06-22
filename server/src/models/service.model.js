@@ -36,7 +36,7 @@ const serviceSchema = new Schema(
         "Make up",
         "Hair styling",
         "Nail care",
-        "consmetology",
+        "cosmetology",
         "SPA procedures",
       ],
       required: true,

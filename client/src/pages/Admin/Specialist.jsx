@@ -95,8 +95,19 @@ const Specialist = () => {
       setLoading(true);
       if (editSpecialist) {
         const updated = await updateSpecialist(editSpecialist._id, formData);
+        // Populate expertise for immediate UI update
+        const expertiseObj = services.find(
+          (s) => s._id === (updated.expertise._id || updated.expertise)
+        );
         setSpecialists((prev) =>
-          prev.map((s) => (s._id === updated._id ? updated : s))
+          prev.map((s) =>
+            s._id === updated._id
+              ? {
+                  ...updated,
+                  expertise: expertiseObj ? expertiseObj : updated.expertise, // fallback if not found
+                }
+              : s
+          )
         );
         toast.success("Specialist updated successfully");
       } else {
@@ -160,7 +171,7 @@ const Specialist = () => {
       </div>
 
       {/* Table */}
-      <div className="w-full lg:w-2/3 overflow-x-auto">
+      <div className="w-full lg:w-2/3 rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
         <SpecialistTable
           specialists={filtered}
           onEdit={handleEdit}

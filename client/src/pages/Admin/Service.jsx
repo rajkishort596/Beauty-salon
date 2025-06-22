@@ -70,8 +70,11 @@ const Service = () => {
       setLoading(true);
       await deleteService(id);
       setServices((prev) => prev.filter((s) => s._id !== id));
+      toast.success("Specialist deleted Successfully");
     } catch (error) {
-      console.error("Error deleting service:", error);
+      const errMsg = error.response?.data?.message || "An error occurred";
+      toast.error(errMsg);
+      console.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -152,7 +155,7 @@ const Service = () => {
       </div>
 
       {/* Table */}
-      <div className="w-full lg:w-2/3 overflow-x-auto">
+      <div className="w-full lg:w-2/3 rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
         <ServiceTable
           services={filtered}
           onEdit={handleEdit}

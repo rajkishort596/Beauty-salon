@@ -3,7 +3,7 @@ import React from "react";
 const SpecialistTable = ({ specialists, onEdit, onDelete }) => (
   console.log(specialists),
   (
-    <div className="bg-white relative z-5 p-4 rounded-lg overflow-x-auto">
+    <div className="bg-white p-4 rounded-lg">
       <table className="w-full table-auto text-sm text-left">
         <thead className="text-[#631212] border-b border-[#d9b8aa]">
           <tr className="border-b border-[#edd5c6]">

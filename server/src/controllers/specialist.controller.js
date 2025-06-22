@@ -106,6 +106,12 @@ const updateSpecialist = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Specialist not found");
   }
 
+  // Find the service by id (expertise should be service id)
+  const existedService = await Service.findOne({ name: expertise });
+  if (!existedService) {
+    throw new ApiError(400, "Selected Speciality not found");
+  }
+
   let ImageToBeUpdated = existingSpecialist.image;
 
   // If new image provided, upload and delete old one
@@ -135,7 +141,7 @@ const updateSpecialist = asyncHandler(async (req, res) => {
       $set: {
         name,
         email,
-        expertise,
+        expertise: existedService._id,
         availableDays,
         availableFrom,
         availableTo,

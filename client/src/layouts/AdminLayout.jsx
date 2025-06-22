@@ -56,7 +56,7 @@ const AdminLayout = () => {
 
   return (
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] max-h-screen overflow-hidden">
         <AdminSidebar />
         <main className="relative p-4 bg-[#f3efea]">
           <AdminHeader

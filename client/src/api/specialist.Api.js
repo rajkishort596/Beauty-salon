@@ -13,7 +13,7 @@ export const createSpecialist = async (data) => {
 
 // Update a specialist
 export const updateSpecialist = async (id, data) => {
-  const res = await axios.put(`/admin/specialists/${id}`, data);
+  const res = await axios.patch(`/admin/specialists/${id}`, data);
   return res.data.data;
 };
 

@@ -41,3 +41,26 @@ h1 {
 body {
   @apply text-[var(--color-text-muted)] font-[var(--font-inter)];
 }
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b0808;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-bg);
+}
