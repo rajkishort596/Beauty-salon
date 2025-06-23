@@ -1,33 +1,51 @@
-import { useState } from "react";
-import images from "../../constants/images";
+// import images from "../../constants/images";
 
-const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Michaela Hayden",
-      role: "Happy client",
-      image: images.customer1,
-      review:
-        "Quis euismod eu eleifend tristique. Rutrum eget turpis semper risus aliquam imperdiet amet.",
-    },
-    {
-      name: "Sophia Allen",
-      role: "Happy client",
-      image: images.customer2,
-      review:
-        "Viverra bibendum ut eu sodales viverra adipiscing viverra lorem elit. Suspendisse ut et malesuada.",
-    },
-    {
-      name: "Isla Thompson",
-      role: "Happy client",
-      image: images.customer3,
-      review:
-        "Scelerisque auctor suspendisse ut et malesuada elit. Pellentesque eu tincidunt tortor aliquam nulla.",
-    },
-  ];
+import React, { useState } from "react";
+
+const Testimonials = ({ reviews }) => {
+  // const reviews = [
+  //   {
+  //     name: "Michaela Hayden",
+  //     role: "Happy client",
+  //     image: images.customer1,
+  //     review:
+  //       "Quis euismod eu eleifend tristique. Rutrum eget turpis semper risus aliquam imperdiet amet.",
+  //   },
+  //   {
+  //     name: "Sophia Allen",
+  //     role: "Happy client",
+  //     image: images.customer2,
+  //     review:
+  //       "Viverra bibendum ut eu sodales viverra adipiscing viverra lorem elit. Suspendisse ut et malesuada.",
+  //   },
+  //   {
+  //     name: "Isla Thompson",
+  //     role: "Happy client",
+  //     image: images.customer3,
+  //     review:
+  //       "Scelerisque auctor suspendisse ut et malesuada elit. Pellentesque eu tincidunt tortor aliquam nulla.",
+  //   },
+  // ];
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const active = testimonials[activeIndex];
+  const active = reviews[activeIndex];
+
+  if (!reviews || reviews.length === 0) {
+    return (
+      <section className="relative py-10 px-5 bg-bg text-center h-[300px] md:h-[372px]">
+        <h2 className="text-primary text-3xl md:text-4xl font-semibold">
+          Testimonials
+        </h2>
+        <p className="text-gray-600 mt-2 mb-8 text-sm md:text-base max-w-xl mx-auto">
+          Eleifend arcu non lorem justo in tempus purus gravida tortor egestas
+          sed feugiat elementum
+        </p>
+        <div className="flex items-center justify-center h-full">
+          <span className="text-gray-500 text-lg">No review yet</span>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative py-10 px-5 bg-bg text-center h-[300px] md:h-[372px]">
@@ -45,16 +63,18 @@ const Testimonials = () => {
           </span>
           <div className="flex flex-col items-center text-center justify-center gap-4 mb-4">
             <div>
-              <h4 className="text-primary font-semibold">{active.name}</h4>
-              <p className="text-sm text-gray-500 ">{active.role}</p>
+              <h4 className="text-primary font-semibold">
+                {active.user.fullName}
+              </h4>
+              {/* <p className="text-sm text-gray-500 ">{active.role}</p> */}
             </div>
             {/* Profile Switcher */}
             <div className="flex justify-center gap-6">
-              {testimonials.map((t, index) => (
+              {reviews.map((r, index) => (
                 <img
                   key={index}
-                  src={t.image}
-                  alt={t.name}
+                  src={r.user.avatar}
+                  alt={r.user.fullName}
                   className={`w-20 h-20 rounded-full cursor-pointer border-3 ${
                     index === activeIndex ? "border-primary" : "border-gray-300"
                   }`}
@@ -65,7 +85,7 @@ const Testimonials = () => {
           </div>
 
           <p className="text-gray-700 text-center text-sm md:text-base">
-            {active.review}
+            {active.comment}
           </p>
           <span className="absolute top-[calc(100%-25px)] text-9xl -right-6  text-primary font-serif">
             &rsquo;&rsquo;

@@ -17,7 +17,7 @@ const createReview = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Service, rating, and comment are required");
   }
 
-  const fetchedService = await Service.findOne({ name: service });
+  const fetchedService = await Service.findById(service);
 
   if (!fetchedService) {
     throw new ApiError(404, "Service not found");
@@ -80,4 +80,28 @@ const deleteReview = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, "Review deleted successfully"));
 });
-export { createReview, getAllReviews, updateReview, deleteReview };
+
+const approveReview = asyncHandler(async (req, res) => {
+  const { reviewId } = req.params;
+
+  const review = await Review.findById(reviewId);
+
+  if (!review) {
+    throw new ApiError(404, "Review not found");
+  }
+
+  review.status = "Approved";
+  await review.save();
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, review, "Review approved successfully"));
+});
+
+export {
+  createReview,
+  getAllReviews,
+  updateReview,
+  deleteReview,
+  approveReview,
+};

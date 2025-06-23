@@ -23,6 +23,12 @@ const reviewSchema = new Schema(
       required: true,
       trim: true,
     },
+    status: {
+      type: String,
+      default: "Pending",
+      enum: ["Pending", "Approved"],
+      required: true,
+    },
   },
   {
     timestamps: true,

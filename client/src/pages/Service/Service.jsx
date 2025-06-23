@@ -3,6 +3,7 @@ import images from "../../constants/images";
 import Hero from "../../components/Hero/Hero";
 import ServicesSection from "../../sections/Services/ServicesSection";
 import BookingForm from "../../components/Form/BookingForm";
+import ReviewForm from "../../components/Form/ReviewForm";
 import { useSelector } from "react-redux";
 import { fetchAllServices } from "../../api/service.Api";
 import Spinner from "../../components/Spinner";
@@ -10,6 +11,7 @@ const Service = () => {
   const isAuthenticated = useSelector(
     (state) => state.userAuth.isAuthenticated
   );
+
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   // Fetch all services
@@ -42,6 +44,7 @@ const Service = () => {
       <Hero HeadingText="Services" HeroImg={images.serviceHeroImg} />
       <ServicesSection services={services} />
       <BookingForm isAuthenticated={isAuthenticated} />
+      <ReviewForm isAuthenticated={isAuthenticated} services={services} />
     </div>
   );
 };

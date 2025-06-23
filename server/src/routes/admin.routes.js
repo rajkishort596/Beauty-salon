@@ -9,6 +9,7 @@ import {
 import serviceAdminRouter from "./service.admin.routes.js";
 import bookingRouter from "./booking.routes.js";
 import SpecialistAdminRouter from "./specialist.admin.routes.js";
+import { approveReview } from "../controllers/review.controller.js";
 const router = Router();
 
 router.route("/login").post(loginAdmin);
@@ -16,6 +17,7 @@ router.route("/login").post(loginAdmin);
 router.route("/me").get(verifyAdminJWT, getMeAdmin);
 router.route("/logout").post(verifyAdminJWT, logoutAdmin);
 router.route("/stats").get(verifyAdminJWT, getAdminStats);
+router.route("/reviews/:reviewId/approve").patch(verifyAdminJWT, approveReview);
 
 router.use("/bookings", verifyAdminJWT, bookingRouter);
 router.use("/services", verifyAdminJWT, serviceAdminRouter);

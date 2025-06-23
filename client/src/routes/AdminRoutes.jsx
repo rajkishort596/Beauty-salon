@@ -5,6 +5,7 @@ import Dashboard from "../pages/Admin/Dashboard";
 import Appointment from "../pages/Admin/Appointment";
 import Service from "../pages/Admin/Service";
 import Specialist from "../pages/Admin/Specialist";
+import Reviews from "../pages/Admin/Review";
 
 const AdminRoutes = (
   <>
@@ -14,7 +15,7 @@ const AdminRoutes = (
       <Route path="appointments" element={<Appointment />} />
       <Route path="services" element={<Service />} />
       <Route path="specialists" element={<Specialist />} />
-      <Route path="reviews" element={<div>Reviews</div>} />
+      <Route path="reviews" element={<Reviews />} />
       <Route path="settings" element={<div>Settings</div>} />
       {/* Other admin routes */}
     </Route>
