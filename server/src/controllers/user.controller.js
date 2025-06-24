@@ -32,7 +32,10 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     phone,
-    avatar: avatar.url,
+    avatar: {
+      url: avatar.url,
+      publicId: avatar.public_id,
+    },
   });
 
   const createdUser = await User.findById(user._id).select(

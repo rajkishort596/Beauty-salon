@@ -31,3 +31,16 @@ export const fetchAdminProfile = async () => {
   const res = await axios.get("/admin/me");
   return res;
 };
+
+export const updateAdminProfile = async (data) => {
+  const res = await axios.patch("/admin/update", data);
+  return res.data.data;
+};
+
+export const changePassword = async ({ currentPassword, newPassword }) => {
+  const res = await axios.post("/admin/change-password", {
+    currentPassword,
+    newPassword,
+  });
+  return res.data;
+};

@@ -22,7 +22,7 @@ const AdminHeader = ({ isAuthenticated = false, user, image }) => {
         {isAuthenticated ? user?.fullName : "Admin"}
       </p>
       <img
-        src={isAuthenticated ? user?.avatar : image}
+        src={isAuthenticated ? user?.avatar.url : image}
         alt="Profile"
         className="h-10 w-10 rounded-full object-cover"
       />

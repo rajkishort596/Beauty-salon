@@ -28,7 +28,7 @@ const Input = ({
           error ? "border-red-500 focus:border-red-500 text-red-500" : ""
         } focus:ring-1 border-1 ${
           error ? "focus:ring-red-300" : "focus:ring-primary"
-        } ${className}`}
+        } ${readonly ? "bg-black/5" : ""} ${className}`}
         {...props}
       />
       {error && <p className="text-red-600 text-sm">{error}</p>}

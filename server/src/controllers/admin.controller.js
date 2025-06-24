@@ -6,6 +6,10 @@ import { generateAccessAndRefereshTokens } from "../utils/generateToken.js";
 import { Booking } from "../models/booking.model.js";
 import { Service } from "../models/service.model.js";
 import { Review } from "../models/review.model.js";
+import {
+  deleteImageFromCloudinary,
+  uploadOnCloudinary,
+} from "../utils/cloudinary.js";
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -106,4 +110,92 @@ const getMeAdmin = asyncHandler(async (req, res) => {
     );
 });
 
-export { loginAdmin, logoutAdmin, getAdminStats, getMeAdmin };
+const updateAdminProfile = asyncHandler(async (req, res) => {
+  const { fullName, phone, email } = req.body;
+
+  const avatarImageLocalPath = req.file?.path;
+
+  if (!fullName && !phone && !email) {
+    throw new ApiError(400, "FullName and phone are required");
+  }
+
+  const existedAdmin = await User.findById(req.admin._id);
+
+  if (!existedAdmin) {
+    throw new ApiError(404, "Admin not found");
+  }
+
+  let avatarToBeUpdated = existedAdmin.avatar;
+
+  // If new avatar provided, upload and delete old one
+  if (avatarImageLocalPath) {
+    const image = await uploadOnCloudinary(avatarImageLocalPath);
+    if (!image) {
+      throw new ApiError(400, "Image upload failed");
+    }
+
+    // Delete old image from Cloudinary
+    if (existedAdmin.avatar?.publicId) {
+      await deleteImageFromCloudinary(existedAdmin.avatar.publicId);
+    }
+
+    avatarToBeUpdated = {
+      url: image.url,
+      publicId: image.public_id,
+    };
+  }
+
+  const updatedAdmin = await User.findByIdAndUpdate(
+    req.admin._id,
+    {
+      $set: {
+        fullName,
+        phone,
+        avatar: avatarToBeUpdated,
+      },
+    },
+    { new: true, runValidators: true, select: "-password -refreshToken" }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedAdmin, "Admin profile updated successfully")
+    );
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    throw new ApiError(400, "Current and new password are required");
+  }
+
+  const admin = await User.findById(req.admin._id);
+
+  if (!admin) {
+    throw new ApiError(404, "Admin not found");
+  }
+
+  const isPasswordValid = await admin.isPasswordCorrect(currentPassword);
+
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Current password is incorrect");
+  }
+
+  admin.password = newPassword;
+  await admin.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed successfully"));
+});
+
+export {
+  loginAdmin,
+  logoutAdmin,
+  getAdminStats,
+  getMeAdmin,
+  updateAdminProfile,
+  changePassword,
+};

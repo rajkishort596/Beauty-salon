@@ -2,12 +2,12 @@ import { useWatch } from "react-hook-form";
 import camera from "../assets/images/photo-camera.png";
 import profile from "../assets/images/Profile-Img.png";
 
-const ProfileUploader = ({ register, errors, control }) => {
+const ProfileUploader = ({ register, errors, control, admin }) => {
   const profileImage = useWatch({ control, name: "avatar" });
 
   const imagePreview = profileImage?.[0]
     ? URL.createObjectURL(profileImage[0])
-    : profile;
+    : admin?.avatar.url || profile;
 
   return (
     <div className="flex flex-col items-center">
@@ -33,7 +33,7 @@ const ProfileUploader = ({ register, errors, control }) => {
         name="avatar"
         accept="image/*"
         {...register("avatar", {
-          required: "Profile picture is required",
+          required: !admin?.avatar ? "Profile picture is required" : false,
         })}
         className="hidden"
       />

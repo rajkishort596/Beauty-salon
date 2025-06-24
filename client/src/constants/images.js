@@ -67,6 +67,7 @@ import TelIcon from "../assets/images/Tel-Icon.svg";
 import TreatmentImg from "../assets/images/Treatment-Img.jpg";
 import XIcon from "../assets/images/X-Icon.svg";
 import ProfileImg from "../assets/images/Profile-Img.png";
+import LogoutIcon from "../assets/images/Logout-Icon.svg";
 
 const images = {
   ProfileImg: ProfileImg,
@@ -122,6 +123,7 @@ const images = {
   discountBanner: DiscountBanner,
   instaIcon: InstaIcon,
   locationIcon: LocationIcon,
+  logoutIcon: LogoutIcon,
   logo: Logo,
   lotusIcon: LotusIcon,
   mailIcon: MailIcon,

@@ -122,7 +122,7 @@ const Signup = () => {
             <Input
               type="number"
               label="Phone Number"
-              placeholder="Eenter Phone Number"
+              placeholder="Enter Phone Number"
               {...register("phone", {
                 required: "Phone number is required",
                 pattern: {

@@ -6,6 +6,7 @@ import Appointment from "../pages/Admin/Appointment";
 import Service from "../pages/Admin/Service";
 import Specialist from "../pages/Admin/Specialist";
 import Reviews from "../pages/Admin/Review";
+import Setting from "../pages/Admin/Setting";
 
 const AdminRoutes = (
   <>
@@ -16,7 +17,7 @@ const AdminRoutes = (
       <Route path="services" element={<Service />} />
       <Route path="specialists" element={<Specialist />} />
       <Route path="reviews" element={<Reviews />} />
-      <Route path="settings" element={<div>Settings</div>} />
+      <Route path="settings" element={<Setting />} />
       {/* Other admin routes */}
     </Route>
   </>

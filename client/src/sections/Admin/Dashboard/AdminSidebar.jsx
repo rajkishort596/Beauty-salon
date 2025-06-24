@@ -1,6 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import images from "../../../constants/images";
+import { useDispatch } from "react-redux";
+import { logoutAdmin } from "../../../api/auth.Api";
+import { logout } from "../../../features/auth/adminAuthSlice";
+import Spinner from "../../../components/Spinner";
+import { useState } from "react";
+
 const AdminSidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    const res = await logoutAdmin();
+    console.log(res);
+    dispatch(logout);
+    setLoading(false);
+    navigate("/admin/login");
+    console.log("Admin logged out");
+  };
+
   return (
     <aside className="h-screen bg-bg text-gray-800 shadow-md p-4 flex flex-col gap-6 md:w-[250px]">
       {/* Logo */}
@@ -51,6 +71,22 @@ const AdminSidebar = () => {
           icon={{ active: images.gearIcon, inactive: images.blackGearIcon }}
         />
       </nav>
+      <button
+        onClick={() => {
+          handleLogout();
+        }}
+        className="mt-auto mb-10 text-left flex gap-3 px-3 py-2 rounded-md font-medium transition-colors items-center cursor-pointer hover:bg-primary/20"
+      >
+        <img src={images.logoutIcon} className="h-5 w-5" alt={`icon`} />
+        logout
+        {loading ? (
+          <span className="ml-auto">
+            <Spinner />
+          </span>
+        ) : (
+          ""
+        )}
+      </button>
     </aside>
   );
 };
