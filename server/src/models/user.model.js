@@ -6,7 +6,9 @@ const userSchema = new Schema(
   {
     fullName: {
       type: String,
-      required: true,
+      required: function () {
+        return this.verified;
+      },
       lowercase: true,
       trim: true,
     },
@@ -14,26 +16,34 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      lowecase: true,
+      lowercase: true,
       trim: true,
     },
     avatar: {
       url: {
         type: String,
-        required: true,
+        required: function () {
+          return this.verified;
+        },
       },
       publicId: {
         type: String,
-        required: true,
+        required: function () {
+          return this.verified;
+        },
       },
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: function () {
+        return this.verified;
+      },
     },
     phone: {
       type: String,
-      required: [true, "Phone number is required"],
+      required: function () {
+        return this.verified;
+      },
     },
     role: {
       type: String,
@@ -42,6 +52,16 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
+    },
+    otp: {
+      type: String,
+    },
+    otpExpiry: {
+      type: Date,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -83,6 +103,17 @@ userSchema.methods.generateRefreshToken = function () {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     }
   );
+};
+
+userSchema.methods.generatePasswordResetToken = function () {
+  const payload = {
+    _id: this._id,
+    email: this.email,
+  };
+  // Expires in 1 hour
+  return jwt.sign(payload, process.env.RESET_PASSWORD_SECRET, {
+    expiresIn: "1h",
+  });
 };
 
 export const User = mongoose.model("User", userSchema);

@@ -58,7 +58,7 @@ const Header = ({ isAuthenticated = false, userData }) => {
           {isAuthenticated ? (
             <div className="relative group cursor-pointer flex items-center">
               <img
-                src={userData?.avatar || images.customer1}
+                src={userData?.avatar.url || images.customer1}
                 alt="Profile"
                 className="h-8 w-8 rounded-full object-cover"
               />

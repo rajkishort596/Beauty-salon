@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 import {
+  forgotPassword,
   getMeUser,
   loginUser,
   logoutUser,
   registerUser,
+  resetPassword,
 } from "../controllers/user.controller.js";
 import { verifyUserJWT } from "../middlewares/auth.middleware.js";
 import {
@@ -15,6 +17,8 @@ const router = Router();
 
 router.route("/register").post(upload.single("avatar"), registerUser);
 router.route("/login").post(loginUser);
+router.route("/forgot-password").post(forgotPassword);
+router.route("/reset-password").post(resetPassword);
 //Secured Routes
 router.route("/me").get(verifyUserJWT, getMeUser);
 router.route("/logout").post(verifyUserJWT, logoutUser);

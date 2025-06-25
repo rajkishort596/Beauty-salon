@@ -4,50 +4,51 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { generateAccessAndRefereshTokens } from "../utils/generateToken.js";
+import { sendEmail } from "../utils/sendEmail.js";
+import jwt from "jsonwebtoken";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone } = req.body;
-
   if (!fullName || !email || !password || !phone) {
     throw new ApiError(400, "All fields are required");
   }
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(400, "Please verify your email first");
+  }
+
+  if (user.verified) {
     throw new ApiError(400, "User already exists with this email");
   }
-  console.log(req.file);
+
   const avatarLocalPath = req.file?.path;
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required");
-  }
+  if (!avatarLocalPath) throw new ApiError(400, "Avatar file is required");
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
+  if (!avatar) throw new ApiError(400, "Avatar upload failed");
 
-  if (!avatar) {
-    throw new ApiError(400, "Avatar file is required");
-  }
-  const user = await User.create({
-    fullName,
-    email,
-    password,
-    phone,
-    avatar: {
-      url: avatar.url,
-      publicId: avatar.public_id,
-    },
-  });
+  user.fullName = fullName;
+  user.password = password;
+  user.phone = phone;
+  user.avatar = {
+    url: avatar.url,
+    publicId: avatar.public_id,
+  };
+  user.verified = true;
+  user.otp = undefined;
+  user.otpExpiry = undefined;
+
+  await user.save();
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
-  if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user");
-  }
 
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered Successfully"));
+    .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -138,4 +139,69 @@ const getMeUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "User details fetched successfully"));
 });
 
-export { registerUser, loginUser, logoutUser, getMeUser };
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) throw new ApiError(400, "Email is required");
+
+  const user = await User.findOne({ email });
+  if (!user) throw new ApiError(404, "User with this email does not exist");
+
+  // Generate JWT reset token
+  const resetToken = user.generatePasswordResetToken();
+  // console.log(resetToken);
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+  // await sendEmail(
+  //   user.email,
+  //   "Password Reset",
+  //   `Reset your password: <a href="${resetUrl}">${resetUrl}</a>`
+  // );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { resetUrl },
+        "Password reset link sent to your email"
+      )
+    );
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token || !password) {
+    throw new ApiError(400, "Token and new password are required");
+  }
+  // console.log(token);
+
+  let payload;
+  try {
+    payload = jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
+  } catch (err) {
+    throw new ApiError(400, "Invalid or expired reset token");
+  }
+
+  const user = await User.findById(payload._id);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  user.password = password;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password reset successful"));
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getMeUser,
+  forgotPassword,
+  resetPassword,
+};

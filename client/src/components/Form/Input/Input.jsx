@@ -12,9 +12,9 @@ const Input = ({
   const id = useId();
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className="flex flex-col gap-0.5 w-full">
       {label && (
-        <label htmlFor={id} className="font-abhaya text-black text-2xl">
+        <label htmlFor={id} className="font-abhaya text-black text-xl">
           {label}
         </label>
       )}

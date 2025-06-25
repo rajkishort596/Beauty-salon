@@ -44,3 +44,20 @@ export const changePassword = async ({ currentPassword, newPassword }) => {
   });
   return res.data;
 };
+export const forgotPassword = async (email) => {
+  const res = await axios.post("/users/forgot-password", { email });
+  return res.data;
+};
+
+export const resetPassword = async ({ token, password }) => {
+  const res = await axios.post("/users/reset-password", { token, password });
+  return res.data;
+};
+
+export const sendOtp = async (email) => {
+  return axios.post("/otp/send-otp", { email });
+};
+
+export const verifyOtp = async (email, otp) => {
+  return axios.post("/otp/verify-otp", { email, otp });
+};

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Input from "../../components/Form/Input/Input";
-import { FiUser, FiBell, FiSettings, FiLock } from "react-icons/fi";
+import { FiUser, FiBell, FiSettings } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { changePassword, updateAdminProfile } from "../../api/auth.Api";
 import ProfileUploader from "../../components/ProfileUploader";
@@ -14,7 +14,6 @@ const tabs = [
   { key: "theme", label: "Theme Setting", icon: <FiSettings /> },
 ];
 
-// ...existing code...
 const Setting = () => {
   const admin = useSelector((state) => state.adminAuth.admin);
   const [activeTab, setActiveTab] = useState("account");
@@ -27,7 +26,6 @@ const Setting = () => {
     reset: resetProfile,
     control: controlProfile,
     formState: { errors: profileErrors },
-    setValue: setProfileValue,
   } = useForm({
     defaultValues: {
       fullName: admin?.fullName || "",
@@ -41,8 +39,6 @@ const Setting = () => {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
     reset: resetPassword,
-    watch: watchPassword,
-    setValue: setPasswordValue,
     formState: { errors: passwordErrors },
   } = useForm({
     defaultValues: {
