@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Specialist } from "../models/specialist.model.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 const bookAppointment = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
@@ -81,6 +82,27 @@ const updateBookingStatus = asyncHandler(async (req, res) => {
   if (!updatedBooking) {
     throw new ApiError(404, "Appointment not found");
   }
+  // Send email notification to the user about appointment status update
+  const statusMessages = {
+    pending:
+      "Your appointment is pending. We will notify you once it is confirmed.",
+    confirmed:
+      "Your appointment has been confirmed. We look forward to seeing you!",
+    cancelled:
+      "Your appointment has been cancelled. Please contact us if you have questions.",
+    completed:
+      "Your appointment has been completed. Thank you for visiting us!",
+  };
+
+  const message =
+    statusMessages[status] ||
+    `Your appointment status has been updated to: ${status}.`;
+
+  await sendEmail(
+    updatedBooking.user.email,
+    "Appointment Status Updated",
+    message
+  );
 
   res
     .status(200)

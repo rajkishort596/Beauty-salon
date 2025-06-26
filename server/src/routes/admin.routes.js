@@ -13,10 +13,12 @@ import bookingRouter from "./booking.routes.js";
 import SpecialistAdminRouter from "./specialist.admin.routes.js";
 import { approveReview } from "../controllers/review.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { refreshAdminAccessToken } from "../utils/refreshToken.js";
 
 const router = Router();
 
 router.route("/login").post(loginAdmin);
+router.route("/refresh-token").post(refreshAdminAccessToken);
 //Secured Routes
 router.route("/me").get(verifyAdminJWT, getMeAdmin);
 router

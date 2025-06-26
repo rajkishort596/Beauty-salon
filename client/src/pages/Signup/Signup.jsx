@@ -71,6 +71,7 @@ const Signup = () => {
       return;
     }
     try {
+      dispatch(startLoading());
       await sendOtp(emailValue);
       setOtpSent(true);
       setShowOtp(true);
@@ -80,6 +81,8 @@ const Signup = () => {
       const errMsg =
         err?.response?.data?.message || "Failed to send OTP. Try again.";
       toast.error(errMsg);
+    } finally {
+      dispatch(stopLoading());
     }
   };
 

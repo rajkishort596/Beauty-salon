@@ -11,7 +11,7 @@ import {
 } from "../../features/loading/loadingSlice.js";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const dispatch = useDispatch();
@@ -109,6 +109,14 @@ const AdminLogin = () => {
               {...register("password", { required: "Password is required" })}
               error={errors.password?.message}
             />
+            <div className="flex justify-end">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
             {loading ? (
               <Spinner />
             ) : (

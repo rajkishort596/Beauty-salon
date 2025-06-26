@@ -23,7 +23,11 @@ const sendOtp = asyncHandler(async (req, res) => {
   user.otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
   await user.save();
-
+  await sendEmail(
+    user.email,
+    "Your OTP Code",
+    `Your OTP code is: ${otp}. It will expire in 5 minutes.`
+  );
   return res
     .status(200)
     .json(new ApiResponse(200, null, "OTP sent successfully"));

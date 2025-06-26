@@ -46,6 +46,20 @@ const registerUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
+  await sendEmail(
+    user.email,
+    "Registration Successful",
+    `
+      <div style="font-family: Arial, sans-serif; color: #222;">
+        <h2>Welcome to Beauty Salon!</h2>
+        <p>Hello ${user.fullName || ""},</p>
+        <p>Your registration was successful. You can now log in and enjoy our services.</p>
+        <p>If you have any questions, feel free to contact our support team.</p>
+        <p style="margin-top:32px;font-size:12px;color:#888;">Thank you for joining us!</p>
+      </div>
+    `
+  );
+
   return res
     .status(201)
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
@@ -152,11 +166,20 @@ const forgotPassword = asyncHandler(async (req, res) => {
   // console.log(resetToken);
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-  // await sendEmail(
-  //   user.email,
-  //   "Password Reset",
-  //   `Reset your password: <a href="${resetUrl}">${resetUrl}</a>`
-  // );
+  await sendEmail(
+    user.email,
+    "Password Reset",
+    `
+      <div style="font-family: Arial, sans-serif; color: #222;">
+        <h2>Password Reset Request</h2>
+        <p>Hello ${user.fullName || ""},</p>
+        <p>We received a request to reset your password. Click the button below to reset it:</p>
+        <a href="${resetUrl}" style="display:inline-block;padding:12px 24px;background:#1976d2;color:#fff;text-decoration:none;border-radius:4px;font-weight:bold;">Reset Password</a>
+        <p>If you did not request this, please ignore this email.</p>
+        <p style="margin-top:32px;font-size:12px;color:#888;">If the button doesn't work, copy and paste this link into your browser:<br>${resetUrl}</p>
+      </div>
+    `
+  );
 
   return res
     .status(200)
