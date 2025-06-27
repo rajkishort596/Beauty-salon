@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Input from "../../components/Form/Input/Input";
-import { FiUser, FiBell, FiSettings } from "react-icons/fi";
+import { FiUser, FiBell, FiSettings, FiLock } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { changePassword, updateAdminProfile } from "../../api/auth.Api";
 import ProfileUploader from "../../components/ProfileUploader";
@@ -10,7 +10,7 @@ import Spinner from "../../components/Spinner";
 
 const tabs = [
   { key: "account", label: "Account Setting", icon: <FiUser /> },
-  { key: "notification", label: "Notification", icon: <FiBell /> },
+  { key: "password", label: "Change Password", icon: <FiLock /> },
   { key: "theme", label: "Theme Setting", icon: <FiSettings /> },
 ];
 
@@ -53,6 +53,10 @@ const Setting = () => {
       fullName: admin?.fullName || "",
       email: admin?.email || "",
       phone: admin?.phone || "",
+      secondaryPhone: admin?.secondaryPhone || "",
+      address: admin?.address || "",
+      latitude: admin?.location.lat || "",
+      longitude: admin?.location.lng || "",
     });
     resetPassword({
       currentPassword: "",
@@ -70,6 +74,10 @@ const Setting = () => {
     adminData.append("fullName", data.fullName);
     adminData.append("email", data.email);
     adminData.append("phone", data.phone);
+    adminData.append("secondaryPhone", data.secondaryPhone);
+    adminData.append("address", data.address);
+    adminData.append("latitude", data.latitude);
+    adminData.append("longitude", data.longitude);
     // console.log(data);
     // console.log(adminData);
     try {
@@ -89,6 +97,7 @@ const Setting = () => {
       toast.error("Passwords do not match");
       return;
     }
+    setLoading(true);
     try {
       await changePassword({
         currentPassword: data.currentPassword,
@@ -105,6 +114,8 @@ const Setting = () => {
         error.response?.data?.message || "Failed to change password";
       toast.error(errMsg);
       console.error(errMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,20 +123,20 @@ const Setting = () => {
     switch (activeTab) {
       case "account":
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+          <div className="w-full items-center lg:items-start flex flex-col gap-4">
             {/* Profile Update Form */}
             <form
-              className="flex flex-col gap-4 w-full"
+              className="w-full"
               onSubmit={handleProfileSubmit(onProfileUpdate)}
               autoComplete="off"
             >
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              {/* <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
                 👤 Account Info
-              </h2>
+              </h2> */}
               <div className="">
                 {/* Profile Fields (Left) */}
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col items-center gap-2 mb-2">
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="flex flex-col items-center gap-2 mb-2 col-span-2">
                     <ProfileUploader
                       register={registerProfile}
                       errors={profileErrors}
@@ -161,12 +172,58 @@ const Setting = () => {
                     })}
                     error={profileErrors.phone?.message}
                   />
+                  <Input
+                    label="Secondary Phone"
+                    name="secondaryPhone"
+                    placeholder="Optional"
+                    {...registerProfile("secondaryPhone", {
+                      pattern: {
+                        value: /^\d{10}$/,
+                        message: "Enter a valid 10-digit phone number",
+                      },
+                    })}
+                    error={profileErrors.secondaryPhone?.message}
+                  />
+                  <div className="col-span-2">
+                    <Input
+                      label="Address"
+                      name="address"
+                      {...registerProfile("address", {
+                        required: "Address is required",
+                      })}
+                      error={profileErrors.address?.message}
+                    />
+                  </div>
+
+                  <div className="col-span-2 grid grid-cols-2 gap-x-5 gap-y-0.5">
+                    <p className="col-span-2 font-abhaya text-black text-xl">
+                      Location
+                    </p>
+                    <Input
+                      placeholder="Latitude"
+                      name="latitude"
+                      {...registerProfile("latitude", {
+                        required: "Latitude is required",
+                      })}
+                      error={profileErrors.latitude?.message}
+                    />
+                    <Input
+                      placeholder="Longitude"
+                      name="longitude"
+                      {...registerProfile("longitude", {
+                        required: "Longitude is required",
+                      })}
+                      error={profileErrors.longitude?.message}
+                    />
+                  </div>
                   {loading ? (
-                    <Spinner />
+                    <div className="col-span-2">
+                      <Spinner />
+                    </div>
                   ) : (
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-primary text-white rounded shadow cursor-pointer mt-2"
+                      className="px-4 py-2 col-span-2 bg-primary text-white rounded shadow cursor-pointer mt-2"
                     >
                       Save Changes
                     </button>
@@ -176,7 +233,7 @@ const Setting = () => {
             </form>
 
             {/* Password Update Form */}
-            <form
+            {/* <form
               className="flex flex-col gap-4 w-full"
               onSubmit={handlePasswordSubmit(onPasswordChange)}
               autoComplete="off"
@@ -217,20 +274,60 @@ const Setting = () => {
               >
                 Update Password
               </button>
-            </form>
+            </form> */}
           </div>
         );
 
-      case "notification":
+      case "password":
         return (
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              Notification Settings
-            </h2>
-            <p className="text-gray-600">
-              Enable or disable email or push notifications.
-            </p>
-            {/* Add toggles/switches here */}
+            {/* Password Update Form */}
+            <form
+              className="flex flex-col gap-4 w-full"
+              onSubmit={handlePasswordSubmit(onPasswordChange)}
+              autoComplete="off"
+            >
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                🔐 Change Password
+              </h2>
+              <Input
+                label="Current Password"
+                name="currentPassword"
+                type="password"
+                {...registerPassword("currentPassword", {
+                  required: "Current Password is required",
+                })}
+                error={passwordErrors.currentPassword?.message}
+              />
+              <Input
+                label="New Password"
+                name="newPassword"
+                type="password"
+                {...registerPassword("newPassword", {
+                  required: "New Password is required",
+                })}
+                error={passwordErrors.newPassword?.message}
+              />
+              <Input
+                label="Confirm New Password"
+                name="confirmPassword"
+                type="password"
+                {...registerPassword("confirmPassword", {
+                  required: "Confirm Password is required",
+                })}
+                error={passwordErrors.confirmPassword?.message}
+              />
+              {loading ? (
+                <Spinner />
+              ) : (
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-primary text-white rounded shadow cursor-pointer mt-2"
+                >
+                  Update Password
+                </button>
+              )}
+            </form>
           </div>
         );
 

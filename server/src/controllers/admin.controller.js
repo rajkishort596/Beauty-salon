@@ -10,6 +10,7 @@ import {
   deleteImageFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
+import { Admin } from "../models/admin.model.js";
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -19,25 +20,26 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email and Password are required");
   }
 
-  const user = await User.findOne({
+  const admin = await Admin.findOne({
     email,
   });
 
-  if (!user || user.role !== "admin") {
+  if (!admin) {
     throw new ApiError(404, "Admin does not exist");
   }
 
-  const isPasswordValid = await user.isPasswordCorrect(password);
+  const isPasswordValid = await admin.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
     throw new ApiError(401, "Invalid credentials");
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
-    user._id
+    admin._id,
+    Admin
   );
 
-  const loggedInAdmin = await User.findById(user._id).select(
+  const loggedInAdmin = await Admin.findById(admin._id).select(
     "-password -refreshToken"
   );
 
@@ -69,7 +71,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 });
 
 const logoutAdmin = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(req.admin._id, {
+  await Admin.findByIdAndUpdate(req.admin._id, {
     $unset: { refreshToken: 1 },
   });
   const options = {
@@ -111,21 +113,38 @@ const getMeAdmin = asyncHandler(async (req, res) => {
 });
 
 const updateAdminProfile = asyncHandler(async (req, res) => {
-  const { fullName, phone, email } = req.body;
+  const {
+    fullName,
+    phone,
+    email,
+    secondaryPhone,
+    latitude,
+    longitude,
+    address,
+  } = req.body;
 
   const avatarImageLocalPath = req.file?.path;
 
-  if (!fullName && !phone && !email) {
-    throw new ApiError(400, "FullName and phone are required");
+  if (
+    !fullName &&
+    !phone &&
+    !email &&
+    !secondaryPhone &&
+    !latitude &&
+    !longitude &&
+    !address
+  ) {
+    throw new ApiError(400, "All Fields are required");
   }
 
-  const existedAdmin = await User.findById(req.admin._id);
+  const existedAdmin = await Admin.findById(req.admin._id);
 
   if (!existedAdmin) {
     throw new ApiError(404, "Admin not found");
   }
 
   let avatarToBeUpdated = existedAdmin.avatar;
+  let locationToBeUpdated = existedAdmin.location;
 
   // If new avatar provided, upload and delete old one
   if (avatarImageLocalPath) {
@@ -145,12 +164,22 @@ const updateAdminProfile = asyncHandler(async (req, res) => {
     };
   }
 
-  const updatedAdmin = await User.findByIdAndUpdate(
+  if (latitude && longitude) {
+    locationToBeUpdated = {
+      lat: latitude,
+      lng: longitude,
+    };
+  }
+  // console.log(latitude, longitude);
+  const updatedAdmin = await Admin.findByIdAndUpdate(
     req.admin._id,
     {
       $set: {
         fullName,
         phone,
+        secondaryPhone,
+        address,
+        location: locationToBeUpdated,
         avatar: avatarToBeUpdated,
       },
     },
@@ -171,7 +200,7 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Current and new password are required");
   }
 
-  const admin = await User.findById(req.admin._id);
+  const admin = await Admin.findById(req.admin._id);
 
   if (!admin) {
     throw new ApiError(404, "Admin not found");

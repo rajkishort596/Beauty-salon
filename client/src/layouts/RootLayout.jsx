@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Container from "../components/container/Container";
 import Footer from "../components/Footer/Footer";
@@ -11,7 +11,7 @@ import Spinner from "../components/Spinner";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.userAuth);
   const loading = useSelector((state) => state.loading);
 
@@ -21,15 +21,18 @@ const RootLayout = () => {
       try {
         const res = await fetchUserProfile();
         dispatch(setCredentials({ user: res.data.data }));
-      } catch {
+      } catch (err) {
         dispatch(logout());
+        if (err.response?.status === 401) {
+          navigate("/login");
+        }
       } finally {
         dispatch(stopLoading());
       }
     };
 
     hydrateUser();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   // Optional loading screen during hydration
   if (loading) {

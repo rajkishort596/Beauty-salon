@@ -1,9 +1,12 @@
 import { User } from "../models/user.model.js";
 import { ApiError } from "./ApiError.js";
 
-const generateAccessAndRefereshTokens = async (userId) => {
+const generateAccessAndRefereshTokens = async (userId, model = User) => {
   try {
-    const user = await User.findById(userId);
+    const user = await model.findById(userId);
+    if (!user) {
+      throw new ApiError(404, "User/Admin not found");
+    }
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -14,7 +17,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
   } catch (error) {
     throw new ApiError(
       500,
-      "Something went wrong while generating referesh and access token"
+      "Something went wrong while generating refresh and access token"
     );
   }
 };

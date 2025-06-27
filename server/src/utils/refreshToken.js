@@ -1,3 +1,4 @@
+import { Admin } from "../models/admin.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "./ApiError.js";
 import { ApiResponse } from "./ApiResponse.js";
@@ -72,7 +73,7 @@ const refreshAdminAccessToken = asyncHandler(async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    const admin = await User.findById(decodedToken?._id);
+    const admin = await Admin.findById(decodedToken?._id);
 
     if (!admin) {
       throw new ApiError(401, "Invalid refresh token");
@@ -89,7 +90,8 @@ const refreshAdminAccessToken = asyncHandler(async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     };
     const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
-      admin._id
+      admin._id,
+      Admin
     );
 
     return res

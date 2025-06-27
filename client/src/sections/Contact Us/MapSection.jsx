@@ -1,8 +1,9 @@
 import React from "react";
 
-const MapSection = () => {
-  const latitude = 26.46987;
-  const longitude = 85.697411;
+const MapSection = ({ location }) => {
+  // console.log(location);
+  const latitude = location.lat;
+  const longitude = location.lng;
 
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${
     longitude - 0.01

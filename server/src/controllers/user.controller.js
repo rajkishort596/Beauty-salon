@@ -77,7 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
     email,
   });
 
-  if (!user || user.role !== "user") {
+  if (!user) {
     throw new ApiError(404, "User does not exist");
   }
 

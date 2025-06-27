@@ -21,6 +21,7 @@ const AUTH_WHITELIST = [
   "/services", // public GET
   "/specialists", // public GET
   "/reviews", // public GET
+  "/contact-info",
   // add more if you add more public/auth routes in the future
 ];
 
@@ -29,7 +30,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If 401 and not retried before and not whitelisted
+    // Allow retry only if NOT already retried, and not in whitelist
     if (
       error.response &&
       error.response.status === 401 &&
@@ -39,29 +40,27 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Refresh token for admin or user
-        if (originalRequest.url.startsWith("/admin")) {
-          await axiosInstance.post("/admin/refresh-token");
-        } else {
-          await axiosInstance.post("/users/refresh-token");
-        }
+        const isAdminRoute = originalRequest.url.startsWith("/admin");
+        const refreshEndpoint = isAdminRoute
+          ? "/admin/refresh-token"
+          : "/users/refresh-token";
 
+        await axiosInstance.post(refreshEndpoint);
+
+        // Retry original request after refresh success
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token failed:", refreshError);
 
-        // ✅ Logout user/admin and redirect
+        // Dispatch logout
         if (originalRequest.url.startsWith("/admin")) {
           store.dispatch(adminLogout());
         } else {
           store.dispatch(userLogout());
         }
 
-        // Optional: redirect to login
-        window.location.href = originalRequest.url.startsWith("/admin")
-          ? "/admin/login"
-          : "/login";
-
+        // 🚫 Avoid reload loop by not redirecting from interceptor
+        // Allow component to handle it instead
         return Promise.reject(refreshError);
       }
     }

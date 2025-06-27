@@ -2,13 +2,11 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const userSchema = new Schema(
+const adminSchema = new Schema(
   {
     fullName: {
       type: String,
-      required: function () {
-        return this.verified;
-      },
+      required: true,
       lowercase: true,
       trim: true,
     },
@@ -22,28 +20,38 @@ const userSchema = new Schema(
     avatar: {
       url: {
         type: String,
-        required: function () {
-          return this.verified;
-        },
+        required: true,
       },
       publicId: {
         type: String,
-        required: function () {
-          return this.verified;
-        },
+        required: true,
       },
     },
     password: {
       type: String,
-      required: function () {
-        return this.verified;
-      },
+      required: true,
     },
     phone: {
       type: String,
-      required: function () {
-        return this.verified;
+      required: true,
+    },
+    secondaryPhone: {
+      type: String,
+    },
+    location: {
+      lat: {
+        type: Number,
+        required: true,
       },
+      lng: {
+        type: Number,
+        required: true,
+      },
+    },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
     },
     refreshToken: {
       type: String,
@@ -64,18 +72,22 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
+adminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
-userSchema.methods.isPasswordCorrect = async function (password) {
+adminSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = function () {
+adminSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -88,7 +100,7 @@ userSchema.methods.generateAccessToken = function () {
     }
   );
 };
-userSchema.methods.generateRefreshToken = function () {
+adminSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -100,7 +112,7 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-userSchema.methods.generatePasswordResetToken = function () {
+adminSchema.methods.generatePasswordResetToken = function () {
   const payload = {
     _id: this._id,
     email: this.email,
@@ -111,4 +123,4 @@ userSchema.methods.generatePasswordResetToken = function () {
   });
 };
 
-export const User = mongoose.model("User", userSchema);
+export const Admin = mongoose.model("Admin", adminSchema);

@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -15,7 +15,7 @@ import { startLoading, stopLoading } from "../features/loading/loadingSlice";
 
 const AdminLayout = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const admin = useSelector((state) => state.adminAuth.admin);
   const isAuthenticated = useSelector(
     (state) => state.adminAuth.isAuthenticated
@@ -32,6 +32,9 @@ const AdminLayout = () => {
       } catch (err) {
         console.error("Admin hydration error:", err);
         dispatch(logout());
+        if (err.response?.status === 401) {
+          navigate("/admin/login");
+        }
       } finally {
         dispatch(stopLoading());
       }
