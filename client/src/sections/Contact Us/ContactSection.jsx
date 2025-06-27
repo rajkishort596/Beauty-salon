@@ -31,7 +31,7 @@ const ContactSection = ({ contactInfo }) => {
         <p className="font-inter text-2xl text-black mt-10 mb-4 z-5">
           +91 {contactInfo.phone}
         </p>
-        <p className="font-inter text-2xl text-black">
+        <p className="font-inter text-2xl text-black z-5">
           +91 {contactInfo.secondaryPhone}
         </p>
         <div className="absolute top-8 w-full flex justify-center">

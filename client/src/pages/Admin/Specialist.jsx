@@ -88,43 +88,51 @@ const Specialist = () => {
     setEditSpecialist(null);
     setShowModal(true);
   };
-
   // Handle form submit (create or update)
   const handleFormSubmit = async (formData) => {
     try {
       setLoading(true);
       if (editSpecialist) {
         const updated = await updateSpecialist(editSpecialist._id, formData);
-        // Populate expertise for immediate UI update
-        const expertiseObj = services.find(
-          (s) => s._id === (updated.expertise._id || updated.expertise)
-        );
+
+        // Populate full expertise array for immediate UI update
+        const updatedExpertise = (updated.expertise || []).map((item) => {
+          const id = item._id || item;
+          return services.find((s) => s._id === id) || item;
+        });
+
         setSpecialists((prev) =>
           prev.map((s) =>
             s._id === updated._id
               ? {
                   ...updated,
-                  expertise: expertiseObj ? expertiseObj : updated.expertise, // fallback if not found
+                  expertise: updatedExpertise,
                 }
               : s
           )
         );
+
         toast.success("Specialist updated successfully");
       } else {
         const created = await createSpecialist(formData);
-        // Populate expertise for immediate UI update
-        const expertiseObj = services.find(
-          (s) => s._id === (created.expertise._id || created.expertise)
-        );
+
+        // Populate full expertise array for immediate UI update
+        const createdExpertise = (created.expertise || []).map((item) => {
+          const id = item._id || item;
+          return services.find((s) => s._id === id) || item;
+        });
+
         setSpecialists((prev) => [
           {
             ...created,
-            expertise: expertiseObj ? expertiseObj : created.expertise, // fallback if not found
+            expertise: createdExpertise,
           },
           ...prev,
         ]);
+
         toast.success("Specialist created successfully");
       }
+
       setShowModal(false);
     } catch (error) {
       const errMsg = error.response?.data?.message || "An error occurred";
@@ -171,7 +179,7 @@ const Specialist = () => {
       </div>
 
       {/* Table */}
-      <div className="w-full lg:w-2/3 rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
+      <div className="w-full xl:w-[90%] rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
         <SpecialistTable
           specialists={filtered}
           onEdit={handleEdit}

@@ -3,12 +3,12 @@ import React from "react";
 const SpecialistTable = ({ specialists, onEdit, onDelete }) => (
   console.log(specialists),
   (
-    <div className="bg-white p-4 rounded-lg">
+    <div className="bg-white/90 p-4 rounded-lg">
       <table className="w-full table-auto text-sm text-left">
         <thead className="text-[#631212] border-b border-[#d9b8aa]">
           <tr className="border-b border-[#edd5c6]">
             <th className="py-2 px-4">Name</th>
-            <th className="py-2 px-4">Specialty</th>
+            <th className="py-2 px-4">Specialties</th>
             <th className="py-2 px-4">Phone</th>
             <th className="py-2 px-4">Email</th>
             <th className="py-2 px-4">Actions</th>
@@ -18,7 +18,9 @@ const SpecialistTable = ({ specialists, onEdit, onDelete }) => (
           {specialists.map((specialist) => (
             <tr key={specialist._id} className="border-b border-[#edd5c6]">
               <td className="py-2 px-4">{specialist.name}</td>
-              <td className="py-2 px-4">{specialist.expertise.name}</td>
+              <td className="py-2 px-4">
+                {specialist.expertise.map((exp) => exp.name).join(" | ")}
+              </td>
               <td className="py-2 px-4">{specialist.phone || "-"}</td>
               <td className="py-2 px-4">{specialist.email || "-"}</td>
               <td className="py-2 px-4 flex gap-2">

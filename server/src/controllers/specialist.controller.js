@@ -7,6 +7,7 @@ import {
 } from "../utils/cloudinary.js";
 import { Specialist } from "../models/specialist.model.js";
 import { Service } from "../models/service.model.js";
+
 const createSpecialist = asyncHandler(async (req, res) => {
   const {
     name,
@@ -17,6 +18,7 @@ const createSpecialist = asyncHandler(async (req, res) => {
     availableTo,
     phone,
   } = req.body;
+
   if (
     !name ||
     !email ||
@@ -28,51 +30,63 @@ const createSpecialist = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All fields are required");
   }
+
   const existingSpecialist = await Specialist.findOne({ email });
   if (existingSpecialist) {
     throw new ApiError(400, "Specialist already exists with this email");
   }
 
-  // Find the service by id (expertise should be service id)
-  const existedService = await Service.findOne({ name: expertise });
-  if (!existedService) {
-    throw new ApiError(400, "Selected Speciality not found");
-  }
   const imageLocalPath = req.file?.path;
   if (!imageLocalPath) {
     throw new ApiError(400, "Image file is required");
   }
+
   const image = await uploadOnCloudinary(imageLocalPath);
   if (!image) {
-    throw new ApiError(400, "Image file is required");
+    throw new ApiError(400, "Image upload failed");
   }
+
+  // Ensure all expertise IDs are valid Service IDs
+  const expertiseArray = Array.isArray(expertise) ? expertise : [expertise];
+  const validServices = await Service.find({ _id: { $in: expertiseArray } });
+
+  if (validServices.length !== expertiseArray.length) {
+    throw new ApiError(400, "Some selected specialties are invalid");
+  }
+
   const specialist = await Specialist.create({
     name,
     email,
+    phone,
+    availableFrom,
+    availableTo,
+    availableDays,
+    expertise: expertiseArray,
     image: {
       url: image.url,
       publicId: image.public_id,
     },
-    expertise: existedService._id, // Set service id in expertise
-    availableDays,
-    availableFrom,
-    availableTo,
-    phone,
   });
+
   return res
     .status(201)
-    .json(new ApiResponse(200, specialist, "Specialist created successfully"));
+    .json(new ApiResponse(201, specialist, "Specialist created successfully"));
 });
 
 const getAllSpecialists = asyncHandler(async (req, res) => {
-  const specialists = await Specialist.find().populate("expertise", "name");
+  const specialists = await Specialist.find().populate({
+    path: "expertise",
+    select: "name _id", // Include name and optionally _id
+  });
+
   if (!specialists || specialists.length === 0) {
     throw new ApiError(404, "No specialists found");
   }
+
   return res
     .status(200)
     .json(
-      new ApiResponse(200, specialists, "All Specialist fetched Successfully")
+      new ApiResponse(200, specialists, "All specialists fetched successfully")
     );
 });
 
@@ -88,7 +102,6 @@ const updateSpecialist = asyncHandler(async (req, res) => {
     phone,
   } = req.body;
 
-  // Validate input fields
   if (
     !name ||
     !email ||
@@ -106,47 +119,45 @@ const updateSpecialist = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Specialist not found");
   }
 
-  // Find the service by id (expertise should be service id)
-  const existedService = await Service.findOne({ name: expertise });
-  if (!existedService) {
-    throw new ApiError(400, "Selected Speciality not found");
+  // Validate expertise
+  const expertiseArray = Array.isArray(expertise) ? expertise : [expertise];
+  const validServices = await Service.find({ _id: { $in: expertiseArray } });
+
+  if (validServices.length !== expertiseArray.length) {
+    throw new ApiError(400, "Some selected specialties are invalid");
   }
 
-  let ImageToBeUpdated = existingSpecialist.image;
+  let updatedImage = existingSpecialist.image;
 
-  // If new image provided, upload and delete old one
   if (req.file?.path) {
-    const specialistImageLocalPath = req.file.path;
+    const newImage = await uploadOnCloudinary(req.file.path);
 
-    const image = await uploadOnCloudinary(specialistImageLocalPath);
-    if (!image) {
+    if (!newImage) {
       throw new ApiError(400, "Image upload failed");
     }
 
-    // Delete old image from Cloudinary
     if (existingSpecialist.image?.publicId) {
       await deleteImageFromCloudinary(existingSpecialist.image.publicId);
     }
 
-    ImageToBeUpdated = {
-      url: image.url,
-      publicId: image.public_id,
+    updatedImage = {
+      url: newImage.url,
+      publicId: newImage.public_id,
     };
   }
 
-  // Update the specialist
   const updatedSpecialist = await Specialist.findByIdAndUpdate(
     id,
     {
       $set: {
         name,
         email,
-        expertise: existedService._id,
-        availableDays,
+        phone,
         availableFrom,
         availableTo,
-        phone,
-        image: ImageToBeUpdated,
+        availableDays,
+        expertise: expertiseArray,
+        image: updatedImage,
       },
     },
     { new: true }
@@ -162,14 +173,11 @@ const updateSpecialist = asyncHandler(async (req, res) => {
 const deleteSpecialist = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  // Delete the specialist from the database
   const deletedSpecialist = await Specialist.findByIdAndDelete(id);
-
   if (!deletedSpecialist) {
     throw new ApiError(404, "Specialist not found");
   }
 
-  // Delete the image from Cloudinary
   if (deletedSpecialist.image?.publicId) {
     await deleteImageFromCloudinary(deletedSpecialist.image.publicId);
   }

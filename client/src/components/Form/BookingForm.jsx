@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
 import { fetchSpecialists } from "../../api/specialist.Api.js";
 import Spinner from "../Spinner.jsx";
+import { useMemo } from "react";
 
 const BookingForm = ({ isAuthenticated = false }) => {
   const userData = useSelector((state) => state.userAuth.user);
@@ -108,6 +109,28 @@ const BookingForm = ({ isAuthenticated = false }) => {
     specialists,
     services,
   ]);
+
+  const filteredSpecialists = useMemo(() => {
+    if (!selectedService) return specialists;
+    return specialists.filter((sp) =>
+      sp.expertise?.some((exp) =>
+        typeof exp === "string"
+          ? services.find((s) => s._id === exp)?.name === selectedService
+          : exp?.name === selectedService
+      )
+    );
+  }, [selectedService, specialists, services]);
+
+  const filteredServices = useMemo(() => {
+    if (!selectedSpecialist) return services;
+    const selected = specialists.find((sp) => sp.name === selectedSpecialist);
+    if (!selected) return services;
+    return services.filter((s) =>
+      selected.expertise?.some((exp) =>
+        typeof exp === "string" ? exp === s._id : exp?._id === s._id
+      )
+    );
+  }, [selectedSpecialist, specialists, services]);
 
   const onSubmit = async (data) => {
     dispatch(startLoading());
@@ -251,7 +274,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
                 }`}
               >
                 <option value="">service</option>
-                {services.map((service) => (
+                {filteredServices.map((service) => (
                   <option key={service._id} value={service.name}>
                     {service.name}
                   </option>
@@ -278,7 +301,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
                 }`}
               >
                 <option value="">specialist</option>
-                {specialists.map((sp) => (
+                {filteredSpecialists.map((sp) => (
                   <option key={sp._id} value={sp.name}>
                     {sp.name}
                   </option>

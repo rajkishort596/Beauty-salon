@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, useWatch, Controller } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import Input from "./Input/Input";
 
 const WEEKDAYS = [
@@ -13,6 +13,10 @@ const WEEKDAYS = [
 ];
 
 const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
+  const normalizedExpertise = (initialData?.expertise || []).map((e) =>
+    typeof e === "string" ? e : e._id
+  );
+
   const {
     register,
     control,
@@ -22,7 +26,7 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
   } = useForm({
     defaultValues: {
       name: initialData?.name || "",
-      expertise: initialData?.expertise.name || "",
+      expertise: normalizedExpertise, // array of _ids as strings
       phone: initialData?.phone || "",
       email: initialData?.email || "",
       availableFrom: initialData?.availableFrom || "",
@@ -30,22 +34,20 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
       availableDays: initialData?.availableDays || [],
     },
   });
-  console.log(initialData?.expertise.name);
+
   const specialistImage = useWatch({ control, name: "image" });
+  const selectedDays = useWatch({ control, name: "availableDays" }) || [];
+  const selectedExpertise = useWatch({ control, name: "expertise" }) || [];
+
   const imagePreview = specialistImage?.[0]
     ? URL.createObjectURL(specialistImage[0])
     : initialData?.image?.url || null;
 
-  // Modern weekday selector
-  const selectedDays = useWatch({ control, name: "availableDays" }) || [];
-
   const toggleDay = (day) => {
-    let newDays = [];
-    if (selectedDays.includes(day)) {
-      newDays = selectedDays.filter((d) => d !== day);
-    } else {
-      newDays = [...selectedDays, day];
-    }
+    const newDays = selectedDays.includes(day)
+      ? selectedDays.filter((d) => d !== day)
+      : [...selectedDays, day];
+
     setValue("availableDays", newDays, { shouldValidate: true });
   };
 
@@ -53,15 +55,20 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
     const formData = new FormData();
     formData.append("image", data.image?.[0]);
     formData.append("name", data.name);
-    formData.append("expertise", data.expertise);
     formData.append("phone", data.phone);
     formData.append("email", data.email);
-    // Append each day as a separate entry
+
     data.availableDays.forEach((day) => {
       formData.append("availableDays[]", day);
     });
+
+    data.expertise.forEach((id) => {
+      formData.append("expertise[]", id);
+    });
+
     formData.append("availableTo", data.availableTo);
     formData.append("availableFrom", data.availableFrom);
+
     onSubmit(formData);
   };
 
@@ -76,30 +83,6 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
         {...register("name", { required: "Name is required" })}
         error={errors.name?.message}
       />
-      {/* Service Select */}
-      <div className="flex flex-col gap-1">
-        <label className="font-abhaya text-black text-2xl">Specialty</label>
-        <select
-          {...register("expertise", { required: "Select a specialty" })}
-          className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-            errors.expertise
-              ? "border-red-500 focus:ring-red-300"
-              : "focus:ring-primary border-text-muted"
-          }`}
-        >
-          <option value="">specialty</option>
-          {services.map((service) => (
-            <option key={service._id} value={service.name}>
-              {service.name}
-            </option>
-          ))}
-        </select>
-        {errors.expertise && (
-          <p className="text-red-600 text-sm mt-1">
-            {errors.expertise.message}
-          </p>
-        )}
-      </div>
       <Input
         label="Phone"
         placeholder="Phone"
@@ -114,9 +97,26 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
         error={errors.email?.message}
       />
 
-      {/* Modern Days Selector */}
+      <div className="grid grid-cols-2 gap-x-5">
+        <Input
+          label="Available from"
+          placeholder="Available from"
+          type="time"
+          {...register("availableFrom")}
+          error={errors.availableFrom?.message}
+        />
+        <Input
+          label="Available to"
+          placeholder="Available to"
+          type="time"
+          {...register("availableTo")}
+          error={errors.availableTo?.message}
+        />
+      </div>
+
+      {/* Available Days */}
       <div className="flex flex-col gap-1 col-span-2">
-        <label className="font-abhaya text-black text-2xl mb-2">
+        <label className="font-abhaya text-black text-xl mb-2">
           Available Days
         </label>
         <div className="flex flex-wrap gap-2">
@@ -125,7 +125,7 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
               type="button"
               key={day}
               onClick={() => toggleDay(day)}
-              className={`px-4 py-2 rounded-full border transition cursor-pointer
+              className={`px-4 py-1 rounded-full border transition cursor-pointer
                 ${
                   selectedDays.includes(day)
                     ? "bg-primary text-white border-primary shadow"
@@ -144,23 +144,49 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
         )}
       </div>
 
-      <Input
-        label="Available from"
-        placeholder="Available from"
-        type="time"
-        {...register("availableFrom")}
-        error={errors.availableFrom?.message}
-      />
-      <Input
-        label="Available to"
-        placeholder="Available to"
-        type="time"
-        {...register("availableTo")}
-        error={errors.availableTo?.message}
-      />
+      {/* Expertise (Services) */}
+      <div className="flex flex-col gap-1 col-span-2">
+        <label className="font-abhaya text-black text-2xl mb-2">
+          Specialties
+        </label>
+        <div className="flex flex-wrap w-full gap-2">
+          {services.map((service) => (
+            <label
+              key={service._id}
+              className={`flex items-center gap-2 p-1 rounded shadow-sm border cursor-pointer transition
+                ${
+                  selectedExpertise.map(String).includes(service._id.toString())
+                    ? "bg-primary text-white border-primary"
+                    : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary hover:text-white"
+                }
+              `}
+            >
+              <input
+                type="checkbox"
+                value={service._id}
+                checked={selectedExpertise
+                  .map(String)
+                  .includes(service._id.toString())}
+                {...register("expertise", {
+                  validate: (value) =>
+                    value?.length > 0 || "Select at least one specialty",
+                })}
+                className="accent-primary"
+              />
+              <span className="text-xs">{service.name}</span>
+            </label>
+          ))}
+        </div>
+        {errors.expertise && (
+          <p className="text-red-600 text-sm mt-1">
+            {errors.expertise.message}
+          </p>
+        )}
+      </div>
+
       {/* Image Upload */}
-      <div className="col-span-2">
-        <label className="font-abhaya text-black text-2xl mb-2 block">
+      <div className="items-end mb-0">
+        <label className="font-abhaya text-black text-xl mb-2 block">
           Specialist Image
         </label>
         <div className="flex items-center w-full gap-4">
@@ -193,17 +219,19 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
           )}
         </div>
       </div>
-      <div className="flex gap-2 col-span-2 justify-center">
+
+      {/* Submit / Cancel */}
+      <div className="flex gap-2 justify-end items-end">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 border rounded cursor-pointer hover:bg-gray-100"
+          className="px-8 py-2 border rounded cursor-pointer hover:bg-gray-100 h-[50px]"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-primary text-white rounded cursor-pointer"
+          className="px-8 py-2 bg-primary text-white rounded cursor-pointer h-[50px]"
         >
           {initialData?._id ? "Update" : "Create"}
         </button>

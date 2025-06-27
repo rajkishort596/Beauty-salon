@@ -28,11 +28,13 @@ const specialistSchema = new Schema(
         required: true,
       },
     },
-    expertise: {
-      type: Schema.Types.ObjectId,
-      ref: "Service",
-      required: true,
-    }, // e.g., Haircut, Facial
+    expertise: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Service",
+        required: true,
+      },
+    ], // e.g., [Haircut, Facial]
     availableDays: {
       type: [String], // e.g., ["Monday", "Wednesday"]
       required: true,
