@@ -66,6 +66,14 @@ const AdminSidebar = () => {
           icon={{ active: images.starIcon, inactive: images.blackStarIcon }}
         />
         <NavItem
+          to="/admin/discounts"
+          label="Discounts"
+          icon={{
+            active: images.percentIcon,
+            inactive: images.blackPercentIcon,
+          }}
+        />
+        <NavItem
           to="/admin/settings"
           label="Settings"
           icon={{ active: images.gearIcon, inactive: images.blackGearIcon }}

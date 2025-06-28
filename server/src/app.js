@@ -30,6 +30,7 @@ import userRouter from "./routes/user.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import servicePublicRouter from "./routes/service.public.routes.js";
 import specialistPublicRouter from "./routes/specialist.public.routes.js";
+import discountPublicRouter from "./routes/discount.public.routes.js";
 import reviewRouter from "./routes/review.routes.js";
 import otpRouter from "./routes/otp.routes.js";
 import publicRouter from "./routes/public.routes.js";
@@ -39,6 +40,7 @@ app.use("/api/v1/services", servicePublicRouter);
 app.use("/api/v1/specialists", specialistPublicRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/discounts", discountPublicRouter);
 app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/contact-info", publicRouter);
 

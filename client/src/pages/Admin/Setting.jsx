@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Input from "../../components/Form/Input/Input";
-import { FiUser, FiBell, FiSettings, FiLock } from "react-icons/fi";
+import { FiUser, FiPercent, FiLock } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { changePassword, updateAdminProfile } from "../../api/auth.Api";
 import ProfileUploader from "../../components/ProfileUploader";
@@ -11,7 +11,6 @@ import Spinner from "../../components/Spinner";
 const tabs = [
   { key: "account", label: "Account Setting", icon: <FiUser /> },
   { key: "password", label: "Change Password", icon: <FiLock /> },
-  { key: "theme", label: "Theme Setting", icon: <FiSettings /> },
 ];
 
 const Setting = () => {
@@ -231,50 +230,6 @@ const Setting = () => {
                 </div>
               </div>
             </form>
-
-            {/* Password Update Form */}
-            {/* <form
-              className="flex flex-col gap-4 w-full"
-              onSubmit={handlePasswordSubmit(onPasswordChange)}
-              autoComplete="off"
-            >
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                🔐 Change Password
-              </h2>
-              <Input
-                label="Current Password"
-                name="currentPassword"
-                type="password"
-                {...registerPassword("currentPassword", {
-                  required: "Current Password is required",
-                })}
-                error={passwordErrors.currentPassword?.message}
-              />
-              <Input
-                label="New Password"
-                name="newPassword"
-                type="password"
-                {...registerPassword("newPassword", {
-                  required: "New Password is required",
-                })}
-                error={passwordErrors.newPassword?.message}
-              />
-              <Input
-                label="Confirm New Password"
-                name="confirmPassword"
-                type="password"
-                {...registerPassword("confirmPassword", {
-                  required: "Confirm Password is required",
-                })}
-                error={passwordErrors.confirmPassword?.message}
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-primary text-white rounded shadow cursor-pointer mt-2"
-              >
-                Update Password
-              </button>
-            </form> */}
           </div>
         );
 
@@ -328,19 +283,6 @@ const Setting = () => {
                 </button>
               )}
             </form>
-          </div>
-        );
-
-      case "theme":
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              Theme Preferences
-            </h2>
-            <p className="text-gray-600">
-              Choose light or dark mode and accent color.
-            </p>
-            {/* Add theme selector here */}
           </div>
         );
 

@@ -11,6 +11,7 @@ import {
 import serviceAdminRouter from "./service.admin.routes.js";
 import bookingRouter from "./booking.routes.js";
 import SpecialistAdminRouter from "./specialist.admin.routes.js";
+import discountAdminRouter from "./discount.admin.routes.js";
 import { approveReview } from "../controllers/review.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { refreshAdminAccessToken } from "../utils/refreshToken.js";
@@ -32,5 +33,6 @@ router.route("/reviews/:reviewId/approve").patch(verifyAdminJWT, approveReview);
 router.use("/bookings", verifyAdminJWT, bookingRouter);
 router.use("/services", verifyAdminJWT, serviceAdminRouter);
 router.use("/specialists", verifyAdminJWT, SpecialistAdminRouter);
+router.use("/discounts", verifyAdminJWT, discountAdminRouter);
 
 export default router;

@@ -15,12 +15,14 @@ const AUTH_WHITELIST = [
   "/users/reset-password",
   "/users/refresh-token",
   "/admin/login",
+  "/admin/discounts",
   "/admin/refresh-token",
   "/otp/send-otp",
   "/otp/verify-otp",
   "/services", // public GET
   "/specialists", // public GET
   "/reviews", // public GET
+  "discounts",
   "/contact-info",
   // add more if you add more public/auth routes in the future
 ];

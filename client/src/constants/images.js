@@ -68,6 +68,8 @@ import TreatmentImg from "../assets/images/Treatment-Img.jpg";
 import XIcon from "../assets/images/X-Icon.svg";
 import ProfileImg from "../assets/images/Profile-Img.png";
 import LogoutIcon from "../assets/images/Logout-Icon.svg";
+import PercentIcon from "../assets/images/Percent-Icon.svg";
+import BlackPercentIcon from "../assets/images/BlackPercent-Icon.svg";
 
 const images = {
   ProfileImg: ProfileImg,
@@ -99,6 +101,8 @@ const images = {
   customer1: Customer1,
   customer2: Customer2,
   customer3: Customer3,
+  percentIcon: PercentIcon,
+  blackPercentIcon: BlackPercentIcon,
   makeupServiceImg: MakeupServiceImg,
   nailcareServiceImg: NailcareServiceImg,
   hairstyleServiceImg: HairstyleServiceImg,

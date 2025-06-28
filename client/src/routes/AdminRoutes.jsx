@@ -7,6 +7,7 @@ import Service from "../pages/Admin/Service";
 import Specialist from "../pages/Admin/Specialist";
 import Reviews from "../pages/Admin/Review";
 import Setting from "../pages/Admin/Setting";
+import Discount from "../pages/Admin/Discount";
 
 const AdminRoutes = (
   <>
@@ -18,6 +19,7 @@ const AdminRoutes = (
       <Route path="specialists" element={<Specialist />} />
       <Route path="reviews" element={<Reviews />} />
       <Route path="settings" element={<Setting />} />
+      <Route path="discounts" element={<Discount />} />
       {/* Other admin routes */}
     </Route>
   </>
