@@ -8,18 +8,26 @@ import DiscountSection from "../../sections/About Us/DiscountSection";
 import BrandLogoSection from "../../sections/About Us/BrandLogoSection";
 import OurTeam from "../../sections/About Us/OurTeam";
 import { fetchSpecialists } from "../../api/specialist.Api";
+import { fetchAllDiscounts } from "../../api/discount.Api";
+import { toast } from "react-toastify";
 
 const About = () => {
   const [specialists, setSpecialists] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
+  const [loading, setLoading] = useState(true);
   // Fetch all specialists
   useEffect(() => {
     const loadData = async () => {
       try {
         const res = await fetchSpecialists();
-        // console.log(res);
+        const discount = await fetchAllDiscounts();
+        console.log(discount.data.data);
         setSpecialists(res.data.data);
+        setDiscounts(discount.data.data);
       } catch (error) {
-        console.error("Specialist loading error", error);
+        const msg = error.response?.data?.message;
+        toast.error(msg);
+        console.error("Data Loading Failed", msg);
       } finally {
         setLoading(false);
       }
@@ -34,7 +42,7 @@ const About = () => {
       <CityStyleSection />
       <BrandLogoSection />
       <OurTeam specialists={specialists} />
-      <DiscountSection />
+      <DiscountSection discounts={discounts} />
     </div>
   );
 };

@@ -172,10 +172,6 @@ const Specialist = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="Total Specialists" value={specialists.length} />
-        <StatCard
-          label="Specialties"
-          value={[...new Set(specialists.map((s) => s.expertise.name))].length}
-        />
       </div>
 
       {/* Table */}

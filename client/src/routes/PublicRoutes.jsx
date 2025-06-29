@@ -8,6 +8,7 @@ import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import Appointment from "../pages/Appointment";
 
 const PublicRoutes = (
   <>
@@ -17,6 +18,7 @@ const PublicRoutes = (
       <Route path="contact" element={<Contact />} />
       <Route path="service" element={<Service />} />
     </Route>
+    <Route path="/appointment" element={<Appointment />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />

@@ -17,10 +17,7 @@ import {
   deleteDiscount,
 } from "../../api/discount.Api";
 
-import { startLoading, stopLoading } from "../../features/loading/loadingSlice";
-
 const Discount = () => {
-  const dispatch = useDispatch();
   const [discounts, setDiscounts] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);

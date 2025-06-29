@@ -23,6 +23,7 @@ const DiscountForm = ({ initialData = {}, onSubmit, onCancel }) => {
       title: initialData?.title || "",
       percentage: initialData?.percentage || "",
       category: initialData?.category || [],
+      description: initialData?.description || "",
       validFrom: initialData?.validFrom?.slice(0, 10) || "",
       validTill: initialData?.validTill?.slice(0, 10) || "",
     },
@@ -94,8 +95,8 @@ const DiscountForm = ({ initialData = {}, onSubmit, onCancel }) => {
       </div>
 
       {/* Category Toggle Buttons */}
-      <div className="space-y-2">
-        <label className="font-abhaya text-black text-xl">Category</label>
+      <div className="space-y-2 mb-4">
+        <label className="font-abhaya text-black text-xl block">Category</label>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => {
             const isSelected = selectedCategories.includes(cat);
@@ -116,26 +117,69 @@ const DiscountForm = ({ initialData = {}, onSubmit, onCancel }) => {
             );
           })}
         </div>
+        <input
+          type="hidden"
+          {...register("category", {
+            validate: (value) =>
+              value.length > 0 || "Please select at least one category.",
+          })}
+        />
+
         {errors.category && (
           <p className="text-red-600 text-sm mt-1">{errors.category.message}</p>
         )}
       </div>
-
+      {/* Description */}
+      <div className="col-span-2">
+        <label className="font-abhaya text-black text-2xl">Description</label>
+        <textarea
+          placeholder="Optional"
+          className={`border p-2 w-full focus:outline-none focus:ring-1 rounded-sm ${
+            errors.description
+              ? "border-red-500 focus:ring-red-300"
+              : "focus:ring-primary border-text-muted"
+          }`}
+          {...register("description")}
+        />
+        {errors.description && (
+          <p className="text-red-600 text-sm">{errors.description.message}</p>
+        )}
+      </div>
       {/* Valid From - To */}
       <div className="flex gap-4">
         <Input
           name="validFrom"
           label="Valid From"
-          {...register("validFrom")}
+          {...register("validFrom", {
+            required: "Valid From date is required.", // Required rule
+          })}
           type="date"
           className="flex-1 border border-gray-300 rounded p-2"
+          error={errors.validFrom?.message}
         />
+        {/* Valid Till Input */}
         <Input
           label="Valid Till"
           name="validTill"
-          {...register("validTill")}
+          {...register("validTill", {
+            required: "Valid Till date is required.",
+            validate: (value) => {
+              // validation for 'not past date'
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+
+              const validTillDate = new Date(value);
+              validTillDate.setHours(0, 0, 0, 0);
+
+              return (
+                validTillDate >= today ||
+                "Valid Till date cannot be in the past."
+              );
+            },
+          })}
           type="date"
           className="flex-1 border border-gray-300 rounded p-2"
+          error={errors.validTill?.message}
         />
       </div>
 

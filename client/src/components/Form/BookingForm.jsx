@@ -156,8 +156,8 @@ const BookingForm = ({ isAuthenticated = false }) => {
   };
 
   return (
-    <div className="bg-bg w-full px-4 py-15 md:px-18">
-      <div className="bg-white p-10 flex flex-col items-center lg:flex-row gap-2.5">
+    <div className="bg-bg w-full px-4 py-15 md:px-18 min-h-screen flex justify-center items-center">
+      <div className="bg-white p-10 flex flex-col items-center lg:flex-row gap-2.5 w-full">
         <div className="w-full lg:w-1/3">
           <img
             src={images.makeupImg}
@@ -170,7 +170,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
             className="hidden lg:block w-full h-full object-fill rounded-md"
           />
         </div>
-        <div className="w-full lg:w-2/3 items-center lg:items-start flex flex-col gap-4 p-5">
+        <div className="w-full lg:w-2/3 items-center lg:items-start flex flex-col gap-4 px-5">
           <p className="text-primary capitalize">Beauty Salon</p>
           <h3 className="text-black font-abhaya font-bold text-3xl md:text-5xl">
             Book appointment
@@ -182,7 +182,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5"
+            className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 "
           >
             <Input
               type="text"

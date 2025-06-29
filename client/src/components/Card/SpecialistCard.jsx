@@ -20,11 +20,7 @@ const SpecialistCard = ({ name, role, image }) => {
           alt="instagram"
           className="w-5 cursor-pointer"
         />
-        <img
-          src={images.instaIcon}
-          alt="twitter"
-          className="w-5 cursor-pointer"
-        />
+        <img src={images.xIcon} alt="twitter" className="w-5 cursor-pointer" />
       </div>
     </div>
   );
