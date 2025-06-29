@@ -58,17 +58,19 @@ const ReviewForm = ({ isAuthenticated = false, services }) => {
               className="w-full flex flex-col gap-4"
             >
               {/* Service Select */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 w-full">
                 <label className="font-abhaya text-black text-xl">
                   Service
                 </label>
                 <select
                   {...register("service", { required: "Select a service" })}
-                  className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                    errors.service
-                      ? "border-red-500 focus:ring-red-300"
-                      : "focus:ring-primary border-text-muted"
-                  }`}
+                  className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+                            ${
+                              errors.service
+                                ? "border-red-500 focus:ring-red-300 text-red-600"
+                                : "border-gray-300 focus:ring-primary"
+                            }
+                            focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
                 >
                   <option value="">Select service</option>
                   {services.map((service) => (
@@ -84,16 +86,18 @@ const ReviewForm = ({ isAuthenticated = false, services }) => {
                 )}
               </div>
 
-              {/* Rating */}
-              <div className="flex flex-col gap-1">
+              {/* Rating Select */}
+              <div className="flex flex-col gap-1 w-full">
                 <label className="font-abhaya text-black text-xl">Rating</label>
                 <select
                   {...register("rating", { required: "Select a rating" })}
-                  className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                    errors.rating
-                      ? "border-red-500 focus:ring-red-300"
-                      : "focus:ring-primary border-text-muted"
-                  }`}
+                  className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+                            ${
+                              errors.rating
+                                ? "border-red-500 focus:ring-red-300 text-red-600"
+                                : "border-gray-300 focus:ring-primary"
+                            }
+                            focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
                 >
                   <option value="">Select rating</option>
                   {[1, 2, 3, 4, 5].map((num) => (
@@ -109,8 +113,8 @@ const ReviewForm = ({ isAuthenticated = false, services }) => {
                 )}
               </div>
 
-              {/* Comment */}
-              <div className="flex flex-col gap-1">
+              {/* Comment Textarea */}
+              <div className="flex flex-col gap-1 w-full">
                 <label className="font-abhaya text-black text-xl">
                   Comment
                 </label>
@@ -121,11 +125,13 @@ const ReviewForm = ({ isAuthenticated = false, services }) => {
                   })}
                   rows={4}
                   placeholder="Write your review..."
-                  className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                    errors.comment
-                      ? "border-red-500 focus:ring-red-300"
-                      : "focus:ring-primary border-text-muted"
-                  }`}
+                  className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none resize-none
+                            ${
+                              errors.comment
+                                ? "border-red-500 focus:ring-red-300 text-red-600"
+                                : "border-gray-300 focus:ring-primary"
+                            }
+                            focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
                 />
                 {errors.comment && (
                   <p className="text-red-600 text-sm mt-1">
@@ -139,7 +145,7 @@ const ReviewForm = ({ isAuthenticated = false, services }) => {
               ) : (
                 <button
                   type="submit"
-                  className="btn-primary w-full text-xl max-w-50 mt-2 cursor-pointer"
+                  className="btn-primary w-full text-xl max-w-50 mt-2 cursor-pointer hover:translate-y-1 rounded-sm transition"
                   disabled={!isAuthenticated}
                 >
                   Submit Review

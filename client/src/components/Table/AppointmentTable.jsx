@@ -7,9 +7,9 @@ const AppointmentTable = ({
   onStatusChange,
   onDelete,
 }) => (
-  <div className="bg-white relative z-5 p-4 rounded-lg overflow-x-auto">
-    <table className="w-full table-auto text-sm text-left">
-      <thead className="text-[#631212] border-b border-[#d9b8aa]">
+  <div className="bg-white/60 backdrop-blur-lg relative z-5 p-6 rounded-xl shadow-lg border border-gray-200 overflow-x-auto">
+    <table className="w-full table-auto text-sm text-left text-gray-800">
+      <thead className="text-primary font-semibold border-b border-gray-300">
         <tr>
           <th className="py-2 px-4">Name</th>
           <th className="py-2 px-4">Date</th>
@@ -32,7 +32,10 @@ const AppointmentTable = ({
           </tr>
         ) : (
           appointments.map((appt) => (
-            <tr key={appt._id} className="border-b border-[#edd5c6]">
+            <tr
+              key={appt._id}
+              className="border-b border-gray-200 hover:bg-white/70 transition"
+            >
               <td className="py-2 px-4">{appt.user?.fullName || "-"}</td>
               <td className="py-2 px-4">{formatDate(appt.bookingDate)}</td>
               <td className="py-2 px-4">{appt.service?.name}</td>
@@ -43,22 +46,24 @@ const AppointmentTable = ({
                 <>
                   <td className="py-2 px-4">
                     <select
-                      className={`py-2 px-4 border cursor-pointer focus:outline-none font-semibold focus:ring-primary focus:ring-1 rounded-sm ${
-                        appt.status === "confirmed"
-                          ? "text-green-600"
-                          : appt.status === "cancelled"
-                          ? "text-red-600"
-                          : appt.status === "completed"
-                          ? "text-blue-600"
-                          : "text-yellow-600"
-                      }`}
+                      className={`px-3 py-2 rounded-md border transition-all duration-300 outline-none shadow-sm hover:shadow-md cursor-pointer
+                        focus:ring-2 focus:border-transparent focus:ring-primary font-semibold
+                        ${
+                          appt.status === "confirmed"
+                            ? "text-green-600"
+                            : appt.status === "cancelled"
+                            ? "text-red-600"
+                            : appt.status === "completed"
+                            ? "text-blue-600"
+                            : "text-yellow-600"
+                        }`}
                       value={appt.status}
                       onChange={(e) => onStatusChange(appt._id, e.target.value)}
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="cancelled">Cancelled</option>
-                      <option value="completed">completed</option>
+                      <option value="completed">Completed</option>
                     </select>
                   </td>
                   <td className="py-2 px-4">

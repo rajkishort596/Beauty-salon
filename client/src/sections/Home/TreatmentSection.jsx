@@ -1,6 +1,8 @@
 import React from "react";
 import images from "../../constants/images";
+import { useNavigate } from "react-router-dom";
 const TreatmentSection = () => {
+  const navigate = useNavigate();
   const treatments = [
     { name: "Nail care", price: "$25" },
     { name: "Hair Styling", price: "$30" },
@@ -9,13 +11,13 @@ const TreatmentSection = () => {
     { name: "SPA procedures", price: "$40" },
   ];
   return (
-    <section className="flex flex-col lg:flex-row gap-5 px-4 py-12 md:px-18 md:py-15">
+    <section className="flex flex-col lg:flex-row gap-10 px-4 py-16 md:px-20 items-center bg-gradient-to-b from-white to-pink-50">
       {/* Left Image */}
-      <div className="w-full">
+      <div className="w-full max-w-xl overflow-hidden rounded-3xl shadow-lg group">
         <img
           src={images.treatmentImg}
           alt="Our treatments"
-          className="w-full h-[500px] object-cover"
+          className="w-full h-[500px] object-cover transform transition-transform duration-700 group-hover:scale-105"
         />
       </div>
 
@@ -41,7 +43,10 @@ const TreatmentSection = () => {
             ))}
           </ul>
 
-          <button className="mt-4 text-primary underline hover:opacity-80">
+          <button
+            className="mt-4 btn-primary hover:translate-y-1 md:max-w-[200px] px-6 py-2 rounded-sm transition"
+            onClick={() => navigate("/service")}
+          >
             View all
           </button>
         </div>

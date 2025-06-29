@@ -55,7 +55,7 @@ const DiscountSection = ({ discounts = [] }) => {
           </h3>
           <button
             onClick={handleBookNow}
-            className="btn-primary md:px-18 text-2xl"
+            className="btn-primary md:px-18 text-2xl hover:translate-y-1 rounded-sm transition"
           >
             Book now
           </button>

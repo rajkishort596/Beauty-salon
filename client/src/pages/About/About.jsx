@@ -10,6 +10,7 @@ import OurTeam from "../../sections/About Us/OurTeam";
 import { fetchSpecialists } from "../../api/specialist.Api";
 import { fetchAllDiscounts } from "../../api/discount.Api";
 import { toast } from "react-toastify";
+import Spinner from "../../components/Spinner";
 
 const About = () => {
   const [specialists, setSpecialists] = useState([]);
@@ -34,6 +35,14 @@ const About = () => {
     };
     loadData();
   }, []);
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-[90vh]">
+        <Spinner />
+      </div>
+    );
+
   return (
     <div>
       <Hero HeadingText="About Us" HeroImg={images.aboutHeroImg} />

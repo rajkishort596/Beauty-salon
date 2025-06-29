@@ -25,12 +25,6 @@ const ServiceItem = ({ title, subtitle, items, image, order = "left" }) => {
             </li>
           ))}
         </ul>
-        <a
-          href="#"
-          className="text-primary font-medium text-sm mt-2 inline-block"
-        >
-          View all
-        </a>
       </div>
     </div>
   );

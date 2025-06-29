@@ -107,7 +107,10 @@ const Reviews = () => {
         />
 
         <select
-          className="py-2 px-4 border focus:outline-none focus:ring-primary focus:ring-1 rounded-sm w-full md:w-1/3"
+          className="px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+        border-gray-300 focus:ring-primary
+        focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md
+         w-full md:w-1/3"
           // value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -121,7 +124,7 @@ const Reviews = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="Total Reviews" value={reviews.length} />
       </div>
-      <div className="w-full lg:w-2/3 rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
+      <div className="w-full lg:w-[90%] rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
         <ReviewsTable
           reviews={filtered}
           onApprove={handleApprove}

@@ -65,3 +65,17 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-bg);
 }
+
+.marquee {
+  display: inline-block;
+  animation: scroll-left 12s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

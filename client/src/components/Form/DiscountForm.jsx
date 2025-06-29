@@ -108,8 +108,8 @@ const DiscountForm = ({ initialData = {}, onSubmit, onCancel }) => {
                 className={clsx(
                   "px-4 py-1 rounded-full border text-sm transition cursor-pointer",
                   isSelected
-                    ? "bg-red-800 text-white border-red-800"
-                    : "bg-gray-100 text-gray-700 border-gray-300 hover:border-gray-400"
+                    ? "bg-primary text-white border-primary shadow"
+                    : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary hover:text-white"
                 )}
               >
                 {cat}

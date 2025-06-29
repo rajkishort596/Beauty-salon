@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Container from "../components/container/Container";
 import Footer from "../components/Footer/Footer";
@@ -8,6 +8,7 @@ import { fetchUserProfile } from "../api/auth.Api";
 import { setCredentials, logout } from "../features/auth/userAuthSlice";
 import { startLoading, stopLoading } from "../features/loading/loadingSlice";
 import Spinner from "../components/Spinner";
+import AnnouncementBanner from "../components/AnnouncementBanner";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
@@ -45,11 +46,13 @@ const RootLayout = () => {
 
   return (
     <Container>
+      <AnnouncementBanner />
       <Header isAuthenticated={isAuthenticated} userData={user} />
       <main className="min-h-screen overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />
+      <ScrollRestoration />
     </Container>
   );
 };

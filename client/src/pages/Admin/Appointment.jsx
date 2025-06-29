@@ -113,9 +113,11 @@ const Appointment = () => {
           placeholder="Search by User or Service"
           onChange={(e) => debouncedSearch(e.target.value)}
         />
-
         <select
-          className="py-2 px-4 border focus:outline-none focus:ring-primary focus:ring-1 rounded-sm w-full md:w-1/3"
+          className="w-full md:w-1/3 px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+        border-gray-300 focus:ring-primary
+        focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md
+        "
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >

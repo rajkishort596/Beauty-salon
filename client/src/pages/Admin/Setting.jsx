@@ -295,7 +295,7 @@ const Setting = () => {
     <div className="p-6 flex flex-col md:flex-row relative z-5 gap-6 min-h-[85vh]">
       {/* Sidebar */}
       <div className="w-full md:w-1/4">
-        <div className="bg-white rounded-xl shadow-md p-4 space-y-2">
+        <div className=" bg-white/60 backdrop-blur-lg rounded-xl shadow-lg p-4 space-y-2">
           {tabs.map((tab) => (
             <div
               key={tab.key}
@@ -314,7 +314,7 @@ const Setting = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 bg-white/90 rounded-xl shadow-md p-6">
+      <div className="flex-1 bg-white/60 backdrop-blur-lg rounded-xl shadow-lg p-10 space-y-2">
         {renderTabContent()}
       </div>
     </div>

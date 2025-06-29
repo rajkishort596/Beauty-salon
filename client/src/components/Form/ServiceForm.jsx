@@ -79,42 +79,52 @@ const ServiceForm = ({ initialData = {}, onSubmit, onCancel }) => {
         error={errors.duration?.message}
       />
       {/* Category Select */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 w-full">
         <label className="font-abhaya text-black text-2xl">Category</label>
         <select
           {...register("category", { required: "Category is required" })}
-          className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-            errors.category
-              ? "border-red-500 focus:ring-red-300"
-              : "focus:ring-primary border-text-muted"
-          }`}
+          className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+    ${
+      errors.category
+        ? "border-red-500 focus:ring-red-300 text-red-600"
+        : "border-gray-300 focus:ring-primary"
+    }
+    focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
         >
           <option value="">Category</option>
           <option value="Make up">Make up</option>
           <option value="Hair styling">Hair styling</option>
           <option value="Nail care">Nail care</option>
-          <option value="cosmetology">cosmetology</option>
+          <option value="cosmetology">Cosmetology</option>
           <option value="SPA procedures">SPA procedures</option>
         </select>
         {errors.category && (
           <p className="text-red-600 text-sm mt-1">{errors.category.message}</p>
         )}
       </div>
+
       {/* Description */}
-      <div className="col-span-2">
+      <div className="col-span-2 w-full">
         <label className="font-abhaya text-black text-2xl">Description</label>
         <textarea
-          className={`border p-2 w-full focus:outline-none focus:ring-1 rounded-sm ${
-            errors.description
-              ? "border-red-500 focus:ring-red-300"
-              : "focus:ring-primary border-text-muted"
-          }`}
           {...register("description", { required: "Description is required" })}
+          rows={5}
+          placeholder="Write a brief description..."
+          className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none resize-none w-full
+    ${
+      errors.description
+        ? "border-red-500 focus:ring-red-300 text-red-600"
+        : "border-gray-300 focus:ring-primary"
+    }
+    focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
         />
         {errors.description && (
-          <p className="text-red-600 text-sm">{errors.description.message}</p>
+          <p className="text-red-600 text-sm mt-1">
+            {errors.description.message}
+          </p>
         )}
       </div>
+
       {/* Image Upload */}
       <div className="col-span-2">
         <label className="font-abhaya text-black text-2xl mb-2 block">

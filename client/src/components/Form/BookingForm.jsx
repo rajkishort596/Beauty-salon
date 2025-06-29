@@ -235,18 +235,20 @@ const BookingForm = ({ isAuthenticated = false }) => {
               error={errors.bookingDate?.message}
             />
 
-            {/* Available Time Slot Dropdown */}
-            <div className="flex flex-col gap-1">
+            {/* Time Slot Select */}
+            <div className="flex flex-col gap-1 w-full">
               <label className="font-abhaya text-black text-2xl">Time</label>
               <select
                 {...register("timeSlot", {
                   required: "Please select a time slot",
                 })}
-                className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                  errors.timeSlot
-                    ? "border-red-500 focus:ring-red-300"
-                    : "focus:ring-primary border-text-muted"
-                }`}
+                className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+                          ${
+                            errors.timeSlot
+                              ? "border-red-500 focus:ring-red-300 text-red-600"
+                              : "border-gray-300 focus:ring-primary"
+                          }
+                          focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
               >
                 <option value="">-- Select Time --</option>
                 {availableSlots.map((slot, index) => (
@@ -263,17 +265,19 @@ const BookingForm = ({ isAuthenticated = false }) => {
             </div>
 
             {/* Service Select */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full">
               <label className="font-abhaya text-black text-2xl">Service</label>
               <select
                 {...register("service", { required: "Select a service" })}
-                className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                  errors.service
-                    ? "border-red-500 focus:ring-red-300"
-                    : "focus:ring-primary border-text-muted"
-                }`}
+                className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+    ${
+      errors.service
+        ? "border-red-500 focus:ring-red-300 text-red-600"
+        : "border-gray-300 focus:ring-primary"
+    }
+                            focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
               >
-                <option value="">service</option>
+                <option value="">Service</option>
                 {filteredServices.map((service) => (
                   <option key={service._id} value={service.name}>
                     {service.name}
@@ -288,19 +292,21 @@ const BookingForm = ({ isAuthenticated = false }) => {
             </div>
 
             {/* Specialist Select */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full">
               <label className="font-abhaya text-black text-2xl">
                 Specialist
               </label>
               <select
                 {...register("specialist", { required: "Select a specialist" })}
-                className={`py-2 px-4 border focus:outline-none focus:ring-1 rounded-sm ${
-                  errors.specialist
-                    ? "border-red-500 focus:ring-red-300"
-                    : "focus:ring-primary border-text-muted"
-                }`}
+                className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
+                          ${
+                            errors.specialist
+                              ? "border-red-500 focus:ring-red-300 text-red-600"
+                              : "border-gray-300 focus:ring-primary"
+                          }
+                          focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
               >
-                <option value="">specialist</option>
+                <option value="">Specialist</option>
                 {filteredSpecialists.map((sp) => (
                   <option key={sp._id} value={sp.name}>
                     {sp.name}
@@ -321,7 +327,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
             ) : (
               <button
                 type="submit"
-                className="btn-primary w-full lg:col-span-2 text-2xl"
+                className="btn-primary w-full lg:col-span-2 text-2xl hover:translate-y-1 rounded-sm transition"
               >
                 Book appointment
               </button>

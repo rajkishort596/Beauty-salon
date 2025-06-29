@@ -155,7 +155,7 @@ const Service = () => {
       </div>
 
       {/* Table */}
-      <div className="w-full lg:w-2/3 rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
+      <div className="w-full lg:w-[90%] rounded-lg relative z-5 h-auto max-h-[400px] overflow-auto">
         <ServiceTable
           services={filtered}
           onEdit={handleEdit}
