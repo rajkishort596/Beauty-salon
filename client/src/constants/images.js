@@ -10,7 +10,7 @@ import ScissorIcon from "../assets/images/Scissor-Icon.svg";
 import BlackHouseIcon from "../assets/images/BlackHouse-Icon.svg";
 import BlackGearIcon from "../assets/images/BlackGear-Icon.svg";
 import BlackStarIcon from "../assets/images/BlackStar-Icon.svg";
-import BlackCalenderIcon from "../assets/images/Blackcalendar-Icon.svg";
+import BlackCalenderIcon from "../assets/images/BlackCalendar-Icon.svg";
 import BlackScissorIcon from "../assets/images/BlackScissor-Icon.svg";
 import AboutHeroImg from "../assets/images/About-Hero-Img.png";
 import ContactHeroImg from "../assets/images/Contact-Hero-Img.png";
