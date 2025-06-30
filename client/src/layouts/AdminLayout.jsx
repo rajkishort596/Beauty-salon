@@ -2,7 +2,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import Container from "../components/container/Container";
+import Container from "../components/Container/Container";
 import AdminSidebar from "../sections/Admin/Dashboard/AdminSidebar";
 import AdminHeader from "../components/Header/AdminHeader";
 import AdminHeroImg from "../assets/images/Admin-Hero.png";

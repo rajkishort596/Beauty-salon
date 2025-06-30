@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
-import Container from "../components/container/Container";
+import Container from "../components/Container/Container";
 import Footer from "../components/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../api/auth.Api";
