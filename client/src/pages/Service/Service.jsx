@@ -21,12 +21,10 @@ const Service = () => {
         const res = await fetchAllServices();
 
         setServices(res.data.data);
-        console.log("Fetched services:", res.data.data);
       } catch (error) {
         console.error("Service loading error", error);
       } finally {
         setLoading(false);
-        // console.log(loading);
       }
     };
     loadData();

@@ -85,13 +85,11 @@ const Discount = () => {
       let updated;
       if (editDiscount) {
         updated = await updateDiscount(editDiscount._id, data);
-        console.log(updated);
         setDiscounts((prev) =>
           prev.map((d) => (d._id === updated._id ? updated : d))
         );
         toast.success("Discount updated");
       } else {
-        console.log(data);
         const created = await createDiscount(data);
         setDiscounts((prev) => [created, ...prev]);
         toast.success("Discount created");

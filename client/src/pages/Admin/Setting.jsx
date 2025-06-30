@@ -77,8 +77,6 @@ const Setting = () => {
     adminData.append("address", data.address);
     adminData.append("latitude", data.latitude);
     adminData.append("longitude", data.longitude);
-    // console.log(data);
-    // console.log(adminData);
     try {
       await updateAdminProfile(adminData);
       toast.success("Profile updated!");

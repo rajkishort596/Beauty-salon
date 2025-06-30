@@ -30,7 +30,6 @@ const Login = () => {
     dispatch(startLoading());
     try {
       const res = await login(data);
-      // console.log("Login User:", res.data.data);
       dispatch(setCredentials({ user: res.data.data.user }));
       toast.success(`Welcome back ${res.data.data.user.fullName || "user"}`);
       reset();

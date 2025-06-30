@@ -25,23 +25,6 @@ const ServiceForm = ({ initialData = {}, onSubmit, onCancel }) => {
     ? URL.createObjectURL(serviceImage[0])
     : initialData?.image.url || null;
 
-  // const [preview, setPreview] = useState(initialData?.image || null);
-
-  // Watch the file input
-
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //     setValue("image", e.target.files, { shouldValidate: true });
-  //     trigger("image");
-  //   }
-  // };
-
   const submitHandler = (data) => {
     const formData = new FormData();
     formData.append("image", data.image?.[0]);

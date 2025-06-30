@@ -18,7 +18,6 @@ const Contact = () => {
     const fetchContactInfo = async () => {
       try {
         const res = await getContactInfo();
-        // console.log(res);
         setContactInfo(res);
       } catch (error) {
         console.error(error);

@@ -9,8 +9,6 @@ import { useForm } from "react-hook-form";
 import { forgotPassword } from "../api/auth.Api";
 import { toast } from "react-toastify";
 
-// import { forgotPassword } from "../../api/auth.Api.js";
-
 const ForgotPassword = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
@@ -24,10 +22,8 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data) => {
     dispatch(startLoading());
-    console.log(data);
     try {
       const res = await forgotPassword(data.email);
-      console.log(res);
       toast.success("Password reset link sent! Please check your email.");
       reset();
     } catch (err) {

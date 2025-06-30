@@ -85,15 +85,21 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
       />
       <Input
         label="Phone"
-        placeholder="Phone"
-        {...register("phone")}
+        placeholder="e.g., 1234567890"
+        {...register("phone", {
+          required: "Phone number is required.",
+          pattern: {
+            value: /^\d{10}$/,
+            message: "Please enter a valid 10-digit phone number.",
+          },
+        })}
         error={errors.phone?.message}
       />
       <Input
         label="Email"
         placeholder="Email"
         type="email"
-        {...register("email")}
+        {...register("email", { required: "Email is required" })}
         error={errors.email?.message}
       />
 
@@ -102,20 +108,22 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
           label="Available from"
           placeholder="Available from"
           type="time"
-          {...register("availableFrom")}
+          {...register("availableFrom", {
+            required: "Available from is required",
+          })}
           error={errors.availableFrom?.message}
         />
         <Input
           label="Available to"
           placeholder="Available to"
           type="time"
-          {...register("availableTo")}
+          {...register("availableTo", { required: "Available to is required" })}
           error={errors.availableTo?.message}
         />
       </div>
 
-      {/* Available Days */}
-      <div className="flex flex-col gap-1 col-span-2">
+      {/* Available Days Section */}
+      <div className="flex flex-col gap-1 col-span-2 mb-4">
         <label className="font-abhaya text-black text-xl mb-2">
           Available Days
         </label>
@@ -125,7 +133,8 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
               type="button"
               key={day}
               onClick={() => toggleDay(day)}
-              className={`px-4 py-1 rounded-full border transition cursor-pointer
+              className={`
+                px-4 py-1 rounded-full border transition cursor-pointer
                 ${
                   selectedDays.includes(day)
                     ? "bg-primary text-white border-primary shadow"
@@ -137,6 +146,20 @@ const SpecialistForm = ({ initialData = {}, onSubmit, onCancel, services }) => {
             </button>
           ))}
         </div>
+
+        <input
+          type="hidden"
+          {...register("availableDays", {
+            validate: (value) => {
+              return (
+                (Array.isArray(value) && value.length > 0) ||
+                "Please select at least one day."
+              );
+            },
+          })}
+        />
+
+        {/* Display error message */}
         {errors.availableDays && (
           <p className="text-red-600 text-sm mt-1">
             {errors.availableDays.message}

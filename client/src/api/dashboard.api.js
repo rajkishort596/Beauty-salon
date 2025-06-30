@@ -1,4 +1,3 @@
-// src/api/dashboard.api.js
 import axios from "../utils/axious.js";
 
 export const fetchDashboardStats = async () => {

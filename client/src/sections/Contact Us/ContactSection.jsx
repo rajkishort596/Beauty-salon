@@ -2,7 +2,6 @@ import React from "react";
 import images from "../../constants/images";
 
 const ContactSection = ({ contactInfo }) => {
-  console.log(contactInfo);
   return (
     <section className="bg-white px-4 md:px-18 py-15 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-10">
       <div className="relative flex flex-col items-center w-auto md:w-[300px] text-center pb-10">

@@ -14,7 +14,6 @@ import { Admin } from "../models/admin.model.js";
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
 
   if (!email || !password) {
     throw new ApiError(400, "Email and Password are required");
@@ -170,7 +169,6 @@ const updateAdminProfile = asyncHandler(async (req, res) => {
       lng: longitude,
     };
   }
-  // console.log(latitude, longitude);
   const updatedAdmin = await Admin.findByIdAndUpdate(
     req.admin._id,
     {

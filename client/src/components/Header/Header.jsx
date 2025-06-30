@@ -19,10 +19,8 @@ const Header = ({ isAuthenticated = false, userData }) => {
 
   const handleLogout = async () => {
     const res = await logout();
-    console.log(res);
     dispatch(logoutAction());
     navigate("/login");
-    console.log("User logged out");
   };
 
   return (

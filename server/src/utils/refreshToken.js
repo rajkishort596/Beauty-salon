@@ -65,7 +65,6 @@ const refreshAdminAccessToken = asyncHandler(async (req, res) => {
   if (!incomingRefreshToken) {
     throw new ApiError(401, "unauthorized request");
   }
-  console.log(incomingRefreshToken);
 
   try {
     const decodedToken = jwt.verify(
@@ -78,7 +77,6 @@ const refreshAdminAccessToken = asyncHandler(async (req, res) => {
     if (!admin) {
       throw new ApiError(401, "Invalid refresh token");
     }
-    console.log(admin);
     if (incomingRefreshToken !== admin?.refreshToken) {
       throw new ApiError(401, "Refresh token is expired or used");
     }

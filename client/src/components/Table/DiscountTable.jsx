@@ -34,13 +34,13 @@ const DiscountTable = ({ discounts, onEdit, onDelete }) => {
                 <td className="py-2 px-4 flex gap-3">
                   <button
                     onClick={() => onEdit(d)}
-                    className="text-yellow-600 hover:underline"
+                    className="text-yellow-600 hover:underline cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDelete(d._id)}
-                    className="text-red-600 hover:underline"
+                    className="text-red-600 hover:underline cursor-pointer"
                   >
                     Delete
                   </button>

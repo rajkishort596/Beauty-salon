@@ -1,7 +1,6 @@
 import React from "react";
 
 const MapSection = ({ location }) => {
-  // console.log(location);
   const latitude = location.lat;
   const longitude = location.lng;
 

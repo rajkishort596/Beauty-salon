@@ -30,13 +30,10 @@ const AdminLogin = () => {
     /* Login Form Handler*/
   }
   const onSubmit = async (data) => {
-    console.log("Login data:", data);
     dispatch(startLoading());
     try {
       const res = await loginAdmin(data);
-      console.log("Login admin:", res.data.data.user);
       dispatch(setCredentials({ admin: res.data.data.user }));
-      // console.log("Admin user:", res.data.data.user);
       toast.success(`Welcome back ${res.data.data.user.fullName || "user"}`);
       reset();
       navigate("/admin");

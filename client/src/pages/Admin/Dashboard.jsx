@@ -37,13 +37,6 @@ const Dashboard = () => {
       </div>
     );
 
-  // if (!stats)
-  //   return (
-  //     <div className="flex items-center justify-center h-[90vh]">
-  //       <p className="text-gray-500 text-lg">Failed to load dashboard data.</p>
-  //     </div>
-  //   );
-
   return (
     <div className="p-6 space-y-8">
       <h1 className="text-3xl font-semibold text-primary">Dashboard</h1>

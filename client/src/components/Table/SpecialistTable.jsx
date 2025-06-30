@@ -33,13 +33,13 @@ const SpecialistTable = ({ specialists, onEdit, onDelete }) => (
               <td className="py-2 px-4">{specialist.email || "-"}</td>
               <td className="py-2 px-4 flex gap-3">
                 <button
-                  className="text-yellow-600 hover:underline"
+                  className="text-yellow-600 hover:underline cursor-pointer"
                   onClick={() => onEdit(specialist)}
                 >
                   Edit
                 </button>
                 <button
-                  className="text-red-600 hover:underline"
+                  className="text-red-600 hover:underline cursor-pointer"
                   onClick={() => onDelete(specialist._id)}
                 >
                   Delete

@@ -54,7 +54,6 @@ const updateDiscount = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Title, percentage, and category are required.");
   }
 
-  // console.log(id);
   const existingDiscount = await Discount.findById(id);
   if (!existingDiscount) {
     throw new ApiError(404, "Discount not found");

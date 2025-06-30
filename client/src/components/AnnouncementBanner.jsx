@@ -18,7 +18,7 @@ const AnnouncementBanner = () => {
 
       {/* Marquee wrapper */}
       <div className="flex items-center justify-center py-2 w-full">
-        <div className="text-white font-medium text-sm whitespace-nowrap">
+        <div className="marquee text-white font-medium text-sm whitespace-nowrap">
           ONLY THIS MONTH 20% DISCOUNT ON MAKEUP & NAIL CARE
         </div>
       </div>

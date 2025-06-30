@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createReview } from "../../api/review.Api";
@@ -8,9 +7,7 @@ import Spinner from "../Spinner";
 import images from "../../constants/images";
 
 const ReviewForm = ({ isAuthenticated = false, services }) => {
-  const userData = useSelector((state) => state.userAuth.user);
   const [loading, setLoading] = useState(false);
-  //   const [services, setServices] = useState([]);
   const navigate = useNavigate();
 
   const {

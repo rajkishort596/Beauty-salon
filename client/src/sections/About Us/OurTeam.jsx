@@ -36,7 +36,6 @@ import SpecialistCard from "../../components/Card/SpecialistCard";
 // ];
 
 const OurTeam = ({ specialists }) => {
-  console.log(specialists);
   return (
     <section className="py-12 px-4">
       <div className="text-center mb-10">

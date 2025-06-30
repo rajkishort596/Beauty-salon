@@ -10,10 +10,8 @@ const AdminHeader = ({ isAuthenticated = false, user, image }) => {
 
   const handleLogout = async () => {
     const res = await logoutAdmin();
-    console.log(res);
     dispatch(logoutAction());
     navigate("/admin/login");
-    console.log("Admin logged out");
   };
 
   return (

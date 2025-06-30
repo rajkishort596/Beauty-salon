@@ -14,11 +14,9 @@ const AdminSidebar = () => {
   const handleLogout = async () => {
     setLoading(true);
     const res = await logoutAdmin();
-    console.log(res);
     dispatch(logout);
     setLoading(false);
     navigate("/admin/login");
-    console.log("Admin logged out");
   };
 
   return (

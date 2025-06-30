@@ -3,30 +3,6 @@
 import React, { useState } from "react";
 
 const Testimonials = ({ reviews }) => {
-  // const reviews = [
-  //   {
-  //     name: "Michaela Hayden",
-  //     role: "Happy client",
-  //     image: images.customer1,
-  //     review:
-  //       "Quis euismod eu eleifend tristique. Rutrum eget turpis semper risus aliquam imperdiet amet.",
-  //   },
-  //   {
-  //     name: "Sophia Allen",
-  //     role: "Happy client",
-  //     image: images.customer2,
-  //     review:
-  //       "Viverra bibendum ut eu sodales viverra adipiscing viverra lorem elit. Suspendisse ut et malesuada.",
-  //   },
-  //   {
-  //     name: "Isla Thompson",
-  //     role: "Happy client",
-  //     image: images.customer3,
-  //     review:
-  //       "Scelerisque auctor suspendisse ut et malesuada elit. Pellentesque eu tincidunt tortor aliquam nulla.",
-  //   },
-  // ];
-
   const [activeIndex, setActiveIndex] = useState(0);
   const active = reviews[activeIndex];
 
@@ -73,7 +49,7 @@ const Testimonials = ({ reviews }) => {
               {reviews.map((r, index) => (
                 <img
                   key={index}
-                  src={r.user.avatar}
+                  src={r.user.avatar.url}
                   alt={r.user.fullName}
                   className={`w-20 h-20 rounded-full cursor-pointer border-3 ${
                     index === activeIndex ? "border-primary" : "border-gray-300"

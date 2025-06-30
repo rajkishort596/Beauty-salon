@@ -25,7 +25,7 @@ const Signup = () => {
   // Add OTP verification state
   const [showOtp, setShowOtp] = React.useState(false);
   const [otpSent, setOtpSent] = React.useState(false);
-  const [otpVerified, setOtpVerified] = React.useState(false); // NEW
+  const [otpVerified, setOtpVerified] = React.useState(false);
 
   const onSubmit = async (data) => {
     // Prevent submission if OTP not verified
@@ -36,7 +36,6 @@ const Signup = () => {
     dispatch(startLoading());
 
     const formData = new FormData();
-    console.log(data.avatar?.[0]);
     formData.append("avatar", data.avatar?.[0]);
 
     formData.append("fullName", data.fullName);

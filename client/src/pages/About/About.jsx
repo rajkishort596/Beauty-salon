@@ -22,7 +22,6 @@ const About = () => {
       try {
         const res = await fetchSpecialists();
         const discount = await fetchAllDiscounts();
-        console.log(discount.data.data);
         setSpecialists(res.data.data);
         setDiscounts(discount.data.data);
       } catch (error) {

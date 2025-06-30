@@ -18,12 +18,6 @@ export const fetchAvailableSlots = async (
   bookingDate,
   serviceName
 ) => {
-  // console.log(
-  //   "Fetching available slots for specialist:",
-  //   specialistId,
-  //   "on date:",
-  //   bookingDate
-  // );
   const res = await axios.get(`/users/appointment/available-slots`, {
     params: {
       specialistId,

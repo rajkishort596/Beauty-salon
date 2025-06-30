@@ -34,7 +34,6 @@ const Specialist = () => {
       }
       try {
         const res = await fetchSpecialists();
-        // console.log(res);
         setSpecialists(res.data.data);
       } catch (error) {
         console.error("Specialist loading error", error);
@@ -70,6 +69,7 @@ const Specialist = () => {
       setLoading(true);
       await deleteSpecialist(id);
       setSpecialists((prev) => prev.filter((s) => s._id !== id));
+      toast.success("Specialist deleted successfully");
     } catch (error) {
       console.error("Error deleting specialist:", error);
     } finally {

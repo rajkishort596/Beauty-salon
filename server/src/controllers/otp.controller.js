@@ -19,7 +19,6 @@ const sendOtp = asyncHandler(async (req, res) => {
 
   const otp = Math.floor(1000 + Math.random() * 9000).toString();
   user.otp = otp;
-  console.log(otp);
   user.otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
   await user.save();

@@ -1,10 +1,10 @@
 import axios from "axios";
-import store from "../app/store.js"; // adjust path based on your setup
+import store from "../app/store.js";
 import { logout as userLogout } from "../features/auth/userAuthSlice.js";
 import { logout as adminLogout } from "../features/auth/adminAuthSlice.js";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
@@ -19,12 +19,11 @@ const AUTH_WHITELIST = [
   "/admin/refresh-token",
   "/otp/send-otp",
   "/otp/verify-otp",
-  "/services", // public GET
-  "/specialists", // public GET
-  "/reviews", // public GET
-  "discounts",
+  "/services",
+  "/specialists",
+  "/reviews",
+  "/discounts",
   "/contact-info",
-  // add more if you add more public/auth routes in the future
 ];
 
 axiosInstance.interceptors.response.use(
@@ -32,7 +31,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Allow retry only if NOT already retried, and not in whitelist
+    // Retry only if NOT already retried, and not in whitelist
     if (
       error.response &&
       error.response.status === 401 &&
@@ -61,8 +60,6 @@ axiosInstance.interceptors.response.use(
           store.dispatch(userLogout());
         }
 
-        // 🚫 Avoid reload loop by not redirecting from interceptor
-        // Allow component to handle it instead
         return Promise.reject(refreshError);
       }
     }

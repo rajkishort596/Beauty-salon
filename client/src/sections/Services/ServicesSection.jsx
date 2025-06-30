@@ -4,7 +4,6 @@ import images from "../../constants/images";
 import ServiceItem from "../../components/Services/ServiceItem";
 
 const ServicesSection = ({ services }) => {
-  console.log(services);
   // Group services by category
   const groupedServices = services.reduce((acc, service) => {
     const { category } = service;

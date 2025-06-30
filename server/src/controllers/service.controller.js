@@ -8,7 +8,6 @@ import {
 } from "../utils/cloudinary.js";
 
 const createService = asyncHandler(async (req, res) => {
-  // console.log("Creating service with data:", req.body);
   const { name, description, price, duration, category } = req.body;
 
   if (!name || !description || !price || !duration || !category) {

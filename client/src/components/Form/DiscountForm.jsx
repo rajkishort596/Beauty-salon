@@ -55,7 +55,6 @@ const DiscountForm = ({ initialData = {}, onSubmit, onCancel }) => {
     data.category.forEach((id) => {
       formData.append("category[]", id);
     });
-    console.log(data);
     onSubmit(formData);
   };
 

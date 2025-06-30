@@ -13,15 +13,8 @@ import debounce from "lodash.debounce";
 import ServiceForm from "../../components/Form/ServiceForm";
 import Modal from "../../components/Modal";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  startLoading,
-  stopLoading,
-} from "../../features/loading/loadingSlice.js";
 
 const Service = () => {
-  // const loading = useSelector((state) => state.loading);
-  const dispatch = useDispatch();
   const [services, setServices] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -34,12 +27,10 @@ const Service = () => {
       try {
         const res = await fetchAllServices();
         setServices(res.data.data);
-        console.log("Fetched services:", res.data.data);
       } catch (error) {
         console.error("Service loading error", error);
       } finally {
         setLoading(false);
-        // console.log(loading);
       }
     };
     loadData();
@@ -70,7 +61,7 @@ const Service = () => {
       setLoading(true);
       await deleteService(id);
       setServices((prev) => prev.filter((s) => s._id !== id));
-      toast.success("Specialist deleted Successfully");
+      toast.success("Service deleted Successfully");
     } catch (error) {
       const errMsg = error.response?.data?.message || "An error occurred";
       toast.error(errMsg);
@@ -103,9 +94,7 @@ const Service = () => {
         );
         toast.success("Service updated successfully");
       } else {
-        // console.log("Creating service with data:", formData);
         const created = await createService(formData);
-        console.log("Created service:", created);
         setServices((prev) => [created, ...prev]);
         toast.success("Service created successfully");
       }

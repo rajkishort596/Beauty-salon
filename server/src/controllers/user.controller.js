@@ -67,7 +67,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
 
   if (!email || !password) {
     throw new ApiError(400, "Email and Password are required");
@@ -163,7 +162,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Generate JWT reset token
   const resetToken = user.generatePasswordResetToken();
-  // console.log(resetToken);
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
   await sendEmail(
@@ -198,7 +196,6 @@ const resetPassword = asyncHandler(async (req, res) => {
   if (!token || !password) {
     throw new ApiError(400, "Token and new password are required");
   }
-  // console.log(token);
 
   let payload;
   try {

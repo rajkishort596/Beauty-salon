@@ -111,7 +111,6 @@ const Reviews = () => {
         border-gray-300 focus:ring-primary
         focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md
          w-full md:w-1/3"
-          // value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
           <option value="all">All Status</option>
