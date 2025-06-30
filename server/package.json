@@ -1,11 +1,15 @@
 {
+  "engines": {
+  "node": ">=18"
+  },
   "name": "server",
   "version": "1.0.0",
   "description": "A Beauty Salon Backend ",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "dev": "nodemon src/index.js"
+ "scripts": {
+  "dev": "nodemon src/index.js",
+  "start": "node src/index.js"
   },
   "keywords": [
     "Salon",
