@@ -5,7 +5,7 @@ import GearIcon from "../assets/images/Gear-Icon.svg";
 import StarIcon from "../assets/images/Star-Icon.svg";
 import StaffIcon from "../assets/images/Staff-Icon.svg";
 import BlackStaffIcon from "../assets/images/BlackStaff-Icon.svg";
-import CalenderIcon from "../assets/images/calendar-Icon.svg";
+import CalenderIcon from "../assets/images/Calendar-Icon.svg";
 import ScissorIcon from "../assets/images/Scissor-Icon.svg";
 import BlackHouseIcon from "../assets/images/BlackHouse-Icon.svg";
 import BlackGearIcon from "../assets/images/BlackGear-Icon.svg";
