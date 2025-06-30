@@ -162,7 +162,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Generate JWT reset token
   const resetToken = user.generatePasswordResetToken();
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+  const resetUrl = `${process.env.CORS_ORIGIN}/reset-password/${resetToken}`;
 
   await sendEmail(
     user.email,
