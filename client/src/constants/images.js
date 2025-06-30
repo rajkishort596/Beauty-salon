@@ -50,7 +50,7 @@ import CosmetologyServiceImg from "../assets/images/Cosmetology-ServiceImg.png";
 import SpaServiceImg from "../assets/images/Spa-ServiceImg.png";
 import InstaIcon from "../assets/images/Insta-Icon.svg";
 import LocationIcon from "../assets/images/Location-Icon.svg";
-import Logo from "../assets/images/Logo.svg";
+import Logo from "../assets/images/logo.svg";
 import LotusIcon from "../assets/images/Lotus-Icon.svg";
 import DownIcon from "../assets/images/Down-Icon.svg";
 import MailIcon from "../assets/images/Mail-Icon.svg";
