@@ -162,7 +162,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Generate JWT reset token
   const resetToken = user.generatePasswordResetToken();
-  const resetUrl = `${process.env.CORS_ORIGIN}/reset-password/${resetToken}`;
+  const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173"; // fallback for dev
+
+  const resetUrl = `${FRONTEND_URL}/reset-password/${resetToken}`;
 
   await sendEmail(
     user.email,

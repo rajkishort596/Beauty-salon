@@ -5,9 +5,23 @@ import { asyncHandler } from "./utils/asyncHandler.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://beauty-salon-gamma-azure.vercel.app",
+  "https://beauty-salon-git-main-rajkishor-thakurs-projects.vercel.app",
+  "https://beauty-salon-9dqyfn84k-rajkishor-thakurs-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
