@@ -9,7 +9,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://beauty-salon-gamma-azure.vercel.app",
   "https://beauty-salon-git-main-rajkishor-thakurs-projects.vercel.app",
-  "https://beauty-salon-9dqyfn84k-rajkishor-thakurs-projects.vercel.app",
+  "https://beauty-salon-6hi613jxv-rajkishor-thakurs-projects.vercel.app",
 ];
 
 app.use(
