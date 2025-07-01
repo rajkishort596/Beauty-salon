@@ -141,7 +141,7 @@ server/
 
 > 🏠 Home Page
 
-- ![Homepage](./screenshots/homepage.png)
+- ![Homepage](./screenshots/Homepage.png)
 
 > 💅 Service Page
 
