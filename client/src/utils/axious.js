@@ -46,9 +46,14 @@ axiosInstance.interceptors.response.use(
           ? "/admin/refresh-token"
           : "/users/refresh-token";
 
-        await axiosInstance.post(refreshEndpoint);
+        //  Using axios here to avoid interceptor loops
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}${refreshEndpoint}`,
+          {},
+          { withCredentials: true }
+        );
 
-        // Retry original request after refresh success
+        // If refresh worked → retry original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token failed:", refreshError);
@@ -60,7 +65,8 @@ axiosInstance.interceptors.response.use(
           store.dispatch(userLogout());
         }
 
-        return Promise.reject(refreshError);
+        // reject with the original request error
+        return Promise.reject(error);
       }
     }
 

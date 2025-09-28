@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import images from "../../constants/images";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,21 @@ const Header = ({ isAuthenticated = false, userData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+    } else {
+      document.body.style.overflow = "auto";
+      document.body.style.height = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+      document.body.style.height = "auto";
+    };
+  }, [isOpen]);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -103,6 +118,20 @@ const Header = ({ isAuthenticated = false, userData }) => {
           </button>
         </div>
       </nav>
+      {/* MOBILE OVERLAY */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 md:hidden"
+        ></div>
+      )}
+      {isOpen && (
+        <div
+          className={`md:hidden px-4 py-8 w-3/4 bg-bg flex flex-col justify-between h-[100vh] absolute top-0 right-0 
+                transition-transform duration-300 ease-in-out z-40`}
+        ></div>
+      )}
+
       {/* MOBILE MENU */}
       {isOpen && (
         <div

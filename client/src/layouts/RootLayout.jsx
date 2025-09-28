@@ -5,38 +5,62 @@ import Container from "../components/Container/Container";
 import Footer from "../components/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../api/auth.Api";
-import { setCredentials, logout } from "../features/auth/userAuthSlice";
-import { startLoading, stopLoading } from "../features/loading/loadingSlice";
+import {
+  setCredentials,
+  logout,
+  setAuthStatus,
+} from "../features/auth/userAuthSlice";
 import Spinner from "../components/Spinner";
 import AnnouncementBanner from "../components/AnnouncementBanner";
+import { fetchAllDiscounts } from "../api/discount.Api";
+import { setDiscount } from "../features/serviceDiscountSlice";
+import { toast } from "react-toastify";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useSelector((state) => state.userAuth);
-  const loading = useSelector((state) => state.loading);
+  const { user, isAuthenticated, status } = useSelector(
+    (state) => state.userAuth
+  );
+
+  useEffect(() => {
+    const loadDiscount = async () => {
+      try {
+        const discounts = await fetchAllDiscounts();
+        console.log(discounts);
+        dispatch(setDiscount({ discounts: discounts.data.data }));
+      } catch (error) {
+        const msg = error.response?.data.message;
+        toast.error(msg);
+        console.error("Failed to Fetch Disounts", msg);
+      }
+    };
+    loadDiscount();
+  }, []);
 
   useEffect(() => {
     const hydrateUser = async () => {
-      dispatch(startLoading());
+      dispatch(setAuthStatus("loading"));
       try {
         const res = await fetchUserProfile();
         dispatch(setCredentials({ user: res.data.data }));
+        dispatch(setAuthStatus("succeeded"));
       } catch (err) {
         dispatch(logout());
-        if (err.response?.status === 401) {
-          navigate("/login");
-        }
+        console.log(err);
+        dispatch(setAuthStatus("failed"));
       } finally {
-        dispatch(stopLoading());
+        localStorage.setItem("hasVisitedBefore", "true");
       }
     };
 
-    hydrateUser();
-  }, [dispatch, navigate]);
+    if (status === "idle") {
+      hydrateUser();
+    }
+  }, [dispatch, navigate, status]);
 
-  // Optional loading screen during hydration
-  if (loading) {
+  // Loading screen
+  if (status === "loading" || status === "idle") {
     return (
       <div className="flex items-center justify-center h-screen">
         <Spinner />
