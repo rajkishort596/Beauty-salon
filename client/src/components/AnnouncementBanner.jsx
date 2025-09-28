@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { FaFire, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const AnnouncementBanner = () => {
   const [visible, setVisible] = useState(true);
+  const { discounts } = useSelector((state) => state.discounts);
 
-  if (!visible) return null;
+  if (!visible || !discounts) return null;
+
+  console.log(discounts);
 
   return (
     <div className="w-full bg-primary relative overflow-hidden">
@@ -19,7 +23,24 @@ const AnnouncementBanner = () => {
       {/* Marquee wrapper */}
       <div className="flex items-center justify-center py-2 w-full">
         <div className="marquee text-white font-medium text-sm whitespace-nowrap">
-          ONLY THIS MONTH 20% DISCOUNT ON MAKEUP & NAIL CARE
+          🔥
+          {discounts?.[0]?.title?.toUpperCase()} &nbsp;— Get{" "}
+          {discounts?.[0]?.percentage}% OFF on{" "}
+          {discounts?.[0]?.category
+            ?.map((item) => item.toUpperCase())
+            .join(" & ")}{" "}
+          | Valid from{" "}
+          {new Date(discounts?.[0]?.validFrom).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })}{" "}
+          till{" "}
+          {new Date(discounts?.[0]?.validTill).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })}
         </div>
       </div>
     </div>

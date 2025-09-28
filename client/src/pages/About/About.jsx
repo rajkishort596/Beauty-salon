@@ -11,29 +11,29 @@ import { fetchSpecialists } from "../../api/specialist.Api";
 import { fetchAllDiscounts } from "../../api/discount.Api";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner";
+import { useSelector } from "react-redux";
 
 const About = () => {
   const [specialists, setSpecialists] = useState([]);
-  const [discounts, setDiscounts] = useState([]);
   const [loading, setLoading] = useState(true);
   // Fetch all specialists
   useEffect(() => {
     const loadData = async () => {
       try {
         const res = await fetchSpecialists();
-        const discount = await fetchAllDiscounts();
         setSpecialists(res.data.data);
-        setDiscounts(discount.data.data);
       } catch (error) {
         const msg = error.response?.data?.message;
         toast.error(msg);
-        console.error("Data Loading Failed", msg);
+        console.error("Failed to load Specialists", msg);
       } finally {
         setLoading(false);
       }
     };
     loadData();
   }, []);
+
+  const { discounts } = useSelector((state) => state.discounts);
 
   if (loading)
     return (

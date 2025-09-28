@@ -103,11 +103,17 @@ const updateDiscount = asyncHandler(async (req, res) => {
 
 // @desc Get All Discounts
 const getAllDiscounts = asyncHandler(async (req, res) => {
-  const discounts = await Discount.find().sort({ validFrom: -1 });
+  const now = new Date();
+
+  const discounts = await Discount.find({
+    isActive: true,
+    validFrom: { $lte: now },
+    validTill: { $gte: now },
+  }).sort({ validFrom: -1 });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, discounts, "Fetched all discounts"));
+    .json(new ApiResponse(200, discounts, "Fetched active discounts"));
 });
 
 // @desc Delete Discount
