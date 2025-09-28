@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <section className="min-h-screen relative flex items-center justify-center bg-bg px-4">
+    <section className="min-h-screen py-10 lg:py-0 relative flex items-center justify-center bg-bg px-4">
       <div className="absolute bottom-0 -left-[217px] z-0">
         <img
           src={images.lotusBg}

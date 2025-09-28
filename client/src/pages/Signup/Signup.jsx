@@ -99,7 +99,7 @@ const Signup = () => {
   };
 
   return (
-    <section className="min-h-screen relative flex items-center justify-center bg-bg px-4">
+    <section className="min-h-screen py-10 lg:py-5 relative flex items-center justify-center bg-bg px-4">
       <div className="absolute bottom-0 -left-[217px] z-0">
         <img
           src={images.lotusBg}
@@ -114,7 +114,7 @@ const Signup = () => {
       </div>
 
       <div className="w-full max-w-6xl bg-white shadow-xl flex flex-col md:flex-row rounded-xl overflow-hidden z-20">
-        <div className="md:w-1/2 h-64 md:h-auto">
+        <div className="md:w-1/2">
           <img
             src={images.styleImg}
             alt="Beauty Signup"
@@ -122,11 +122,11 @@ const Signup = () => {
           />
         </div>
 
-        <div className="md:w-1/2 p-8 flex flex-col justify-center">
+        <div className="md:w-1/2 py-4 px-8 flex flex-col justify-center">
           <h2 className="text-3xl text-center md:text-4xl font-abhaya font-semibold text-primary mb-2">
             Create Your Account
           </h2>
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-gray-600 text-center mb-2">
             Join us for exclusive beauty offers and tips
           </p>
 

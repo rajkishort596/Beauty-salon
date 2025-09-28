@@ -13,8 +13,8 @@ const Testimonials = ({ reviews }) => {
           Testimonials
         </h2>
         <p className="text-gray-600 mt-2 mb-8 text-sm md:text-base max-w-xl mx-auto">
-          Eleifend arcu non lorem justo in tempus purus gravida tortor egestas
-          sed feugiat elementum
+          Hear from our happy clients who have experienced our services and
+          discovered the perfect blend of care, comfort, and beauty.
         </p>
         <div className="flex items-center justify-center h-full">
           <span className="text-gray-500 text-lg">No review yet</span>
@@ -29,8 +29,8 @@ const Testimonials = ({ reviews }) => {
         Testimonials
       </h2>
       <p className="text-gray-600 mt-2 mb-8 text-sm md:text-base max-w-xl mx-auto">
-        Eleifend arcu non lorem justo in tempus purus gravida tortor egestas sed
-        feugiat elementum
+        Hear from our happy clients who have experienced our services and
+        discovered the perfect blend of care, comfort, and beauty.
       </p>
       <div className="absolute top-1/2 w-[90%] md:w-1/2 h-[300px] md:h-[372px] left-1/2 -translate-x-1/2 bg-white max-w-3xl mx-auto shadow-lg rounded-md ">
         <div className="relative h-[100%] flex flex-col justify-center items-center px-8 py-10">

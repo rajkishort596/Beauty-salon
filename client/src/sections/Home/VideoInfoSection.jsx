@@ -6,17 +6,20 @@ const VideoInfoSection = () => {
     {
       icon: images.mirrorIcon,
       title: "Professional Care",
-      description: "Eleifend arcu non lorem justo in tempus purus gravida.",
+      description:
+        "Expert treatments tailored to your needs with precision, safety, and care.",
     },
     {
       icon: images.brandIcon,
-      title: "Premium brands",
-      description: "Eleifend arcu non lorem justo in tempus purus gravida.",
+      title: "Premium Brands",
+      description:
+        "We use only trusted, high-quality products to deliver the best results.",
     },
     {
       icon: images.lotusIcon,
-      title: "Natural cosmetic",
-      description: "Eleifend arcu non lorem justo in tempus purus gravida.",
+      title: "Natural Cosmetics",
+      description:
+        "Gentle, nature-inspired formulas that enhance beauty without compromise.",
     },
   ];
 

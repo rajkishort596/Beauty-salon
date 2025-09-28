@@ -22,7 +22,10 @@ const ContactSection = ({ contactInfo }) => {
           {contactInfo.email}
         </p>
         <div className="absolute top-8 w-full flex justify-center">
-          <img src={images.mailIcon} className="max-w-1/2 object-cover" />
+          <img
+            src={images.mailIcon}
+            className="max-w-1/2 object-cover opacity-10"
+          />
         </div>
       </div>
       <div className="relative flex flex-col items-center w-auto md:w-[300px] text-center pb-10">
@@ -34,7 +37,10 @@ const ContactSection = ({ contactInfo }) => {
           +91 {contactInfo.secondaryPhone}
         </p>
         <div className="absolute top-8 w-full flex justify-center">
-          <img src={images.phoneIcon} className="max-w-1/2 object-cover" />
+          <img
+            src={images.phoneIcon}
+            className="max-w-1/2 object-cover opacity-10"
+          />
         </div>
       </div>
     </section>

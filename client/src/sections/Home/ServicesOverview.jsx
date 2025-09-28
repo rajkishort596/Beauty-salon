@@ -30,8 +30,10 @@ const ServicesOverview = () => {
         Elegance comes from being as <br /> beautiful inside as outside
       </h2>
       <p className="max-w-2xl mx-auto text-gray-600 mb-10">
-        Eleifend arcu non lorem justo in tempus purus gravida. Est tortor
-        egestas sed feugiat elementum. Viverra nulla amet a ultrices massa dui.
+        True beauty is a reflection of harmony between inner confidence and
+        outer elegance. At our salon, we believe in enhancing not just your look
+        but also your sense of self, so you feel radiant, empowered, and
+        graceful in every moment.
       </p>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

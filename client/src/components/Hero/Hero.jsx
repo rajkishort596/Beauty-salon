@@ -5,7 +5,7 @@ const Hero = ({ HeadingText, HeroImg }) => {
   return (
     <div className="flex flex-col items-center text-center">
       {/* Heading Section with faded logo */}
-      <div className="relative pt-[58px] pb-8">
+      <div className="relative pt-[58px] pb-15">
         {/* Faded Background Logo */}
         <img
           src={images.logo}
@@ -14,7 +14,7 @@ const Hero = ({ HeadingText, HeroImg }) => {
         />
 
         {/* Main Heading */}
-        <h1 className="relative z-10 text-[clamp(48px,8vw,100px)] font-imperial text-primary drop-shadow-xl backdrop-blur-sm px-4">
+        <h1 className="relative z-10 text-[clamp(48px,8vw,100px)] font-imperial text-primary drop-shadow-xl px-4">
           {HeadingText}
         </h1>
       </div>

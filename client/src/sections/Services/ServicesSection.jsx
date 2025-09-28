@@ -19,9 +19,10 @@ const ServicesSection = ({ services }) => {
       <h2 className="text-center text-5xl font-bold font-abhaya text-primary mb-6">
         Services and Prices
       </h2>
-      <p className="font-inter text-[16px] text-text-muted mb-10">
-        Est tortor egestas sed feugiat elementum. Viverra nulla amet a ultrices
-        massa dui. Tortor est <br /> purus morbi vitae arcu suspendisse amet.
+      <p className="font-inter text-[16px] text-text-muted mb-10 max-w-2xl mx-auto">
+        Discover our wide range of services designed to relax, refresh, and
+        bring out your natural beauty — all offered at clear and affordable
+        prices tailored to your needs.
       </p>
       {categories.map((category, index) => {
         const servicesList = groupedServices[category];

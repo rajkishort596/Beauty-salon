@@ -19,9 +19,14 @@ const InstagramSection = () => {
         Follow our Instagram
       </h2>
       <p className="text-gray-500 max-w-xl mx-auto mb-10 px-4">
-        Viverra nulla amet a ultrices massa dui. Tortor est purus morbi vitae
-        arcu suspendisse amet.
+        Get a daily dose of beauty inspiration, behind-the-scenes content, new
+        product alerts, and special offers—join our community!
       </p>
+      <a href="#">
+        <button className="btn-primary mx-auto text-xl my-8 cursor-pointer hover:translate-y-1 rounded-sm transition">
+          See More on Instagram
+        </button>
+      </a>
 
       <div className="grid grid-cols-2 md:grid-cols-5">
         {instagramImages.map((src, i) => (

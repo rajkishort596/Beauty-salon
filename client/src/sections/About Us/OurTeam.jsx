@@ -1,41 +1,8 @@
 import React from "react";
 import SpecialistCard from "../../components/Card/SpecialistCard";
 
-// Dummy Data (You can map real fetched data here)
-// const specialists = [
-//   {
-//     name: "Marianna Holder",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-//   {
-//     name: "Tiffany Anderson",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-//   {
-//     name: "Brianna Fitzgerald",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-//   {
-//     name: "Jaqueline Colon",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-//   {
-//     name: "Wanda Cummerata",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-//   {
-//     name: "Cameron Banks",
-//     role: "Hairdresser",
-//     image: "/assets/images/placeholder-female.png",
-//   },
-// ];
-
 const OurTeam = ({ specialists }) => {
+  console.log(specialists);
   return (
     <section className="py-12 px-4">
       <div className="text-center mb-10">
@@ -48,6 +15,8 @@ const OurTeam = ({ specialists }) => {
           <SpecialistCard
             key={idx}
             name={s.name}
+            email={s.email}
+            phone={s.phone}
             role={s.expertise.name}
             image={s.image.url}
           />

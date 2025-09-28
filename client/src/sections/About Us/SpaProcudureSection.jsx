@@ -8,8 +8,9 @@ const SpaProcudureSection = () => {
         Our SPA procedures
       </h2>
       <p className="text-text-muted max-w-2xl mx-auto">
-        Eleifend arcu non lorem justo in tempus purus gravida. Est tortor
-        egestas sed feugiat elementum.
+        Indulge in our relaxing spa therapies designed to rejuvenate your body,
+        calm your mind, and restore balance to your soul. Experience the perfect
+        escape from stress with treatments tailored just for you.
       </p>
       <div className="mt-6 md:mt-0 mx-auto md:absolute md:top-1/2 w-full md:left-1/2 md:-translate-x-1/2  md:w-2/3">
         <div className="w-full">

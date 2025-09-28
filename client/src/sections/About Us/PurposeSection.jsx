@@ -11,31 +11,32 @@ const PurposeSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left items-end">
           <div>
             <h3 className="text-xl font-semibold font-abhaya text-primary mb-2">
-              Blandit at maecenas
+              Artistry in Every Detail
             </h3>
             <p className="text-text-muted mb-4">
-              Blandit at maecenas dui sed amet sit enim vitae. Amet purus dictum
-              urna sagittis dignissim. At fermentum nisl ullamcorper orci.
-              Pellentesque id tempor lacus aliquet tempus vitae nibh habitasse
-              consectetur. Augue quis cras blandit habitant neque. Faucibus
-              vestibulum id nisi ligula ultricies et vehicula.
+              From subtle transformations to bold new looks, our expert stylists
+              bring your vision to life with creativity, precision, and care.
+              Whether it’s a timeless style or something uniquely you, we’re
+              here to make it happen.
             </p>
             <p className="text-text-muted">
-              Et adipiscing mattis egestas mi placerat duis congue id.
-              Scelerisque...
+              Every treatment is tailored to reflect your individuality,
+              ensuring you leave feeling confident, refreshed, and radiant —
+              inside and out.
             </p>
           </div>
 
           <div>
             <p className="text-text-muted mb-4">
-              Lorem ipsum dolor sit amet consectetur. Blandit at maecenas dui
-              sed amet sit enim vitae. Amet purus dictum urna sagittis
-              dignissim. At fermentum nisl ullamcorper orci.
+              The skill and precision of our stylists are what sets us apart.
+              Our team continuously trains in the latest global trends and
+              advanced techniques, ensuring we offer cutting-edge artistry
+              alongside timeless elegance.
             </p>
             <p className="text-text-muted">
-              Pellentesque id tempor lacus aliquet tempus vitae nibh habitasse
-              consectetur. Augue quis cras blandit habitant neque. Faucibus
-              vestibulum id nisi ligula ultricies et vehicula....
+              This commitment to both mastery and exceptional materials
+              guarantees that your style is not only gorgeous the day you leave
+              but maintains its health and vibrancy long after your appointment.
             </p>
           </div>
         </div>

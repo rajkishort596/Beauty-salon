@@ -28,7 +28,9 @@ const TreatmentSection = () => {
             Treatments and prices
           </h2>
           <p className="text-gray-600 text-sm mb-6">
-            Velit in dui dictum arcu felis tempor in feugiat in mauris...
+            Explore our wide range of treatments designed to pamper, rejuvenate,
+            and enhance your natural beauty — all at transparent and affordable
+            prices.
           </p>
 
           <ul className="space-y-3 text-sm">

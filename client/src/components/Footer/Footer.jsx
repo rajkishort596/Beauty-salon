@@ -16,9 +16,11 @@ const Footer = () => {
           Beauty Salon
         </h2>
         <p className="text-gray-600 max-w-md mx-auto mt-2 text-sm">
-          Est tortor egestas sed feugiat elementum. Viverra nulla amet a
-          ultrices massa dui. Tortor est purus morbi vitae arcu suspendisse
-          amet.
+          Step into our salon and leave the everyday behind. We are dedicated to
+          providing personalized beauty services, from the latest hair trends to
+          luxurious spa treatments. Our goal is simple: to make you feel
+          beautiful, confident, and completely revitalized from the moment you
+          walk through the door.
         </p>
 
         {/* Social icons */}

@@ -125,17 +125,10 @@ const Header = ({ isAuthenticated = false, userData }) => {
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 md:hidden"
         ></div>
       )}
-      {isOpen && (
-        <div
-          className={`md:hidden px-4 py-8 w-3/4 bg-bg flex flex-col justify-between h-[100vh] absolute top-0 right-0 
-                transition-transform duration-300 ease-in-out z-40`}
-        ></div>
-      )}
-
       {/* MOBILE MENU */}
       {isOpen && (
         <div
-          className={`md:hidden px-4 py-8 w-3/4 bg-bg flex flex-col justify-between h-[100vh] absolute top-0 right-0 
+          className={`md:hidden px-4 py-8 w-3/4 bg-white/40 backdrop-blur-md  flex flex-col justify-between h-[100vh] absolute top-0 right-0 
                       transition-transform duration-300 ease-in-out z-40
                    `}
         >

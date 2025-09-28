@@ -157,32 +157,32 @@ const BookingForm = ({ isAuthenticated = false }) => {
 
   return (
     <div className="bg-bg w-full px-4 py-15 md:px-18 min-h-screen flex justify-center items-center">
-      <div className="bg-white p-10 flex flex-col items-center lg:flex-row gap-2.5 w-full">
-        <div className="w-full lg:w-1/3">
+      <div className="bg-white p-5 md:p-10 flex flex-col items-center xl:flex-row gap-2.5 w-full">
+        <div className="w-full lg:w-2/3 xl:w-1/3">
           <img
             src={images.makeupImg}
             alt="Mobile"
-            className="block lg:hidden w-full h-auto object-cover rounded-md"
+            className="block xl:hidden w-full h-auto object-cover rounded-md"
           />
           <img
             src={images.fromImg}
             alt="Desktop"
-            className="hidden lg:block w-full h-full object-fill rounded-md"
+            className="hidden xl:block w-full h-full object-fill rounded-md"
           />
         </div>
-        <div className="w-full lg:w-2/3 items-center lg:items-start flex flex-col gap-4 px-5">
+        <div className="w-full lg:w-2/3 items-center xl:items-start flex flex-col gap-4 lg:px-5">
           <p className="text-primary capitalize">Beauty Salon</p>
           <h3 className="text-black font-abhaya font-bold text-3xl md:text-5xl">
             Book appointment
           </h3>
-          <span className="text-text-muted">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Consequatur, omnis.
+          <span className="text-text-muted text-center xl:text-left max-w-2xl">
+            Schedule your session with ease and let our experts take care of the
+            rest — beauty and relaxation are just one booking away.
           </span>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 "
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 "
           >
             <Input
               type="text"
@@ -270,11 +270,11 @@ const BookingForm = ({ isAuthenticated = false }) => {
               <select
                 {...register("service", { required: "Select a service" })}
                 className={`px-4 py-2 rounded-md border bg-white text-gray-800 transition-all duration-300 outline-none
-    ${
-      errors.service
-        ? "border-red-500 focus:ring-red-300 text-red-600"
-        : "border-gray-300 focus:ring-primary"
-    }
+                            ${
+                              errors.service
+                                ? "border-red-500 focus:ring-red-300 text-red-600"
+                                : "border-gray-300 focus:ring-primary"
+                            }
                             focus:ring-2 focus:border-transparent shadow-sm hover:shadow-md`}
               >
                 <option value="">Service</option>
@@ -327,7 +327,7 @@ const BookingForm = ({ isAuthenticated = false }) => {
             ) : (
               <button
                 type="submit"
-                className="btn-primary w-full lg:col-span-2 text-2xl hover:translate-y-1 rounded-sm transition"
+                className="btn-primary w-full md:col-span-2 text-2xl hover:translate-y-1 rounded-sm transition"
               >
                 Book appointment
               </button>
